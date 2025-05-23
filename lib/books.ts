@@ -1,0 +1,279 @@
+import type { Book } from "@/types/book"
+
+// Mock data for books
+const books: Book[] = [
+  {
+    id: "pride-and-prejudice",
+    title: "Pride and Prejudice",
+    author: "Jane Austen",
+    description:
+      "Pride and Prejudice follows the turbulent relationship between Elizabeth Bennet, the daughter of a country gentleman, and Fitzwilliam Darcy, a rich aristocratic landowner. They must overcome the titular sins of pride and prejudice in order to fall in love and marry.",
+    coverUrl: "/pride-and-prejudice-cover.png",
+    genres: ["Classics", "Romance", "Fiction"],
+    duration: "11h",
+    chapters: [
+      { id: "ch-1", title: "Chapter 1", duration: "15m" },
+      { id: "ch-2", title: "Chapter 2", duration: "18m" },
+      { id: "ch-3", title: "Chapter 3", duration: "20m" },
+      { id: "ch-4", title: "Chapter 4", duration: "17m" },
+      { id: "ch-5", title: "Chapter 5", duration: "16m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "the-great-gatsby",
+    title: "The Great Gatsby",
+    author: "F. Scott Fitzgerald",
+    description:
+      "Set in the Jazz Age on Long Island, the novel depicts narrator Nick Carraway's interactions with mysterious millionaire Jay Gatsby and Gatsby's obsession to reunite with his former lover, Daisy Buchanan. A tale of wealth, love, and the American Dream.",
+    coverUrl: "/great-gatsby-cover.png",
+    genres: ["Classics", "Fiction", "Literary"],
+    duration: "5h",
+    chapters: [
+      { id: "ch-1", title: "Chapter 1", duration: "25m" },
+      { id: "ch-2", title: "Chapter 2", duration: "22m" },
+      { id: "ch-3", title: "Chapter 3", duration: "28m" },
+      { id: "ch-4", title: "Chapter 4", duration: "24m" },
+      { id: "ch-5", title: "Chapter 5", duration: "26m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "mrs-dalloway",
+    title: "Mrs Dalloway",
+    author: "Virginia Woolf",
+    description:
+      "The novel details a day in the life of Clarissa Dalloway, a fictional high-society woman in post-First World War England. It addresses the nature of time in personal experience through multiple interwoven stories, particularly that of Clarissa and Septimus Warren Smith.",
+    coverUrl: "/mrs-dalloway-cover.png",
+    genres: ["Classics", "Literary", "Modernist"],
+    duration: "6h",
+    chapters: [
+      { id: "ch-1", title: "Morning", duration: "1h 10m" },
+      { id: "ch-2", title: "Afternoon", duration: "1h 25m" },
+      { id: "ch-3", title: "Evening", duration: "1h 15m" },
+      { id: "ch-4", title: "Night", duration: "1h 20m" },
+      { id: "ch-5", title: "Epilogue", duration: "50m" },
+    ],
+  },
+  {
+    id: "the-sun-also-rises",
+    title: "The Sun Also Rises",
+    author: "Ernest Hemingway",
+    description:
+      "The novel follows a group of American and British expatriates who travel from Paris to the Festival of San Fermín in Pamplona to watch the running of the bulls and the bullfights. An early modernist novel, it received mixed reviews upon publication but is now recognized as Hemingway's greatest work.",
+    coverUrl: "/sun-also-rises-cover.png",
+    genres: ["Classics", "Fiction", "Modernist"],
+    duration: "7h",
+    chapters: [
+      { id: "ch-1", title: "Book 1, Chapter 1", duration: "30m" },
+      { id: "ch-2", title: "Book 1, Chapter 2", duration: "35m" },
+      { id: "ch-3", title: "Book 1, Chapter 3", duration: "32m" },
+      { id: "ch-4", title: "Book 2, Chapter 1", duration: "34m" },
+      { id: "ch-5", title: "Book 2, Chapter 2", duration: "31m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "winnie-the-pooh",
+    title: "Winnie-the-Pooh",
+    author: "A. A. Milne",
+    description:
+      "The adventures of Christopher Robin and his friends, in which Pooh Bear uses a balloon to get honey, Piglet meets a Heffalump, Eeyore loses a tail, and more. These tales of adventure in the Hundred Acre Wood have delighted generations of children.",
+    coverUrl: "/winnie-the-pooh-cover.png",
+    genres: ["Children", "Classics", "Fantasy"],
+    duration: "2h 30m",
+    chapters: [
+      { id: "ch-1", title: "In Which We Are Introduced", duration: "15m" },
+      { id: "ch-2", title: "In Which Pooh Goes Visiting", duration: "18m" },
+      { id: "ch-3", title: "In Which Pooh and Piglet Go Hunting", duration: "17m" },
+      { id: "ch-4", title: "In Which Eeyore Loses a Tail", duration: "16m" },
+      { id: "ch-5", title: "In Which Piglet Meets a Heffalump", duration: "19m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "sherlock-holmes",
+    title: "Sherlock Holmes Short Stories",
+    author: "Arthur Conan Doyle",
+    description:
+      "A collection of twelve short stories featuring the famous detective Sherlock Holmes and his friend Dr. Watson. These stories showcase Holmes's brilliant deductive reasoning as he solves seemingly impossible mysteries.",
+    coverUrl: "/sherlock-holmes-cover.png",
+    genres: ["Classics", "Mystery", "Detective"],
+    duration: "10h",
+    chapters: [
+      { id: "ch-1", title: "A Scandal in Bohemia", duration: "45m" },
+      { id: "ch-2", title: "The Red-Headed League", duration: "42m" },
+      { id: "ch-3", title: "A Case of Identity", duration: "38m" },
+      { id: "ch-4", title: "The Boscombe Valley Mystery", duration: "47m" },
+      { id: "ch-5", title: "The Five Orange Pips", duration: "40m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "frankenstein",
+    title: "Frankenstein",
+    author: "Mary Shelley",
+    description:
+      "The story of Victor Frankenstein, a young scientist who creates a sapient creature in an unorthodox scientific experiment. Shelley's novel raises profound questions about the nature of humanity and the responsibilities of creators toward their creations.",
+    coverUrl: "/frankenstein-cover.png",
+    genres: ["Classics", "Horror", "Gothic", "Science Fiction"],
+    duration: "8h",
+    chapters: [
+      { id: "ch-1", title: "Letter 1", duration: "15m" },
+      { id: "ch-2", title: "Letter 2", duration: "12m" },
+      { id: "ch-3", title: "Letter 3", duration: "10m" },
+      { id: "ch-4", title: "Letter 4", duration: "25m" },
+      { id: "ch-5", title: "Chapter 1", duration: "20m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "dracula",
+    title: "Dracula",
+    author: "Bram Stoker",
+    description:
+      "The novel tells the story of Dracula's attempt to move from Transylvania to England so that he may find new blood and spread the undead curse, and of the battle between Dracula and a small group of people led by Professor Abraham Van Helsing.",
+    coverUrl: "/dracula-cover.png",
+    genres: ["Classics", "Horror", "Gothic"],
+    duration: "15h",
+    chapters: [
+      { id: "ch-1", title: "Jonathan Harker's Journal", duration: "1h 10m" },
+      { id: "ch-2", title: "Letter From Miss Mina Murray", duration: "55m" },
+      { id: "ch-3", title: "Lucy Westenra's Diary", duration: "1h 5m" },
+      { id: "ch-4", title: "Dr. Seward's Diary", duration: "1h 15m" },
+      { id: "ch-5", title: "Letters", duration: "50m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "frederick-douglass",
+    title: "Narrative of the Life of Frederick Douglass",
+    author: "Frederick Douglass",
+    description:
+      "Narrative of the Life of Frederick Douglass is an 1845 memoir and treatise on abolition written by famous orator and former slave Frederick Douglass during his time in Lynn, Massachusetts.",
+    coverUrl: "/frederick-douglass-memoir-cover.png",
+    genres: ["Classics", "Biography", "History"],
+    duration: "4h",
+    chapters: [
+      { id: "ch-1", title: "Chapter 1", duration: "22m" },
+      { id: "ch-2", title: "Chapter 2", duration: "19m" },
+      { id: "ch-3", title: "Chapter 3", duration: "21m" },
+      { id: "ch-4", title: "Chapter 4", duration: "20m" },
+      { id: "ch-5", title: "Chapter 5", duration: "18m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "the-secret-garden",
+    title: "The Secret Garden",
+    author: "Frances Hodgson Burnett",
+    description:
+      "The story of Mary Lennox, a sickly and unloved 10-year-old girl who is born in India to wealthy British parents. She is sent to England to live with her uncle after her parents die from cholera. There, she discovers a walled garden which has been kept secret for years.",
+    coverUrl: "/secret-garden-cover.png",
+    genres: ["Classics", "Children", "Fiction"],
+    duration: "8h",
+    chapters: [
+      { id: "ch-1", title: "There Is No One Left", duration: "25m" },
+      { id: "ch-2", title: "Mistress Mary Quite Contrary", duration: "22m" },
+      { id: "ch-3", title: "Across the Moor", duration: "24m" },
+      { id: "ch-4", title: "Martha", duration: "26m" },
+      { id: "ch-5", title: "The Cry in the Corridor", duration: "23m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "call-of-cthulhu",
+    title: "The Call of Cthulhu",
+    author: "H. P. Lovecraft",
+    description:
+      "The story is presented as a manuscript found among the papers of the late Francis Wayland Thurston, recounting his discovery of notes left by his grand-uncle, a professor at Brown University. The notes reveal the existence of a cult dedicated to the worship of the ancient, cosmic entity Cthulhu.",
+    coverUrl: "/call-of-cthulhu-cover.png",
+    genres: ["Horror", "Cosmic Horror", "Short Story"],
+    duration: "2h",
+    chapters: [
+      { id: "ch-1", title: "The Horror in Clay", duration: "30m" },
+      { id: "ch-2", title: "The Tale of Inspector Legrasse", duration: "45m" },
+      { id: "ch-3", title: "The Madness from the Sea", duration: "45m" },
+    ],
+  },
+  {
+    id: "the-prophet",
+    title: "The Prophet",
+    author: "Kahlil Gibran",
+    description:
+      "The book is a collection of 26 poetic essays covering all aspects of human life, including love, marriage, children, giving, eating and drinking, work, joy and sorrow, housing, clothes, buying and selling, crime and punishment, laws, freedom, reason and passion, pain, self-knowledge, teaching, friendship, talking, time, good and evil, prayer, pleasure, beauty, religion, and death.",
+    coverUrl: "/the-prophet-cover.png",
+    genres: ["Poetry", "Philosophy", "Spirituality"],
+    duration: "2h",
+    chapters: [
+      { id: "ch-1", title: "The Coming of the Ship", duration: "5m" },
+      { id: "ch-2", title: "On Love", duration: "7m" },
+      { id: "ch-3", title: "On Marriage", duration: "6m" },
+      { id: "ch-4", title: "On Children", duration: "5m" },
+      { id: "ch-5", title: "On Giving", duration: "6m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "peter-pan",
+    title: "Peter Pan",
+    author: "J. M. Barrie",
+    description:
+      "The magical story of Peter Pan, the boy who never grew up. Peter teaches Wendy, John, and Michael Darling to fly and takes them to the island of Neverland, where they have adventures with mermaids, Indians, and pirates, especially the villainous Captain Hook.",
+    coverUrl: "/peter-pan-cover.png",
+    genres: ["Children", "Fantasy", "Adventure"],
+    duration: "5h",
+    chapters: [
+      { id: "ch-1", title: "Peter Breaks Through", duration: "20m" },
+      { id: "ch-2", title: "The Shadow", duration: "18m" },
+      { id: "ch-3", title: "Come Away, Come Away!", duration: "22m" },
+      { id: "ch-4", title: "The Flight", duration: "19m" },
+      { id: "ch-5", title: "The Island Come True", duration: "21m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "room-with-a-view",
+    title: "A Room With a View",
+    author: "E. M. Forster",
+    description:
+      "The story of a young English woman, Lucy Honeychurch, whose trip to Italy with her cousin Charlotte Bartlett leads to an internal struggle between the demands of social convention and the stirrings of her passionate, independent nature, especially after meeting the unconventional George Emerson.",
+    coverUrl: "/room-with-a-view-cover.png",
+    genres: ["Classics", "Romance", "Fiction"],
+    duration: "6h",
+    chapters: [
+      { id: "ch-1", title: "The Bertolini", duration: "25m" },
+      { id: "ch-2", title: "In Santa Croce with No Baedeker", duration: "28m" },
+      { id: "ch-3", title: "Music, Violets, and the Letter S", duration: "26m" },
+      { id: "ch-4", title: "Fourth Chapter", duration: "24m" },
+      { id: "ch-5", title: "Possibilities of a Pleasant Outing", duration: "27m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "art-of-war",
+    title: "The Art of War",
+    author: "Sun Tzu",
+    description:
+      "An ancient Chinese military treatise dating from the Late Spring and Autumn Period. The work, which is attributed to the ancient Chinese military strategist Sun Tzu, is composed of 13 chapters. Each one is devoted to an aspect of warfare and how it applies to military strategy and tactics.",
+    coverUrl: "/art-of-war-cover.png",
+    genres: ["Classics", "Philosophy", "Military"],
+    duration: "1h 30m",
+    chapters: [
+      { id: "ch-1", title: "Laying Plans", duration: "7m" },
+      { id: "ch-2", title: "Waging War", duration: "6m" },
+      { id: "ch-3", title: "Attack by Stratagem", duration: "8m" },
+      { id: "ch-4", title: "Tactical Dispositions", duration: "7m" },
+      { id: "ch-5", title: "Energy", duration: "7m" },
+      // More chapters would be added here
+    ],
+  },
+]
+
+export function getAllBooks(): Book[] {
+  return books
+}
+
+export function getBookById(id: string): Book | undefined {
+  return books.find((book) => book.id === id)
+}
