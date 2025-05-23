@@ -2,6 +2,7 @@ import type { Book } from "@/types/book"
 
 // Mock data for books
 const books: Book[] = [
+  // Existing books
   {
     id: "pride-and-prejudice",
     title: "Pride and Prejudice",
@@ -265,6 +266,365 @@ const books: Book[] = [
       { id: "ch-3", title: "Attack by Stratagem", duration: "8m" },
       { id: "ch-4", title: "Tactical Dispositions", duration: "7m" },
       { id: "ch-5", title: "Energy", duration: "7m" },
+      // More chapters would be added here
+    ],
+  },
+
+  // New books
+  {
+    id: "moby-dick",
+    title: "Moby Dick",
+    author: "Herman Melville",
+    description:
+      "The novel follows the journey of the wandering sailor Ishmael and his voyage on the whaleship Pequod, commanded by Captain Ahab. Ishmael soon learns that Ahab seeks one specific whale: Moby Dick, a ferocious, enigmatic white sperm whale. In a previous encounter, the whale destroyed Ahab's boat and bit off his leg. Ahab intends to take revenge.",
+    coverUrl: "/moby-dick-cover.png",
+    genres: ["Classics", "Adventure", "Literary"],
+    duration: "21h 30m",
+    chapters: [
+      { id: "ch-1", title: "Loomings", duration: "25m" },
+      { id: "ch-2", title: "The Carpet-Bag", duration: "18m" },
+      { id: "ch-3", title: "The Spouter-Inn", duration: "32m" },
+      { id: "ch-4", title: "The Counterpane", duration: "15m" },
+      { id: "ch-5", title: "Breakfast", duration: "12m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "adventures-of-huckleberry-finn",
+    title: "Adventures of Huckleberry Finn",
+    author: "Mark Twain",
+    description:
+      "Commonly named among the Great American Novels, the work is among the first in major American literature to be written throughout in vernacular English, characterized by local color regionalism. It is told in the first person by Huckleberry 'Huck' Finn, the narrator of two other Twain novels and a friend of Tom Sawyer.",
+    coverUrl: "/huckleberry-finn-cover.png",
+    genres: ["Classics", "Adventure", "Satire"],
+    duration: "11h 15m",
+    chapters: [
+      { id: "ch-1", title: "Chapter 1", duration: "18m" },
+      { id: "ch-2", title: "Chapter 2", duration: "22m" },
+      { id: "ch-3", title: "Chapter 3", duration: "19m" },
+      { id: "ch-4", title: "Chapter 4", duration: "21m" },
+      { id: "ch-5", title: "Chapter 5", duration: "17m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "picture-of-dorian-gray",
+    title: "The Picture of Dorian Gray",
+    author: "Oscar Wilde",
+    description:
+      "The novel tells of a young man named Dorian Gray, the subject of a painting by artist Basil Hallward. Basil is impressed by Dorian's beauty and becomes infatuated with him, believing his beauty is responsible for a new mode in his art. Dorian meets Lord Henry Wotton, a friend of Basil's, and becomes enthralled by Lord Henry's world view.",
+    coverUrl: "/dorian-gray-cover.png",
+    genres: ["Classics", "Gothic", "Horror", "Philosophical"],
+    duration: "8h 45m",
+    chapters: [
+      { id: "ch-1", title: "Chapter 1", duration: "35m" },
+      { id: "ch-2", title: "Chapter 2", duration: "32m" },
+      { id: "ch-3", title: "Chapter 3", duration: "28m" },
+      { id: "ch-4", title: "Chapter 4", duration: "30m" },
+      { id: "ch-5", title: "Chapter 5", duration: "33m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "little-women",
+    title: "Little Women",
+    author: "Louisa May Alcott",
+    description:
+      "The novel follows the lives of the four March sisters—Meg, Jo, Beth, and Amy—and details their passage from childhood to womanhood. It is loosely based on the lives of the author and her three sisters. Scholars classify it as an autobiographical or semi-autobiographical novel.",
+    coverUrl: "/little-women-cover.png",
+    genres: ["Classics", "Fiction", "Coming of Age"],
+    duration: "17h 30m",
+    chapters: [
+      { id: "ch-1", title: "Playing Pilgrims", duration: "28m" },
+      { id: "ch-2", title: "A Merry Christmas", duration: "32m" },
+      { id: "ch-3", title: "The Laurence Boy", duration: "30m" },
+      { id: "ch-4", title: "Burdens", duration: "25m" },
+      { id: "ch-5", title: "Being Neighborly", duration: "29m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "scarlet-letter",
+    title: "The Scarlet Letter",
+    author: "Nathaniel Hawthorne",
+    description:
+      "Set in Puritan Massachusetts Bay Colony during the years 1642 to 1649, the novel tells the story of Hester Prynne, who conceives a daughter through an affair and then struggles to create a new life of repentance and dignity. Throughout the book, Hawthorne explores themes of legalism, sin, and guilt.",
+    coverUrl: "/scarlet-letter-cover.png",
+    genres: ["Classics", "Historical Fiction", "Romance"],
+    duration: "7h 45m",
+    chapters: [
+      { id: "ch-1", title: "The Prison Door", duration: "10m" },
+      { id: "ch-2", title: "The Market Place", duration: "25m" },
+      { id: "ch-3", title: "The Recognition", duration: "22m" },
+      { id: "ch-4", title: "The Interview", duration: "20m" },
+      { id: "ch-5", title: "Hester at Her Needle", duration: "24m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "odyssey",
+    title: "The Odyssey",
+    author: "Homer",
+    description:
+      "The Odyssey is one of two major ancient Greek epic poems attributed to Homer. It is one of the oldest extant works of literature still read by contemporary audiences. As with the Iliad, the poem is divided into 24 books. It follows the Greek hero Odysseus, king of Ithaca, and his journey home after the Trojan War.",
+    coverUrl: "/odyssey-cover.png",
+    genres: ["Classics", "Epic Poetry", "Adventure"],
+    duration: "12h 15m",
+    chapters: [
+      { id: "ch-1", title: "Book 1", duration: "30m" },
+      { id: "ch-2", title: "Book 2", duration: "28m" },
+      { id: "ch-3", title: "Book 3", duration: "32m" },
+      { id: "ch-4", title: "Book 4", duration: "35m" },
+      { id: "ch-5", title: "Book 5", duration: "30m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "count-of-monte-cristo",
+    title: "The Count of Monte Cristo",
+    author: "Alexandre Dumas",
+    description:
+      "The story takes place in France, Italy, and islands in the Mediterranean during the historical events of 1815–1839: the era of the Bourbon Restoration through the reign of Louis-Philippe of France. It begins on the day that Napoleon left his first island of exile, Elba, beginning the Hundred Days period when Napoleon returned to power.",
+    coverUrl: "/monte-cristo-cover.png",
+    genres: ["Classics", "Adventure", "Historical Fiction"],
+    duration: "52h 30m",
+    chapters: [
+      { id: "ch-1", title: "Marseilles—The Arrival", duration: "35m" },
+      { id: "ch-2", title: "Father and Son", duration: "32m" },
+      { id: "ch-3", title: "The Catalans", duration: "30m" },
+      { id: "ch-4", title: "Conspiracy", duration: "28m" },
+      { id: "ch-5", title: "The Marriage Feast", duration: "33m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "war-and-peace",
+    title: "War and Peace",
+    author: "Leo Tolstoy",
+    description:
+      "Epic in scale, War and Peace delineates in graphic detail events leading up to Napoleon's invasion of Russia, and the impact of the Napoleonic era on Tsarist society, as seen through the eyes of five Russian aristocratic families.",
+    coverUrl: "/war-and-peace-cover.png",
+    genres: ["Classics", "Historical Fiction", "Literary"],
+    duration: "60h 45m",
+    chapters: [
+      { id: "ch-1", title: "Book One: 1805, Chapter 1", duration: "18m" },
+      { id: "ch-2", title: "Book One: 1805, Chapter 2", duration: "22m" },
+      { id: "ch-3", title: "Book One: 1805, Chapter 3", duration: "20m" },
+      { id: "ch-4", title: "Book One: 1805, Chapter 4", duration: "19m" },
+      { id: "ch-5", title: "Book One: 1805, Chapter 5", duration: "21m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "jungle-book",
+    title: "The Jungle Book",
+    author: "Rudyard Kipling",
+    description:
+      "The Jungle Book is a collection of stories by the English author Rudyard Kipling. Most of the characters are animals such as Shere Khan the tiger and Baloo the bear, though a principal character is the boy or 'man-cub' Mowgli, who is raised in the jungle by wolves.",
+    coverUrl: "/jungle-book-cover.png",
+    genres: ["Classics", "Children", "Adventure"],
+    duration: "5h 15m",
+    chapters: [
+      { id: "ch-1", title: "Mowgli's Brothers", duration: "45m" },
+      { id: "ch-2", title: "Hunting-Song of the Seeonee Pack", duration: "5m" },
+      { id: "ch-3", title: "Kaa's Hunting", duration: "50m" },
+      { id: "ch-4", title: "Road-Song of the Bandar-Log", duration: "5m" },
+      { id: "ch-5", title: "Tiger! Tiger!", duration: "40m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "time-machine",
+    title: "The Time Machine",
+    author: "H.G. Wells",
+    description:
+      "The work is generally credited with the popularization of the concept of time travel by using a vehicle or device to travel purposely and selectively forward or backward through time. The term 'time machine', coined by Wells, is now almost universally used to refer to such a vehicle or device.",
+    coverUrl: "/time-machine-cover.png",
+    genres: ["Classics", "Science Fiction", "Adventure"],
+    duration: "3h 30m",
+    chapters: [
+      { id: "ch-1", title: "Chapter 1", duration: "25m" },
+      { id: "ch-2", title: "Chapter 2", duration: "22m" },
+      { id: "ch-3", title: "Chapter 3", duration: "20m" },
+      { id: "ch-4", title: "Chapter 4", duration: "18m" },
+      { id: "ch-5", title: "Chapter 5", duration: "23m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "importance-of-being-earnest",
+    title: "The Importance of Being Earnest",
+    author: "Oscar Wilde",
+    description:
+      "The Importance of Being Earnest, A Trivial Comedy for Serious People is a play by Oscar Wilde. First performed on 14 February 1895 at the St James's Theatre in London, it is a farcical comedy in which the protagonists maintain fictitious personae to escape burdensome social obligations.",
+    coverUrl: "/earnest-cover.png",
+    genres: ["Classics", "Comedy", "Play"],
+    duration: "2h 15m",
+    chapters: [
+      { id: "ch-1", title: "Act 1", duration: "45m" },
+      { id: "ch-2", title: "Act 2", duration: "40m" },
+      { id: "ch-3", title: "Act 3", duration: "50m" },
+    ],
+  },
+  {
+    id: "wuthering-heights",
+    title: "Wuthering Heights",
+    author: "Emily Brontë",
+    description:
+      "Wuthering Heights is Emily Brontë's only novel. It was first published in 1847 under the pseudonym Ellis Bell, and a posthumous second edition was edited by her sister Charlotte. The name of the novel comes from the Yorkshire manor on the moors on which the story centers.",
+    coverUrl: "/wuthering-heights-cover.png",
+    genres: ["Classics", "Gothic", "Romance"],
+    duration: "13h 45m",
+    chapters: [
+      { id: "ch-1", title: "Chapter 1", duration: "28m" },
+      { id: "ch-2", title: "Chapter 2", duration: "25m" },
+      { id: "ch-3", title: "Chapter 3", duration: "30m" },
+      { id: "ch-4", title: "Chapter 4", duration: "32m" },
+      { id: "ch-5", title: "Chapter 5", duration: "27m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "jane-eyre",
+    title: "Jane Eyre",
+    author: "Charlotte Brontë",
+    description:
+      "Jane Eyre follows the experiences of its eponymous heroine, including her growth to adulthood and her love for Mr. Rochester, the brooding master of Thornfield Hall. The novel revolutionized prose fiction by being the first to focus on its protagonist's moral and spiritual development through an intimate first-person narrative.",
+    coverUrl: "/jane-eyre-cover.png",
+    genres: ["Classics", "Gothic", "Romance"],
+    duration: "18h 30m",
+    chapters: [
+      { id: "ch-1", title: "Chapter 1", duration: "22m" },
+      { id: "ch-2", title: "Chapter 2", duration: "25m" },
+      { id: "ch-3", title: "Chapter 3", duration: "20m" },
+      { id: "ch-4", title: "Chapter 4", duration: "24m" },
+      { id: "ch-5", title: "Chapter 5", duration: "23m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "republic",
+    title: "The Republic",
+    author: "Plato",
+    description:
+      "The Republic is a Socratic dialogue, authored by Plato around 375 BCE, concerning justice, the order and character of the just city-state, and the just man. It is Plato's best-known work, and has proven to be one of the world's most influential works of philosophy and political theory.",
+    coverUrl: "/republic-cover.png",
+    genres: ["Classics", "Philosophy", "Political"],
+    duration: "12h 15m",
+    chapters: [
+      { id: "ch-1", title: "Book I", duration: "1h 5m" },
+      { id: "ch-2", title: "Book II", duration: "1h 10m" },
+      { id: "ch-3", title: "Book III", duration: "1h 15m" },
+      { id: "ch-4", title: "Book IV", duration: "1h 5m" },
+      { id: "ch-5", title: "Book V", duration: "1h 20m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "iliad",
+    title: "The Iliad",
+    author: "Homer",
+    description:
+      "The Iliad is an ancient Greek epic poem in dactylic hexameter, traditionally attributed to Homer. Set during the Trojan War, the ten-year siege of the city of Troy by a coalition of Greek states, it tells of the battles and events during the weeks of a quarrel between King Agamemnon and the warrior Achilles.",
+    coverUrl: "/iliad-cover.png",
+    genres: ["Classics", "Epic Poetry", "War"],
+    duration: "14h 30m",
+    chapters: [
+      { id: "ch-1", title: "Book 1", duration: "35m" },
+      { id: "ch-2", title: "Book 2", duration: "40m" },
+      { id: "ch-3", title: "Book 3", duration: "32m" },
+      { id: "ch-4", title: "Book 4", duration: "30m" },
+      { id: "ch-5", title: "Book 5", duration: "38m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "don-quixote",
+    title: "Don Quixote",
+    author: "Miguel de Cervantes",
+    description:
+      "The plot revolves around the adventures of a noble from La Mancha named Alonso Quixano, who reads so many chivalric romances that he loses his mind and decides to become a knight-errant to revive chivalry and serve his nation, under the name Don Quixote de la Mancha.",
+    coverUrl: "/don-quixote-cover.png",
+    genres: ["Classics", "Satire", "Adventure"],
+    duration: "36h 45m",
+    chapters: [
+      { id: "ch-1", title: "Part 1, Chapter 1", duration: "25m" },
+      { id: "ch-2", title: "Part 1, Chapter 2", duration: "28m" },
+      { id: "ch-3", title: "Part 1, Chapter 3", duration: "22m" },
+      { id: "ch-4", title: "Part 1, Chapter 4", duration: "24m" },
+      { id: "ch-5", title: "Part 1, Chapter 5", duration: "26m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "divine-comedy",
+    title: "The Divine Comedy",
+    author: "Dante Alighieri",
+    description:
+      "The Divine Comedy is an Italian narrative poem by Dante Alighieri, which is widely considered the pre-eminent work in Italian literature and one of the greatest works of world literature. The poem's imaginative vision of the afterlife is representative of the medieval world-view as it had developed in the Western Church.",
+    coverUrl: "/divine-comedy-cover.png",
+    genres: ["Classics", "Epic Poetry", "Religious"],
+    duration: "12h 30m",
+    chapters: [
+      { id: "ch-1", title: "Inferno, Canto I", duration: "15m" },
+      { id: "ch-2", title: "Inferno, Canto II", duration: "18m" },
+      { id: "ch-3", title: "Inferno, Canto III", duration: "16m" },
+      { id: "ch-4", title: "Inferno, Canto IV", duration: "17m" },
+      { id: "ch-5", title: "Inferno, Canto V", duration: "15m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "crime-and-punishment",
+    title: "Crime and Punishment",
+    author: "Fyodor Dostoevsky",
+    description:
+      "Crime and Punishment focuses on the mental anguish and moral dilemmas of Rodion Raskolnikov, an impoverished ex-student in Saint Petersburg who formulates a plan to kill an unscrupulous pawnbroker for her money. Before the killing, Raskolnikov believes that with the money he could liberate himself from poverty and go on to perform great deeds.",
+    coverUrl: "/crime-and-punishment-cover.png",
+    genres: ["Classics", "Psychological", "Literary"],
+    duration: "20h 15m",
+    chapters: [
+      { id: "ch-1", title: "Part 1, Chapter 1", duration: "35m" },
+      { id: "ch-2", title: "Part 1, Chapter 2", duration: "32m" },
+      { id: "ch-3", title: "Part 1, Chapter 3", duration: "30m" },
+      { id: "ch-4", title: "Part 1, Chapter 4", duration: "28m" },
+      { id: "ch-5", title: "Part 1, Chapter 5", duration: "33m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "brothers-karamazov",
+    title: "The Brothers Karamazov",
+    author: "Fyodor Dostoevsky",
+    description:
+      "The Brothers Karamazov is the final novel by the Russian author Fyodor Dostoevsky. Dostoevsky spent nearly two years writing The Brothers Karamazov, which was published as a serial in The Russian Messenger from January 1879 to November 1880.",
+    coverUrl: "/brothers-karamazov-cover.png",
+    genres: ["Classics", "Philosophical", "Literary"],
+    duration: "34h 45m",
+    chapters: [
+      { id: "ch-1", title: "Book 1, Chapter 1", duration: "25m" },
+      { id: "ch-2", title: "Book 1, Chapter 2", duration: "28m" },
+      { id: "ch-3", title: "Book 1, Chapter 3", duration: "30m" },
+      { id: "ch-4", title: "Book 2, Chapter 1", duration: "32m" },
+      { id: "ch-5", title: "Book 2, Chapter 2", duration: "27m" },
+      // More chapters would be added here
+    ],
+  },
+  {
+    id: "anna-karenina",
+    title: "Anna Karenina",
+    author: "Leo Tolstoy",
+    description:
+      "Anna Karenina is a novel by the Russian author Leo Tolstoy, first published in book form in 1878. Widely considered to be one of the greatest works of literature ever written, Tolstoy himself called it his first true novel.",
+    coverUrl: "/anna-karenina-cover.png",
+    genres: ["Classics", "Romance", "Literary"],
+    duration: "35h 30m",
+    chapters: [
+      { id: "ch-1", title: "Part 1, Chapter 1", duration: "18m" },
+      { id: "ch-2", title: "Part 1, Chapter 2", duration: "22m" },
+      { id: "ch-3", title: "Part 1, Chapter 3", duration: "20m" },
+      { id: "ch-4", title: "Part 1, Chapter 4", duration: "19m" },
+      { id: "ch-5", title: "Part 1, Chapter 5", duration: "21m" },
       // More chapters would be added here
     ],
   },

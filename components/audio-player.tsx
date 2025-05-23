@@ -2,7 +2,7 @@
 import { Slider } from "@/components/ui/slider"
 import { Button } from "@/components/ui/button"
 import { Play, Pause, SkipBack, SkipForward, Volume2, Rewind, FastForward } from "lucide-react"
-import { usePlayer } from "@/lib/player/use-player"
+import { usePlayer } from "@/lib/player/player-context"
 import { formatTime } from "@/lib/utils"
 import { useState } from "react"
 

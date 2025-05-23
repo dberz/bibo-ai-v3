@@ -20,6 +20,11 @@ import {
   Castle,
   Swords,
   Sparkles,
+  Theater,
+  Scroll,
+  Lightbulb,
+  Glasses,
+  Landmark,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { getAllBooks } from "@/lib/books"
@@ -42,6 +47,23 @@ const genreConfig = {
   Gothic: { icon: Castle, color: "bg-gradient-to-br from-zinc-500 to-zinc-700" },
   Military: { icon: Swords, color: "bg-gradient-to-br from-neutral-500 to-neutral-700" },
   Spirituality: { icon: Sparkles, color: "bg-gradient-to-br from-indigo-500 to-violet-600" },
+  "Epic Poetry": { icon: Scroll, color: "bg-gradient-to-br from-amber-600 to-yellow-700" },
+  "Science Fiction": { icon: Lightbulb, color: "bg-gradient-to-br from-cyan-600 to-blue-700" },
+  Satire: { icon: Theater, color: "bg-gradient-to-br from-orange-500 to-red-600" },
+  Literary: { icon: Glasses, color: "bg-gradient-to-br from-blue-600 to-indigo-700" },
+  Philosophical: { icon: Brain, color: "bg-gradient-to-br from-violet-600 to-purple-700" },
+  Political: { icon: Landmark, color: "bg-gradient-to-br from-slate-600 to-gray-700" },
+  War: { icon: Swords, color: "bg-gradient-to-br from-red-600 to-rose-700" },
+  Religious: { icon: Sparkles, color: "bg-gradient-to-br from-amber-600 to-yellow-700" },
+  Psychological: { icon: Brain, color: "bg-gradient-to-br from-purple-600 to-fuchsia-700" },
+  "Coming of Age": { icon: BookText, color: "bg-gradient-to-br from-green-500 to-emerald-600" },
+  "Historical Fiction": { icon: History, color: "bg-gradient-to-br from-amber-500 to-orange-600" },
+  Play: { icon: Theater, color: "bg-gradient-to-br from-violet-500 to-purple-600" },
+  Comedy: { icon: Theater, color: "bg-gradient-to-br from-pink-500 to-rose-600" },
+  Detective: { icon: Compass, color: "bg-gradient-to-br from-blue-500 to-indigo-600" },
+  "Short Story": { icon: BookText, color: "bg-gradient-to-br from-emerald-500 to-teal-600" },
+  "Cosmic Horror": { icon: Skull, color: "bg-gradient-to-br from-purple-600 to-indigo-700" },
+  Modernist: { icon: Glasses, color: "bg-gradient-to-br from-blue-500 to-indigo-600" },
 }
 
 export function GenreChannels() {
@@ -50,8 +72,22 @@ export function GenreChannels() {
   const [showLeftArrow, setShowLeftArrow] = useState(false)
   const [showRightArrow, setShowRightArrow] = useState(true)
 
-  // Get book counts for each genre
+  // Get all unique genres from books
   const books = getAllBooks()
+  const allGenres = ["All"]
+  books.forEach((book) => {
+    book.genres.forEach((genre) => {
+      if (!allGenres.includes(genre)) {
+        allGenres.push(genre)
+      }
+    })
+  })
+
+  // Sort genres alphabetically, keeping "All" at the beginning
+  const sortedGenres = allGenres.slice(1).sort()
+  const genres = ["All", ...sortedGenres]
+
+  // Get book counts for each genre
   const genreCounts = genres.reduce(
     (counts, genre) => {
       if (genre === "All") {
@@ -159,22 +195,3 @@ export function GenreChannels() {
     </div>
   )
 }
-
-const genres = [
-  "All",
-  "Classics",
-  "Fiction",
-  "Mystery",
-  "Romance",
-  "Adventure",
-  "Biography",
-  "History",
-  "Fantasy",
-  "Horror",
-  "Children",
-  "Poetry",
-  "Philosophy",
-  "Gothic",
-  "Military",
-  "Spirituality",
-]

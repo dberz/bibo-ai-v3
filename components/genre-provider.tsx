@@ -1,8 +1,8 @@
 "use client"
 
-import { createContext, useState, useContext, type ReactNode } from "react"
+import { createContext, useContext, useState, type ReactNode } from "react"
 
-type GenreContextType = {
+interface GenreContextType {
   selectedGenre: string
   setSelectedGenre: (genre: string) => void
 }

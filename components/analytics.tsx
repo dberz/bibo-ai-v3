@@ -1,11 +1,11 @@
 "use client"
 
 import { useEffect } from "react"
-import { initAnalytics } from "@/lib/analytics"
 
 export function Analytics() {
   useEffect(() => {
-    initAnalytics()
+    // Mock analytics initialization
+    console.log("Analytics initialized")
   }, [])
 
   return null

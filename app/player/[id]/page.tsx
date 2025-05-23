@@ -4,12 +4,13 @@ import { AdBanner } from "@/components/ad-banner"
 import { getBookById } from "@/lib/books"
 import { notFound } from "next/navigation"
 import { Card, CardContent } from "@/components/ui/card"
-import { ChevronLeft } from "lucide-react"
+import { ChevronLeft, Wand2, Mic, Sparkles, Settings2 } from "lucide-react"
 import Link from "next/link"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 
 export default function PlayerPage({ params }: { params: { id: string } }) {
-  const id = params.id
-  const book = getBookById(id)
+  const book = getBookById(params.id)
 
   if (!book) {
     return notFound()
@@ -24,6 +25,34 @@ export default function PlayerPage({ params }: { params: { id: string } }) {
         <ChevronLeft className="h-4 w-4 mr-1" />
         Back to book details
       </Link>
+
+      {/* AI Features Banner */}
+      <div className="mb-6 bg-gradient-to-r from-emerald-500/20 via-emerald-500/10 to-transparent p-4 rounded-lg border border-emerald-500/30">
+        <div className="flex items-center">
+          <div className="bg-emerald-500/20 p-2 rounded-full mr-3">
+            <Sparkles className="h-5 w-5 text-emerald-500" />
+          </div>
+          <div className="flex-1">
+            <h2 className="text-lg font-semibold">AI Enhancements Active</h2>
+            <div className="flex flex-wrap gap-2 mt-2">
+              <Badge className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20 flex items-center">
+                <Wand2 className="h-3 w-3 mr-1" />
+                Original Version
+              </Badge>
+              <Badge className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20 flex items-center">
+                <Mic className="h-3 w-3 mr-1" />
+                Emily Bright (Default)
+              </Badge>
+            </div>
+          </div>
+          <Link href={`/book/${book.id}`}>
+            <Button variant="outline" size="sm" className="flex items-center gap-1">
+              <Settings2 className="h-3 w-3" />
+              Customize
+            </Button>
+          </Link>
+        </div>
+      </div>
 
       <Card className="border-emerald-500/20 shadow-xl overflow-hidden">
         <div className="bg-gradient-to-b from-emerald-500/20 to-transparent p-6">

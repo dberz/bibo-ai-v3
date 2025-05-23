@@ -5,7 +5,7 @@ import { getAllBooks } from "@/lib/books"
 import type { Book } from "@/types/book"
 import { Card, CardContent } from "@/components/ui/card"
 import { Play, Headphones, ChevronLeft, ChevronRight } from "lucide-react"
-import { usePlayer } from "@/lib/player/use-player"
+import { usePlayer } from "@/lib/player/player-context"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { motion } from "framer-motion"
@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button"
 
 export function PopularListens() {
   const [popularBooks, setPopularBooks] = useState<Book[]>([])
-  const { startPlayback, isPlaying, currentBookId } = usePlayer()
+  const { setCurrentBook, isPlaying, currentBook } = usePlayer()
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [showLeftArrow, setShowLeftArrow] = useState(false)
   const [showRightArrow, setShowRightArrow] = useState(true)
@@ -92,7 +92,7 @@ export function PopularListens() {
                       <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
-                        onClick={() => startPlayback(book.id)}
+                        onClick={() => setCurrentBook(book)}
                         className="absolute inset-0 flex items-center justify-center"
                       >
                         <div className="bg-emerald-500/90 rounded-full p-3 shadow-lg">

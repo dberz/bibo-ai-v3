@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
 import { Play, Pause, Volume2 } from "lucide-react"
-import { usePlayer } from "@/lib/player/use-player"
+import { usePlayer } from "@/lib/player/player-context"
 import { getAllBooks } from "@/lib/books"
 import type { Book } from "@/types/book"
 import Link from "next/link"
@@ -15,7 +15,7 @@ import { motion, AnimatePresence } from "framer-motion"
 
 export function FeaturedAudiobook() {
   const [featuredBook, setFeaturedBook] = useState<Book | null>(null)
-  const { isPlaying, currentTime, duration, startPlayback, togglePlayback, seekTo } = usePlayer()
+  const { isPlaying, currentTime, duration, setCurrentBook, togglePlayback, seekTo } = usePlayer()
   const [volume, setVolume] = useState(80)
   const [isHovered, setIsHovered] = useState(false)
 
@@ -30,7 +30,7 @@ export function FeaturedAudiobook() {
 
   const handlePlay = () => {
     if (!isPlaying) {
-      startPlayback(featuredBook.id)
+      setCurrentBook(featuredBook)
     } else {
       togglePlayback()
     }

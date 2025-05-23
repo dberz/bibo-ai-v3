@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react"
 import { useRouter } from "next/navigation"
-import type { Book } from "@/types"
+import type { Book } from "@/types/book"
 import { getAd } from "@/lib/ai/ads"
 import { callTTS } from "@/lib/ai/tts"
 import {

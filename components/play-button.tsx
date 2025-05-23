@@ -5,7 +5,7 @@ import type React from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Play, Headphones } from "lucide-react"
-import { usePlayer } from "@/lib/player/use-player"
+import { usePlayer } from "@/lib/player/player-context"
 
 interface PlayButtonProps {
   bookId: string
