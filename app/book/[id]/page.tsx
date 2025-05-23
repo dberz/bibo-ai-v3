@@ -5,8 +5,8 @@ import { getBookById } from "@/lib/books"
 import { notFound } from "next/navigation"
 import { AudioPreview } from "@/components/audio-preview"
 
-export default function BookPage({ params }: { params: { id: string } }) {
-  const book = getBookById(params.id)
+export default async function BookPage({ params }: { params: { id: string } }) {
+  const book = await getBookById(params.id)
 
   if (!book) {
     return notFound()
@@ -14,6 +14,12 @@ export default function BookPage({ params }: { params: { id: string } }) {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">
+        {book.title} (by {book.author})
+      </h1>
+      <p className="text-muted-foreground mb-8">
+        {book.description}
+      </p>
       <BookDetail book={book} />
 
       {/* Audio Preview Player */}
