@@ -3,98 +3,110 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Play, Pause, X, Volume2 } from "lucide-react"
+import { Play, Pause, X, Volume2, SkipBack, SkipForward } from "lucide-react"
 import { usePlayer } from "@/lib/player/use-player"
 import { getBookById } from "@/lib/books"
 import type { Book } from "@/types/book"
 import { Slider } from "@/components/ui/slider"
 import { formatTime } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 export function MiniPlayer() {
-  const { isPlaying, currentBookId, currentTime, duration, togglePlayback, stopPlayback, seekTo } = usePlayer()
-  const [book, setBook] = useState<Book | null>(null)
-  const [volume, setVolume] = useState(80)
-  const [showVolume, setShowVolume] = useState(false)
+  const { currentBook, isPlaying, togglePlayPause } = usePlayer()
+  const [progress, setProgress] = useState(0)
+  const [volume, setVolume] = useState(1)
+  const [waveformData, setWaveformData] = useState<number[]>([])
 
   useEffect(() => {
-    if (currentBookId) {
-      const foundBook = getBookById(currentBookId)
-      setBook(foundBook || null)
-    } else {
-      setBook(null)
+    // Generate more detailed waveform data
+    const generateWaveform = () => {
+      const data = Array.from({ length: 100 }, () => Math.random() * 0.8 + 0.2)
+      setWaveformData(data)
     }
-  }, [currentBookId])
+    generateWaveform()
+  }, [currentBook])
 
-  if (!book) return null
+  if (!currentBook) return null
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-emerald-500/20 p-3 z-50 backdrop-blur-md bg-opacity-90 shadow-lg transition-all duration-300 ease-in-out">
-      <div className="container mx-auto flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <Link href={`/player/${book.id}`} className="relative group">
-            <div className="absolute inset-0 bg-emerald-500 opacity-0 group-hover:opacity-20 rounded transition-opacity duration-300"></div>
-            <img
-              src={book.coverUrl || "/placeholder.svg"}
-              alt={book.title}
-              className="w-12 h-12 rounded object-cover shadow-md transition-transform duration-300 group-hover:scale-105"
-            />
-          </Link>
-
-          <div className="flex flex-col">
-            <Link href={`/player/${book.id}`} className="font-medium hover:text-emerald-500 transition-colors">
-              {book.title}
-            </Link>
-            <p className="text-sm text-muted-foreground">{book.author}</p>
-          </div>
-        </div>
-
-        <div className="hidden md:flex items-center space-x-2 flex-1 max-w-md mx-4">
-          <span className="text-xs text-muted-foreground w-10">{formatTime(currentTime)}</span>
-          <Slider
-            value={[currentTime]}
-            max={duration}
-            step={1}
-            onValueChange={(value) => seekTo(value[0])}
-            className="flex-1"
+    <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-t">
+      <div className="container mx-auto px-4 py-3">
+        <div className="flex items-center gap-4">
+          <img 
+            src={currentBook.coverUrl} 
+            alt={currentBook.title} 
+            className="h-12 w-12 rounded-md object-cover"
           />
-          <span className="text-xs text-muted-foreground w-10">{formatTime(duration)}</span>
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <div className="relative">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setShowVolume(!showVolume)}
-              className="text-muted-foreground hover:text-foreground"
-            >
-              <Volume2 className="h-4 w-4" />
-            </Button>
-
-            {showVolume && (
-              <div className="absolute bottom-full right-0 mb-2 p-3 bg-card rounded-md shadow-lg border w-32">
-                <Slider value={[volume]} max={100} step={1} onValueChange={(value) => setVolume(value[0])} />
+          <div className="flex-1">
+            <div className="flex items-center gap-4">
+              <div>
+                <h3 className="font-heading font-medium line-clamp-1">{currentBook.title}</h3>
+                <p className="text-sm text-muted-foreground font-body">{currentBook.author}</p>
               </div>
-            )}
+              <div className="flex-1 flex items-center gap-2">
+                <Button variant="ghost" size="icon">
+                  <SkipBack className="h-4 w-4" />
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  className="h-8 w-8"
+                  onClick={togglePlayPause}
+                >
+                  {isPlaying ? (
+                    <Pause className="h-4 w-4" />
+                  ) : (
+                    <Play className="h-4 w-4" />
+                  )}
+                </Button>
+                <Button variant="ghost" size="icon">
+                  <SkipForward className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            <div className="mt-2 flex items-center gap-4">
+              <span className="text-sm text-muted-foreground min-w-[3ch] font-ui">
+                {Math.floor(progress * 100)}%
+              </span>
+              <div className="flex-1 h-8 flex items-center">
+                <div className="w-full h-2 bg-secondary rounded-full overflow-hidden">
+                  <div className="relative w-full h-full">
+                    {waveformData.map((height, i) => (
+                      <div
+                        key={i}
+                        className={cn(
+                          "absolute bottom-0 w-[1px] bg-primary transition-all",
+                          i / waveformData.length <= progress ? "opacity-100" : "opacity-30"
+                        )}
+                        style={{
+                          height: `${height * 100}%`,
+                          left: `${(i / waveformData.length) * 100}%`,
+                          transform: 'scaleY(1)',
+                          transition: 'transform 0.2s ease-in-out',
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'scaleY(1.5)'
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'scaleY(1)'
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 min-w-[100px]">
+                <Volume2 className="h-4 w-4 text-muted-foreground" />
+                <Slider
+                  value={[volume]}
+                  max={1}
+                  step={0.1}
+                  onValueChange={([value]) => setVolume(value)}
+                  className="w-[60px]"
+                />
+              </div>
+            </div>
           </div>
-
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={togglePlayback}
-            className="h-10 w-10 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-500"
-          >
-            {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
-          </Button>
-
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={stopPlayback}
-            className="text-muted-foreground hover:text-destructive"
-          >
-            <X className="h-4 w-4" />
-          </Button>
         </div>
       </div>
     </div>

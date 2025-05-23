@@ -8,7 +8,8 @@ import { ChevronLeft } from "lucide-react"
 import Link from "next/link"
 
 export default function PlayerPage({ params }: { params: { id: string } }) {
-  const book = getBookById(params.id)
+  const id = params.id
+  const book = getBookById(id)
 
   if (!book) {
     return notFound()

@@ -3,7 +3,8 @@ import { getBookById } from "@/lib/books"
 import { notFound } from "next/navigation"
 
 export default function ClipPage({ params }: { params: { id: string } }) {
-  const book = getBookById(params.id)
+  const id = params.id
+  const book = getBookById(id)
 
   if (!book) {
     return notFound()

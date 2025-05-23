@@ -6,7 +6,8 @@ import { notFound } from "next/navigation"
 import { AudioPreview } from "@/components/audio-preview"
 
 export default async function BookPage({ params }: { params: { id: string } }) {
-  const book = await getBookById(params.id)
+  const id = params.id
+  const book = await getBookById(id)
 
   if (!book) {
     return notFound()

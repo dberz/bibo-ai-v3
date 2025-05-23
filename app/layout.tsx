@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Outfit, Montserrat, Nunito_Sans, Roboto, Lato, Playfair_Display } from "next/font/google"
+import { Inter, Montserrat, Nunito_Sans, Roboto } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { PlayerProvider } from "@/components/player-provider"
@@ -9,14 +9,13 @@ import { Analytics } from "@/components/analytics"
 import { Suspense } from "react"
 import { GenreProvider } from "@/components/genre-provider"
 import Link from "next/link"
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 
 // Define fonts
-const outfit = Outfit({
+const inter = Inter({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-outfit",
+  variable: "--font-inter",
 })
 
 const montserrat = Montserrat({
@@ -39,19 +38,6 @@ const roboto = Roboto({
   variable: "--font-roboto",
 })
 
-const lato = Lato({
-  weight: ["400", "700"],
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-lato",
-})
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-playfair",
-})
-
 export const metadata: Metadata = {
   title: "Bibo – AI–Powered Audiobooks",
   description: "Free, ad–supported audiobooks with AI narration and personalization",
@@ -66,24 +52,24 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${outfit.variable} ${montserrat.variable} ${nunito.variable} ${roboto.variable} ${lato.variable} ${playfair.variable} min-h-screen bg-background antialiased`}
+        className={`${inter.variable} ${montserrat.variable} ${nunito.variable} ${roboto.variable} min-h-screen bg-background antialiased`}
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <GenreProvider>
             <PlayerProvider>
-              <header className="slick sticky top–0 z–10 bg–white (or dark:bg–black) shadow (or dark:shadow–dark) p–4 flex justify–between items–center">
-                <Link href="/" className="font–playfair text–2xl font–bold hover:underline">Bibo – AI–Powered Audiobooks</Link>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="font–roboto">Reimagine (AI Features)</Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem>Change Narrator</DropdownMenuItem>
-                    <DropdownMenuItem>Adjust Length</DropdownMenuItem>
-                    <DropdownMenuItem>Translate</DropdownMenuItem>
-                    <DropdownMenuItem>Change Genre</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+              <header className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b p-4 flex justify-between items-center">
+                <Link href="/" className="font-montserrat text-2xl font-bold hover:text-primary transition-colors">Bibo</Link>
+                <nav className="flex items-center gap-4">
+                  <Button variant="ghost" size="sm" className="font-roboto">
+                    Library
+                  </Button>
+                  <Button variant="ghost" size="sm" className="font-roboto">
+                    My Books
+                  </Button>
+                  <Button variant="default" size="sm" className="font-roboto">
+                    Try AI Features
+                  </Button>
+                </nav>
               </header>
               <Suspense>
                 <div className="flex min-h-screen flex-col pb-16">

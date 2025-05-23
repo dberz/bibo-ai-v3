@@ -4,6 +4,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { getBookById } from "@/lib/books"
+import type { Book } from "@/types/book"
 import { trackListenStart, trackListenComplete, trackSegmentPlay } from "@/lib/analytics"
 
 interface PlayerState {
@@ -11,6 +12,7 @@ interface PlayerState {
   currentTime: number
   duration: number
   currentBookId: string | null
+  currentBook: Book | null
   currentVoiceId: string
   currentRewriteId: string
 }
@@ -21,10 +23,19 @@ export function usePlayer() {
     currentTime: 0,
     duration: 300, // 5 minutes default
     currentBookId: null,
+    currentBook: null,
     currentVoiceId: "emily-bright",
     currentRewriteId: "original",
   })
   const router = useRouter()
+
+  // Update currentBook when currentBookId changes
+  useEffect(() => {
+    if (state.currentBookId) {
+      const book = getBookById(state.currentBookId)
+      setState(prev => ({ ...prev, currentBook: book || null }))
+    }
+  }, [state.currentBookId])
 
   // Simulate playback with a timer
   useEffect(() => {
@@ -60,6 +71,7 @@ export function usePlayer() {
     setState((prev) => ({
       ...prev,
       currentBookId: bookId,
+      currentBook: book,
       currentTime: 0,
       isPlaying: true,
       duration: 300, // Set a default duration or calculate from book
@@ -74,6 +86,7 @@ export function usePlayer() {
       isPlaying: false,
       currentTime: 0,
       currentBookId: null,
+      currentBook: null,
     }))
   }
 
@@ -112,6 +125,7 @@ export function usePlayer() {
     startPlayback,
     stopPlayback,
     togglePlayback,
+    togglePlayPause: togglePlayback,
     seekTo,
     skipForward,
     skipBackward,

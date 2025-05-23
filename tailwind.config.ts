@@ -19,9 +19,10 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-montserrat)"],
-        heading: ["var(--font-outfit)"],
+        sans: ["var(--font-inter)"],
+        heading: ["var(--font-montserrat)"],
         body: ["var(--font-nunito)"],
+        ui: ["var(--font-roboto)"],
       },
       colors: {
         border: "hsl(var(--border))",
