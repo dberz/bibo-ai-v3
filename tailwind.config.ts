@@ -19,9 +19,9 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-montserrat)"],
-        heading: ["var(--font-outfit)"],
-        body: ["var(--font-nunito)"],
+        sans: ["var(--font-inter)"],
+        heading: ["var(--font-gelica)"],
+        'heading-light': ["var(--font-gelica-light)"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -89,6 +89,18 @@ const config: Config = {
           from: { opacity: "0" },
           to: { opacity: "1" },
         },
+        "fade-out": {
+          from: { opacity: "1" },
+          to: { opacity: "0" },
+        },
+        "slide-in": {
+          from: { transform: "translateY(10px)", opacity: "0" },
+          to: { transform: "translateY(0)", opacity: "1" },
+        },
+        "slide-out": {
+          from: { transform: "translateY(0)", opacity: "1" },
+          to: { transform: "translateY(10px)", opacity: "0" },
+        },
         "pulse-emerald": {
           "0%, 100%": {
             boxShadow: "0 0 0 0 rgba(16, 185, 129, 0.4)",
@@ -105,21 +117,45 @@ const config: Config = {
             transform: "translateY(-5px)",
           },
         },
+        shimmer: {
+          "0%": {
+            backgroundPosition: "-1000px 0",
+          },
+          "100%": {
+            backgroundPosition: "1000px 0",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.5s ease-out",
+        "fade-out": "fade-out 0.5s ease-out",
+        "slide-in": "slide-in 0.5s ease-out",
+        "slide-out": "slide-out 0.5s ease-out",
         "pulse-emerald": "pulse-emerald 2s infinite",
         float: "float 3s ease-in-out infinite",
+        shimmer: "shimmer 2s infinite linear",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "gradient-emerald": "linear-gradient(to right, var(--tw-gradient-stops))",
+      },
+      boxShadow: {
+        "inner-emerald": "inset 0 2px 4px 0 rgba(16, 185, 129, 0.1)",
+        "glow-emerald": "0 0 15px rgba(16, 185, 129, 0.3)",
+      },
+      backdropBlur: {
+        xs: "2px",
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/forms"),
+  ],
 }
 
 export default config

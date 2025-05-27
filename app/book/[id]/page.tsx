@@ -2,21 +2,21 @@ import { BookDetail } from "@/components/book-detail"
 import { PlayButton } from "@/components/play-button"
 import { getBookById } from "@/lib/books"
 import { notFound } from "next/navigation"
-import { AudioPreview } from "@/components/audio-preview"
 import { ReimageStory } from "@/components/reimage-story"
 import { NarratorCustomizer } from "@/components/narrator-customizer"
 import { Card, CardContent } from "@/components/ui/card"
-import { Wand2, Mic, Sparkles } from "lucide-react"
+import { Wand2, Mic, Sparkles, Clock, BookText, Globe, Users } from "lucide-react"
+import { BookAudioVisualizer } from "@/components/book-audio-visualizer"
 
-export default function BookPage({ params }: { params: { id: string } }) {
-  const book = getBookById(params.id)
+export default async function BookPage({ params }: { params: { id: string } }) {
+  const book = await getBookById(params.id)
 
   if (!book) {
     return notFound()
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 pb-32">
       {/* AI Features Hero Banner */}
       <Card className="mb-10 border-emerald-500 bg-gradient-to-r from-emerald-500/20 via-emerald-500/10 to-transparent overflow-hidden">
         <CardContent className="p-6">
@@ -30,14 +30,30 @@ export default function BookPage({ params }: { params: { id: string } }) {
                 Transform this classic with AI to reimagine the story or customize your narrator. Only on Bibo.
               </p>
               <div className="flex flex-wrap gap-3 pt-2">
-                <div className="flex items-center bg-emerald-500/20 px-3 py-1.5 rounded-full">
+                <a href="#story-transform-length" className="flex items-center bg-emerald-500/20 px-3 py-1.5 rounded-full hover:bg-emerald-500/30 transition-colors">
+                  <Clock className="h-4 w-4 text-emerald-500 mr-1.5" />
+                  <span className="text-sm font-medium">Length</span>
+                </a>
+                <a href="#story-transform-genre" className="flex items-center bg-emerald-500/20 px-3 py-1.5 rounded-full hover:bg-emerald-500/30 transition-colors">
+                  <BookText className="h-4 w-4 text-emerald-500 mr-1.5" />
+                  <span className="text-sm font-medium">Genre</span>
+                </a>
+                <a href="#story-transform-time" className="flex items-center bg-emerald-500/20 px-3 py-1.5 rounded-full hover:bg-emerald-500/30 transition-colors">
+                  <Globe className="h-4 w-4 text-emerald-500 mr-1.5" />
+                  <span className="text-sm font-medium">Time Period</span>
+                </a>
+                <a href="#story-transform-perspective" className="flex items-center bg-emerald-500/20 px-3 py-1.5 rounded-full hover:bg-emerald-500/30 transition-colors">
+                  <Users className="h-4 w-4 text-emerald-500 mr-1.5" />
+                  <span className="text-sm font-medium">Perspective</span>
+                </a>
+                <a href="#story-transform-custom" className="flex items-center bg-emerald-500/20 px-3 py-1.5 rounded-full hover:bg-emerald-500/30 transition-colors">
                   <Wand2 className="h-4 w-4 text-emerald-500 mr-1.5" />
-                  <span className="text-sm font-medium">Reimagine Story</span>
-                </div>
-                <div className="flex items-center bg-emerald-500/20 px-3 py-1.5 rounded-full">
+                  <span className="text-sm font-medium">Custom</span>
+                </a>
+                <a href="#narrator" className="flex items-center bg-emerald-500/20 px-3 py-1.5 rounded-full hover:bg-emerald-500/30 transition-colors">
                   <Mic className="h-4 w-4 text-emerald-500 mr-1.5" />
                   <span className="text-sm font-medium">Custom Narrator</span>
-                </div>
+                </a>
               </div>
             </div>
             <div className="w-full md:w-1/3 flex justify-center">
@@ -54,15 +70,10 @@ export default function BookPage({ params }: { params: { id: string } }) {
 
       <BookDetail book={book} />
 
-      {/* Audio Preview Player */}
-      <div className="mt-8 mb-12">
-        <AudioPreview bookId={book.id} />
-      </div>
-
       {/* Prominent AI Features */}
-      <div className="space-y-12">
+      <div className="space-y-12 mt-16">
         {/* Reimage Story Section */}
-        <section>
+        <section id="story-transform" className="scroll-mt-24">
           <div className="flex items-center mb-6">
             <div className="bg-emerald-500/10 p-2 rounded-full mr-3">
               <Wand2 className="h-6 w-6 text-emerald-500" />
@@ -73,7 +84,7 @@ export default function BookPage({ params }: { params: { id: string } }) {
         </section>
 
         {/* Narrator Customization Section */}
-        <section>
+        <section id="narrator" className="scroll-mt-24">
           <div className="flex items-center mb-6">
             <div className="bg-emerald-500/10 p-2 rounded-full mr-3">
               <Mic className="h-6 w-6 text-emerald-500" />
@@ -84,8 +95,11 @@ export default function BookPage({ params }: { params: { id: string } }) {
         </section>
       </div>
 
-      <div className="mt-12 flex justify-center">
-        <PlayButton bookId={book.id} large />
+      {/* Sticky Player */}
+      <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-t p-4 z-50">
+        <div className="container mx-auto max-w-5xl">
+          <BookAudioVisualizer book={book} compact />
+        </div>
       </div>
     </div>
   )

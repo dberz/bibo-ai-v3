@@ -8,9 +8,12 @@ import { ChevronLeft, Wand2, Mic, Sparkles, Settings2 } from "lucide-react"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
+import { Suspense } from "react"
 
-export default function PlayerPage({ params }: { params: { id: string } }) {
-  const book = getBookById(params.id)
+export default async function PlayerPage({ params }: { params: { id: string } }) {
+  const id = params.id
+  const book = await getBookById(id)
 
   if (!book) {
     return notFound()
@@ -57,20 +60,25 @@ export default function PlayerPage({ params }: { params: { id: string } }) {
       <Card className="border-emerald-500/20 shadow-xl overflow-hidden">
         <div className="bg-gradient-to-b from-emerald-500/20 to-transparent p-6">
           <div className="flex flex-col md:flex-row gap-6">
-            <div className="w-full md:w-1/3">
-              <img
+            <div className="w-full md:w-1/3 relative aspect-[2/3]">
+              <Image
                 src={book.coverUrl || "/placeholder.svg"}
                 alt={book.title}
-                className="w-full h-auto rounded-md shadow-md"
+                fill
+                className="object-cover rounded-md shadow-md"
+                priority
+                sizes="(max-width: 768px) 100vw, 33vw"
               />
             </div>
 
             <div className="w-full md:w-2/3 space-y-4">
-              <h1 className="text-3xl font-bold">{book.title}</h1>
+              <h1 className="text-3xl font-gelica-light leading-tight">{book.title}</h1>
               <p className="text-muted-foreground">{book.author}</p>
 
               <div className="mt-4">
-                <AudioPlayer bookId={book.id} />
+                <Suspense fallback={<div className="h-24 animate-pulse bg-muted rounded-md" />}>
+                  <AudioPlayer bookId={book.id} />
+                </Suspense>
               </div>
             </div>
           </div>
@@ -78,11 +86,15 @@ export default function PlayerPage({ params }: { params: { id: string } }) {
 
         <CardContent className="p-6">
           <div className="mt-8">
-            <VoiceSelector />
+            <Suspense fallback={<div className="h-12 animate-pulse bg-muted rounded-md" />}>
+              <VoiceSelector />
+            </Suspense>
           </div>
 
           <div className="mt-8">
-            <AdBanner />
+            <Suspense fallback={<div className="h-32 animate-pulse bg-muted rounded-md" />}>
+              <AdBanner />
+            </Suspense>
           </div>
         </CardContent>
       </Card>

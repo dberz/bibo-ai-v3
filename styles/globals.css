@@ -2,8 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Optima';
+  src: url('/styles/fonts/optimaoptima--normal.woff2') format('woff2'),
+       url('/styles/fonts/optimaoptima--normal.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rom Sans';
+  src: url('/styles/fonts/rom-sans-serifsans-serif--normal.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rom Serif';
+  src: url('/styles/fonts/rom-serifsans-serif--normal.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Optima', 'Rom Sans', Arial, Helvetica, sans-serif;
 }
 
 @layer utilities {

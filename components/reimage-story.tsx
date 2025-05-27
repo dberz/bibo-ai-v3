@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -46,16 +46,11 @@ export function ReimageStory({ book }: ReimageStoryProps) {
 
   // Available genres for transformation
   const genres = [
-    { id: "scifi", name: "Science Fiction" },
-    { id: "fantasy", name: "Fantasy" },
-    { id: "horror", name: "Horror" },
-    { id: "romance", name: "Romance" },
-    { id: "mystery", name: "Mystery" },
-    { id: "western", name: "Western" },
-    { id: "comedy", name: "Comedy" },
-    { id: "drama", name: "Drama" },
-    { id: "thriller", name: "Thriller" },
-    { id: "dystopian", name: "Dystopian" },
+    { id: "fantasy", name: "Fantasy", description: "Reimagine the story in a magical world with fantastical elements" },
+    { id: "mystery", name: "Mystery", description: "Add suspense and intrigue to the narrative" },
+    { id: "romance", name: "Romance", description: "Focus on relationships and emotional connections" },
+    { id: "historical", name: "Historical Fiction", description: "Set in a different historical period" },
+    { id: "adventure", name: "Adventure", description: "Emphasize action and exploration" },
   ]
 
   // Available time periods
@@ -101,6 +96,7 @@ export function ReimageStory({ book }: ReimageStoryProps) {
 
   const handleGeneratePreview = () => {
     setIsGenerating(true)
+    setPreviewText(null) // Clear previous preview
 
     // Simulate AI generation with a timeout
     setTimeout(() => {
@@ -122,15 +118,15 @@ export function ReimageStory({ book }: ReimageStoryProps) {
           break
 
         case "genre":
-          if (selectedGenre === "scifi") {
+          if (selectedGenre === "fantasy") {
             previewContent =
               "It is a truth universally acknowledged across the galaxy, that a single humanoid in possession of a good starship, must be in want of a life-partner. The Bennet family unit, residing on the modest agricultural planet of Longbourn-7, had five unmarried female offspring whose genetic compatibility scores were rapidly approaching their expiration dates."
-          } else if (selectedGenre === "horror") {
-            previewContent =
-              "It is a truth universally dreaded, that a single man in possession of a dark fortune, must be in want of fresh souls. The Bennet family, with five vulnerable daughters, viewed the arrival of the pale, mysterious Mr. Bingley to Netherfield Manor with a mixture of fascination and unease, unaware of the ancient hunger that drove him to seek new blood in the countryside."
           } else if (selectedGenre === "mystery") {
             previewContent =
               "It was a truth not yet discovered, that a single man in possession of a suspicious fortune, must be hiding deadly secrets. When the enigmatic Mr. Bingley arrived at Netherfield under the cover of night, the five Bennet sisters found themselves drawn into a web of intrigue that would reveal the dark underbelly of polite society."
+          } else if (selectedGenre === "romance") {
+            previewContent =
+              "It is a truth universally acknowledged, that a single man in possession of a good fortune—or in this case, a tech startup valued at several billion—must be in want of a wife. The Bennet family group chat exploded with notifications when news broke that the eligible bachelor Charles Bingley had purchased the luxury estate in their neighborhood and would be attending the charity gala that weekend."
           } else {
             previewContent = "Select a genre to see a preview of how the story might be transformed."
           }
@@ -162,8 +158,7 @@ export function ReimageStory({ book }: ReimageStoryProps) {
             previewContent =
               "You know it to be true, that a wealthy bachelor must be seeking a wife. You hear your mother's excited voice from downstairs as she tells your father about the young man who has taken Netherfield Park. As the second eldest of five daughters, you understand what this means—another opportunity, another potential match to secure your family's future. You sigh, closing your book, wondering if this Mr. Bingley will be any different from the other gentlemen your mother has pushed toward you and your sisters."
           } else {
-            previewContent =
-              "Select a perspective and character to see a preview of how the story might be transformed."
+            previewContent = "Select a perspective and character to see a preview of how the story might be transformed."
           }
           break
 
@@ -183,8 +178,7 @@ export function ReimageStory({ book }: ReimageStoryProps) {
 
       toast({
         title: "Preview generated",
-        description:
-          "This is how your reimagined story might begin. Generate the full story to experience the complete transformation.",
+        description: "This is how your reimagined story might begin. Generate the full story to experience the complete transformation.",
       })
     }, 1500)
   }
@@ -195,6 +189,26 @@ export function ReimageStory({ book }: ReimageStoryProps) {
       description: "Your reimagined story has been saved and is ready for listening.",
     })
   }
+
+  // Handle URL hash for tab selection
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '')
+      if (hash.startsWith('story-transform-')) {
+        const tab = hash.replace('story-transform-', '')
+        if (['length', 'genre', 'time', 'perspective', 'custom'].includes(tab)) {
+          setActiveTab(tab)
+        }
+      }
+    }
+
+    // Initial check
+    handleHashChange()
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleHashChange)
+    return () => window.removeEventListener('hashchange', handleHashChange)
+  }, [])
 
   return (
     <div className="space-y-6">
@@ -221,7 +235,7 @@ export function ReimageStory({ book }: ReimageStoryProps) {
           className="h-auto py-6 flex flex-col items-center justify-center gap-2 border-emerald-500/30 hover:bg-emerald-500/10 hover:border-emerald-500"
           onClick={() => {
             setActiveTab("genre")
-            setSelectedGenre("scifi")
+            setSelectedGenre("fantasy")
             setGenreIntensity(80)
             handleGeneratePreview()
           }}
@@ -229,8 +243,8 @@ export function ReimageStory({ book }: ReimageStoryProps) {
           <div className="bg-emerald-500/20 p-2 rounded-full">
             <BookText className="h-5 w-5 text-emerald-500" />
           </div>
-          <span className="font-medium">Sci-Fi Version</span>
-          <span className="text-xs text-muted-foreground">Same story, futuristic setting</span>
+          <span className="font-medium">Fantasy Version</span>
+          <span className="text-xs text-muted-foreground">Same story, magical setting</span>
         </Button>
 
         <Button
@@ -279,25 +293,45 @@ export function ReimageStory({ book }: ReimageStoryProps) {
         </CardHeader>
 
         <CardContent className="pt-6">
-          <Tabs defaultValue="length" value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid grid-cols-5 mb-6">
-              <TabsTrigger value="length" className="flex items-center">
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList className="grid grid-cols-5 mb-6 scroll-mt-24 sticky top-16 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-10 py-2">
+              <TabsTrigger 
+                value="length" 
+                id="story-transform-length" 
+                className="flex items-center data-[state=active]:bg-emerald-500/20 data-[state=active]:text-emerald-500 data-[state=active]:border-emerald-500/50 data-[state=active]:shadow-sm transition-all duration-200"
+              >
                 <Clock className="h-4 w-4 mr-2" />
                 <span className="hidden sm:inline">Length</span>
               </TabsTrigger>
-              <TabsTrigger value="genre" className="flex items-center">
+              <TabsTrigger 
+                value="genre" 
+                id="story-transform-genre" 
+                className="flex items-center data-[state=active]:bg-emerald-500/20 data-[state=active]:text-emerald-500 data-[state=active]:border-emerald-500/50 data-[state=active]:shadow-sm transition-all duration-200"
+              >
                 <BookText className="h-4 w-4 mr-2" />
                 <span className="hidden sm:inline">Genre</span>
               </TabsTrigger>
-              <TabsTrigger value="time" className="flex items-center">
+              <TabsTrigger 
+                value="time" 
+                id="story-transform-time" 
+                className="flex items-center data-[state=active]:bg-emerald-500/20 data-[state=active]:text-emerald-500 data-[state=active]:border-emerald-500/50 data-[state=active]:shadow-sm transition-all duration-200"
+              >
                 <Globe className="h-4 w-4 mr-2" />
                 <span className="hidden sm:inline">Time Period</span>
               </TabsTrigger>
-              <TabsTrigger value="perspective" className="flex items-center">
+              <TabsTrigger 
+                value="perspective" 
+                id="story-transform-perspective" 
+                className="flex items-center data-[state=active]:bg-emerald-500/20 data-[state=active]:text-emerald-500 data-[state=active]:border-emerald-500/50 data-[state=active]:shadow-sm transition-all duration-200"
+              >
                 <Users className="h-4 w-4 mr-2" />
                 <span className="hidden sm:inline">Perspective</span>
               </TabsTrigger>
-              <TabsTrigger value="custom" className="flex items-center">
+              <TabsTrigger 
+                value="custom" 
+                id="story-transform-custom" 
+                className="flex items-center data-[state=active]:bg-emerald-500/20 data-[state=active]:text-emerald-500 data-[state=active]:border-emerald-500/50 data-[state=active]:shadow-sm transition-all duration-200"
+              >
                 <Sparkles className="h-4 w-4 mr-2" />
                 <span className="hidden sm:inline">Custom</span>
               </TabsTrigger>
@@ -549,14 +583,14 @@ export function ReimageStory({ book }: ReimageStoryProps) {
 
               <div className="space-y-4">
                 <h3 className="text-lg font-medium">Preview</h3>
-                <div className="bg-muted/30 rounded-md p-4 min-h-[300px] border border-border">
+                <div className="bg-muted/30 rounded-md p-4 min-h-[300px] border border-border relative">
                   {isGenerating ? (
-                    <div className="flex items-center justify-center h-full">
+                    <div className="flex items-center justify-center h-full absolute inset-0 bg-background/80 backdrop-blur-sm">
                       <RefreshCw className="h-8 w-8 text-emerald-500 animate-spin" />
                     </div>
                   ) : previewText ? (
                     <div className="prose dark:prose-invert max-w-none">
-                      <p>{previewText}</p>
+                      <p className="whitespace-pre-wrap">{previewText}</p>
                       <p className="text-sm text-muted-foreground mt-4">
                         This is just a preview of how your reimagined story might begin. Generate the full story to
                         experience the complete transformation.

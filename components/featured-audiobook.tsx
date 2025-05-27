@@ -12,12 +12,15 @@ import Link from "next/link"
 import { formatTime } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { motion, AnimatePresence } from "framer-motion"
+import { BookAudioVisualizer } from "@/components/book-audio-visualizer"
+import { AiFeaturesModal } from "@/components/ui/ai-features-modal"
 
 export function FeaturedAudiobook() {
   const [featuredBook, setFeaturedBook] = useState<Book | null>(null)
   const { isPlaying, currentTime, duration, setCurrentBook, togglePlayback, seekTo } = usePlayer()
   const [volume, setVolume] = useState(80)
   const [isHovered, setIsHovered] = useState(false)
+  const [aiModalOpen, setAiModalOpen] = useState(false)
 
   useEffect(() => {
     // Get a random featured book
@@ -28,147 +31,52 @@ export function FeaturedAudiobook() {
 
   if (!featuredBook) return null
 
-  const handlePlay = () => {
-    if (!isPlaying) {
-      setCurrentBook(featuredBook)
-    } else {
-      togglePlayback()
-    }
-  }
-
-  // Audio waveform visualization (simplified)
-  const waveformBars = Array.from({ length: 40 }, (_, i) => {
-    const height = Math.sin(i * 0.2) * 0.5 + 0.5 // Generate a sine wave pattern
-    return height * 100
-  })
-
   return (
     <div>
       <h2 className="text-2xl font-outfit font-bold mb-4 flex items-center">
         <span className="bg-emerald-500/10 p-1 rounded-full mr-2">
-          <Pause className="h-5 w-5 text-emerald-500" />
+          <span role="img" aria-label="headphones">🎧</span>
         </span>
         Featured Listen
       </h2>
-
-      <Card className="overflow-hidden border-emerald-500/20">
-        <CardContent className="p-0">
-          <div className="flex flex-col md:flex-row">
-            <div
-              className="w-full md:w-1/3 relative"
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-            >
-              <div className="aspect-[2/3] md:h-full relative overflow-hidden">
-                <img
-                  src={featuredBook.coverUrl || "/placeholder.svg"}
-                  alt={featuredBook.title}
-                  className="object-cover w-full h-full"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
-
-                <AnimatePresence>
-                  {isHovered && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className="absolute inset-0 flex items-center justify-center"
-                    >
-                      <Button
-                        onClick={handlePlay}
-                        size="lg"
-                        className="rounded-full w-16 h-16 bg-emerald-500 hover:bg-emerald-600 shadow-lg"
-                      >
-                        {isPlaying ? (
-                          <Pause className="h-8 w-8 text-white" />
-                        ) : (
-                          <Play className="h-8 w-8 text-white ml-1" />
-                        )}
-                      </Button>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
-
-            <div className="w-full md:w-2/3 p-6 space-y-4">
-              <div>
-                <Link href={`/book/${featuredBook.id}`} className="hover:text-emerald-500 transition-colors">
-                  <h3 className="text-2xl font-outfit font-bold">{featuredBook.title}</h3>
-                </Link>
-                <p className="text-muted-foreground font-nunito">{featuredBook.author}</p>
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {featuredBook.genres.slice(0, 3).map((genre) => (
-                  <Badge key={genre} variant="secondary" className="bg-emerald-500/10 text-emerald-500 font-nunito">
-                    {genre}
-                  </Badge>
-                ))}
-              </div>
-
-              <p className="text-sm font-nunito line-clamp-2">{featuredBook.description}</p>
-
-              <div className="pt-2">
-                {/* Audio waveform visualization */}
-                <div className="flex items-center h-8 gap-[2px] mb-2">
-                  {waveformBars.map((height, i) => (
-                    <div
-                      key={i}
-                      className={`w-1 rounded-full ${
-                        i / waveformBars.length < currentTime / duration ? "bg-emerald-500" : "bg-emerald-500/30"
-                      }`}
-                      style={{ height: `${height}%` }}
-                    ></div>
-                  ))}
-                </div>
-
-                <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
-                  <span>{formatTime(currentTime)}</span>
-                  <span>{formatTime(duration)}</span>
-                </div>
-
-                <div className="flex items-center gap-4">
-                  <Button
-                    onClick={handlePlay}
-                    size="sm"
-                    className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-full px-4"
-                  >
-                    {isPlaying ? (
-                      <>
-                        <Pause className="h-4 w-4 mr-2" /> Pause
-                      </>
-                    ) : (
-                      <>
-                        <Play className="h-4 w-4 mr-2" /> Play
-                      </>
-                    )}
-                  </Button>
-
-                  <div className="flex items-center gap-2">
-                    <Volume2 className="h-4 w-4 text-muted-foreground" />
-                    <Slider
-                      value={[volume]}
-                      max={100}
-                      step={1}
-                      onValueChange={(value) => setVolume(value[0])}
-                      className="w-20"
-                    />
-                  </div>
-
-                  <Link
-                    href={`/book/${featuredBook.id}`}
-                    className="text-sm text-emerald-500 hover:text-emerald-600 hover:underline ml-auto font-nunito"
-                  >
-                    View Details
-                  </Link>
-                </div>
-              </div>
-            </div>
+      <div className="bg-background border border-emerald-500/20 rounded-xl shadow-lg flex flex-col items-stretch overflow-hidden">
+        {/* Top: Cover and metadata */}
+        <Link href={`/book/${featuredBook.id}`} className="flex flex-col w-full p-4 gap-3 items-center justify-center bg-muted/40 hover:bg-muted/60 transition-colors">
+          <img
+            src={featuredBook.coverUrl || "/placeholder.svg"}
+            alt={featuredBook.title}
+            className="w-40 h-60 object-cover rounded-lg shadow-lg mb-4"
+          />
+          <div className="text-lg font-bold text-center leading-tight">{featuredBook.title}</div>
+          <div className="text-sm text-muted-foreground text-center mb-1">{featuredBook.author}</div>
+          <div className="flex flex-wrap gap-1 justify-center mb-2">
+            {featuredBook.genres.slice(0, 3).map((genre) => (
+              <span key={genre} className="bg-emerald-500/10 text-emerald-500 text-xs px-2 py-0.5 rounded-full font-medium">
+                {genre}
+              </span>
+            ))}
           </div>
-        </CardContent>
-      </Card>
+          <div className="text-xs text-muted-foreground text-center line-clamp-3 mb-2">{featuredBook.description}</div>
+        </Link>
+        {/* AI Features section below player */}
+        <div className="w-full flex flex-col items-center justify-center p-4 gap-3 bg-muted/30 border-t border-emerald-100/20">
+          <h3 className="text-lg font-bold flex items-center gap-2 mb-1">
+            <span className="bg-emerald-500/10 p-1 rounded-full"><span role="img" aria-label="sparkles">✨</span></span>
+            AI Features
+          </h3>
+          <p className="text-xs text-muted-foreground text-center max-w-xs mb-2">
+            Instantly reimagine this book with the power of AI. Try rewrites, summaries, and more.
+          </p>
+          <button
+            type="button"
+            className="inline-flex items-center gap-1 bg-emerald-100/60 text-emerald-700 text-xs px-3 py-1 rounded-full font-semibold hover:bg-emerald-200 transition"
+            onClick={() => setAiModalOpen(true)}
+          >
+            <span className="mr-1">✨</span> Try AI Features
+          </button>
+        </div>
+      </div>
+      <AiFeaturesModal open={aiModalOpen} onOpenChange={setAiModalOpen} bookId={featuredBook.id} />
     </div>
   )
 }
