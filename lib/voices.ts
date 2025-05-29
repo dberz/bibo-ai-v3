@@ -1,42 +1,60 @@
 import type { Voice } from "@/types/voice"
 
-// Mock data for voices
+// OpenAI-supported voices only
 const voices: Voice[] = [
   {
-    id: "emily-bright",
-    name: "Emily Bright",
-    description: "Energetic and clear female voice, perfect for contemporary fiction",
-    sampleUrl: "/samples/voices/emily-bright.mp3",
+    id: "nova",
+    name: "Nova",
+    description: "Expressive, modern female voice (OpenAI)",
+    sampleUrl: "/samples/voices/nova.mp3",
   },
   {
-    id: "morgan-calm",
-    name: "Morgan Calm",
-    description: "Soothing gender-neutral voice, ideal for relaxing listening",
-    sampleUrl: "/samples/voices/morgan-calm.mp3",
+    id: "shimmer",
+    name: "Shimmer",
+    description: "Bright, clear female voice (OpenAI)",
+    sampleUrl: "/samples/voices/shimmer.mp3",
   },
   {
-    id: "li-warm",
-    name: "Li Warm",
-    description: "Warm and expressive voice with slight accent, great for diverse stories",
-    sampleUrl: "/samples/voices/li-warm.mp3",
+    id: "echo",
+    name: "Echo",
+    description: "Warm, neutral male voice (OpenAI)",
+    sampleUrl: "/samples/voices/echo.mp3",
   },
   {
-    id: "riley-story",
-    name: "Riley Storyteller",
-    description: "Dramatic and engaging, perfect for adventure and mystery",
-    sampleUrl: "/samples/voices/riley-story.mp3",
+    id: "onyx",
+    name: "Onyx",
+    description: "Deep, rich male voice (OpenAI)",
+    sampleUrl: "/samples/voices/onyx.mp3",
   },
   {
-    id: "james-classic",
-    name: "James Classic",
-    description: "Traditional male narrator with rich tone, ideal for classics",
-    sampleUrl: "/samples/voices/james-classic.mp3",
+    id: "fable",
+    name: "Fable",
+    description: "Storyteller, whimsical voice (OpenAI)",
+    sampleUrl: "/samples/voices/fable.mp3",
   },
   {
-    id: "james-future",
-    name: "James Future",
-    description: "Modern take on the classic James voice with enhanced clarity",
-    sampleUrl: "/samples/voices/james-future.mp3",
+    id: "alloy",
+    name: "Alloy",
+    description: "Balanced, classic narrator (OpenAI)",
+    sampleUrl: "/samples/voices/alloy.mp3",
+  },
+  {
+    id: "ash",
+    name: "Ash",
+    description: "Soft, gentle voice (OpenAI)",
+    sampleUrl: "/samples/voices/ash.mp3",
+  },
+  {
+    id: "sage",
+    name: "Sage",
+    description: "Calm, wise voice (OpenAI)",
+    sampleUrl: "/samples/voices/sage.mp3",
+  },
+  {
+    id: "coral",
+    name: "Coral",
+    description: "Friendly, upbeat voice (OpenAI)",
+    sampleUrl: "/samples/voices/coral.mp3",
   },
 ]
 

@@ -16,42 +16,27 @@ function slugify(str) {
 }
 
 async function generateCover(book) {
-  const prompt = `Modern, visually appealing book cover for "${book.title}" by ${book.author}, featuring the main characters from the story. High detail, vibrant colors, contemporary design.`
-  const dalleRes = await fetch('https://api.openai.com/v1/images/generations', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${OPENAI_API_KEY}`,
-    },
-    body: JSON.stringify({
-      model: 'dall-e-3',
-      prompt,
-      n: 1,
-      size: '1024x1536',
-      response_format: 'url',
-    }),
-  })
-  if (!dalleRes.ok) {
-    throw new Error(await dalleRes.text())
+  try {
+    const res = await fetch('http://localhost:3000/api/generate-cover', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: book.title,
+        author: book.author,
+        description: book.description
+      })
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to generate cover: ${res.statusText}`);
+    }
+
+    const data = await res.json();
+    return data.imageUrl;
+  } catch (error) {
+    console.error(`Error generating cover for ${book.title}:`, error);
+    return null;
   }
-  const data = await dalleRes.json()
-  const imageUrl = data.data?.[0]?.url
-  if (!imageUrl) throw new Error('No image URL returned from DALL·E')
-
-  // Download the image
-  const imageRes = await fetch(imageUrl)
-  if (!imageRes.ok) throw new Error('Failed to download generated image')
-  const arrayBuffer = await imageRes.arrayBuffer()
-  const buffer = Buffer.from(arrayBuffer)
-
-  // Save to public/generated-covers/
-  const fileName = `${slugify(book.title)}.png`
-  const saveDir = path.join(__dirname, '../public/generated-covers')
-  fs.mkdirSync(saveDir, { recursive: true })
-  const filePath = path.join(saveDir, fileName)
-  fs.writeFileSync(filePath, buffer)
-
-  return `/generated-covers/${fileName}`
 }
 
 async function main() {

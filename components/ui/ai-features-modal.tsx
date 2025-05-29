@@ -39,17 +39,32 @@ const features = [
   },
 ]
 
-export function AiFeaturesModal({ open, onOpenChange, bookId }: { open: boolean; onOpenChange: (open: boolean) => void; bookId?: string }) {
+export function AiFeaturesModal({ 
+  open, 
+  onOpenChange, 
+  bookId,
+  initialContent 
+}: { 
+  open: boolean; 
+  onOpenChange: (open: boolean) => void; 
+  bookId?: string;
+  initialContent?: string;
+}) {
   const handleFeatureClick = (tab: string) => {
     onOpenChange(false)
     // Small delay to ensure smooth transition
     setTimeout(() => {
       if (bookId) {
-        // If we have a bookId, navigate to that book's page with the specific tab
-        window.location.href = `/book/${bookId}#story-transform-${tab}`
+        // If we have a bookId, navigate to that book's page with the specific tab and content
+        const url = new URL(`/book/${bookId}`, window.location.origin);
+        url.hash = `story-transform-${tab}`;
+        if (initialContent) {
+          url.searchParams.set('content', encodeURIComponent(initialContent));
+        }
+        window.location.href = url.toString();
       } else {
         // If no bookId, navigate to the featured book
-        window.location.href = `/book/call-of-the-wild#story-transform-${tab}`
+        window.location.href = `/book/call-of-the-wild#story-transform-${tab}`;
       }
     }, 100)
   }

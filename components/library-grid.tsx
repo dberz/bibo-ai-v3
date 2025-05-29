@@ -69,20 +69,30 @@ export function LibraryGrid() {
     return coverUrl && coverUrl.startsWith("/generated-covers/")
   }
 
+  // Sort books: real covers first, placeholders last
+  const sortedBooks = books.slice().sort((a, b) => {
+    const aHasCover = !a.coverUrl.includes('placeholder.svg');
+    const bHasCover = !b.coverUrl.includes('placeholder.svg');
+    if (aHasCover === bHasCover) return 0;
+    return aHasCover ? -1 : 1;
+  });
+
   return (
     <motion.div
-      className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+      className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 md:gap-6"
       variants={container}
       initial="hidden"
       animate="show"
-      key={selectedGenre} // Re-animate when genre changes
+      key={selectedGenre}
     >
-      {books.map((book) => (
+      {sortedBooks.map((book) => (
         <motion.div key={book.id} variants={item}>
           <Card
-            className={`overflow-hidden transition-all duration-300 hover:shadow-xl group relative ${successId === book.id ? "ring-2 ring-emerald-400" : ""}`}
+            className={`overflow-hidden transition-all duration-300 hover:shadow-xl active:shadow-lg group relative ${successId === book.id ? "ring-2 ring-emerald-400" : ""}`}
             onMouseEnter={() => setHoveredBook(book.id)}
             onMouseLeave={() => setHoveredBook(null)}
+            onTouchStart={() => setHoveredBook(book.id)}
+            onTouchEnd={() => setHoveredBook(null)}
           >
             <Link href={`/book/${book.id}`} className="block">
               <div className="aspect-[2/3] relative overflow-hidden">
@@ -90,64 +100,37 @@ export function LibraryGrid() {
                   key={book.coverUrl}
                   src={book.coverUrl || "/placeholder.svg"}
                   alt={book.title}
-                  className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+                  className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105 group-active:scale-105"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.6 }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-300"></div>
 
-                {/* Audio indicator */}
-                <div className="absolute top-2 right-2 bg-black/60 p-1 rounded-full">
-                  <Headphones className="h-4 w-4 text-emerald-500" />
+                {/* Audio indicator - more compact on mobile */}
+                <div className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 bg-black/60 p-0.5 sm:p-1 rounded-full">
+                  <Headphones className="h-3 w-3 sm:h-4 sm:w-4 text-emerald-500" />
                 </div>
 
-                {/* AI badge if generated */}
-                {isAIGenerated(book.coverUrl) && (
-                  <div className="absolute bottom-2 right-2 bg-emerald-600/90 text-white px-2 py-0.5 rounded-full flex items-center gap-1 text-xs shadow-lg">
-                    <Sparkles className="h-3 w-3 mr-1" /> AI
-                  </div>
-                )}
-
-                {hoveredBook === book.id && (
-                  <div className="absolute bottom-4 left-0 right-0 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                {(hoveredBook === book.id || window.matchMedia('(hover: none)').matches) && (
+                  <div className="absolute bottom-2 sm:bottom-4 left-0 right-0 flex justify-center opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-300">
                     <PlayButton bookId={book.id} />
                   </div>
                 )}
               </div>
-              <CardContent className="p-4">
-                <h3 className="font-outfit font-semibold line-clamp-1 group-hover:text-emerald-500 transition-colors">
+              <CardContent className="p-2 sm:p-3 md:p-4">
+                <h3 className="font-outfit font-semibold text-sm sm:text-base line-clamp-1 group-hover:text-emerald-500 group-active:text-emerald-500 transition-colors">
                   {book.title}
                 </h3>
-                <p className="text-sm text-muted-foreground line-clamp-1 font-nunito">{book.author}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground line-clamp-1 font-nunito">{book.author}</p>
 
-                {/* Audio duration indicator */}
-                <div className="flex items-center mt-1 text-xs text-muted-foreground font-nunito">
-                  <Headphones className="h-3 w-3 mr-1" />
+                {/* Audio duration indicator - more compact on mobile */}
+                <div className="flex items-center mt-0.5 sm:mt-1 text-[10px] sm:text-xs text-muted-foreground font-nunito">
+                  <Headphones className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-0.5 sm:mr-1" />
                   <span>{book.duration}</span>
                 </div>
               </CardContent>
             </Link>
-            {/* Generate Cover Button (dev/admin only) */}
-            <div
-              className={`absolute top-2 left-2 z-10 transition-opacity duration-200 ${hoveredBook === book.id ? "opacity-100" : "opacity-0 pointer-events-none"}`}
-              title="Generate a new AI cover"
-            >
-              <Button
-                size="sm"
-                variant="secondary"
-                className="text-xs px-2 py-1"
-                onClick={() => handleGenerateCover(book)}
-                disabled={loadingId === book.id}
-              >
-                {loadingId === book.id ? (
-                  <Loader2 className="animate-spin h-4 w-4 mr-1 inline" />
-                ) : successId === book.id ? (
-                  <CheckCircle className="h-4 w-4 mr-1 text-emerald-500 inline" />
-                ) : null}
-                Generate Cover
-              </Button>
-            </div>
           </Card>
         </motion.div>
       ))}

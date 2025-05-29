@@ -1,15 +1,27 @@
 "use client"
 
 import { Badge } from "@/components/ui/badge"
-import { Clock, BookOpen } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Clock, BookOpen, Play, Pause } from "lucide-react"
 import type { Book } from "@/types/book"
 import Image from "next/image"
+import { usePlayer } from "@/lib/player/player-context"
 
 interface BookDetailProps {
   book: Book
 }
 
 export function BookDetail({ book }: BookDetailProps) {
+  const { setCurrentBook, togglePlayback, currentBook, isPlaying } = usePlayer()
+  const isCurrent = currentBook?.id === book.id
+
+  const handlePlay = () => {
+    setCurrentBook(book)
+    if (!isPlaying || !isCurrent) {
+      togglePlayback()
+    }
+  }
+
   return (
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row gap-8">
@@ -54,6 +66,26 @@ export function BookDetail({ book }: BookDetailProps) {
 
           <div className="prose prose-emerald max-w-none">
             <p>{book.description}</p>
+          </div>
+
+          <div className="flex justify-center md:justify-start pt-4">
+            <Button 
+              size="lg" 
+              className="text-xl px-8 py-6 bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg rounded-full transition-all duration-300 hover:scale-105" 
+              onClick={handlePlay}
+            >
+              {isPlaying && isCurrent ? (
+                <>
+                  <Pause className="h-6 w-6 mr-2" />
+                  Pause Book
+                </>
+              ) : (
+                <>
+                  <Play className="h-6 w-6 mr-2" />
+                  Play Book
+                </>
+              )}
+            </Button>
           </div>
         </div>
       </div>

@@ -16,16 +16,14 @@ interface BookAudioVisualizerProps {
 }
 
 export function BookAudioVisualizer({ book, compact = false }: BookAudioVisualizerProps) {
-  const { isPlaying, currentTime, duration, setCurrentBook, togglePlayback, seekTo } = usePlayer()
+  const { isPlaying, currentTime, duration, setCurrentBook, togglePlayback, seekTo, currentBook } = usePlayer()
   const [volume, setVolume] = useState(80)
   const [isHovered, setIsHovered] = useState(false)
 
-  useEffect(() => {
-    setCurrentBook(book)
-  }, [book, setCurrentBook])
-
   const handlePlay = () => {
-    setCurrentBook(book)
+    if (!isPlaying || currentBook?.id !== book.id) {
+      setCurrentBook(book)
+    }
     togglePlayback()
   }
 

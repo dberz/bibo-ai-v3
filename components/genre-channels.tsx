@@ -100,6 +100,11 @@ export function GenreChannels() {
     {} as Record<string, number>,
   )
 
+  // Filter out genres with less than 2 books (except 'All')
+  const filteredGenres = genres.filter(
+    (genre) => genre === "All" || genreCounts[genre] >= 2
+  )
+
   const handleScroll = () => {
     if (scrollContainerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current
@@ -146,7 +151,7 @@ export function GenreChannels() {
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           <div className="flex gap-4">
-            {genres.map((genre) => {
+            {filteredGenres.map((genre) => {
               const config = genreConfig[genre as keyof typeof genreConfig] || genreConfig["All"]
               const Icon = config.icon
 

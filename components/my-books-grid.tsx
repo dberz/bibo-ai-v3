@@ -23,40 +23,13 @@ interface MyBooksGridProps {
   filter?: "favorites" | "recent" | "in-progress"
 }
 
-// Mock data for saved books - in a real app, this would come from a backend
-const mockSavedBooks = [
-  {
-    id: "1",
-    title: "The Great Gatsby",
-    author: "F. Scott Fitzgerald",
-    coverUrl: "/covers/great-gatsby.jpg",
-    duration: "4h 30m",
-    progress: 45,
-    isFavorite: true,
-    lastRead: "2024-03-15",
-    addedAt: "2024-03-01",
-  },
-  {
-    id: "2",
-    title: "1984",
-    author: "George Orwell",
-    coverUrl: "/covers/1984.jpg",
-    duration: "5h 15m",
-    progress: 0,
-    isFavorite: false,
-    lastRead: null,
-    addedAt: "2024-03-10",
-  },
-  // Add more mock books as needed
-]
-
 export function MyBooksGrid({ view, searchQuery, filter }: MyBooksGridProps) {
   const [books, setBooks] = useState<Book[]>([])
   const [hoveredBook, setHoveredBook] = useState<string | null>(null)
 
   useEffect(() => {
-    // In a real app, this would fetch from your backend
-    let filteredBooks = [...mockSavedBooks]
+    // Get all books from the main library, filter out placeholder covers
+    let filteredBooks = getAllBooks().filter(book => book.coverUrl && !book.coverUrl.includes('placeholder.svg'))
 
     // Apply search filter
     if (searchQuery) {
@@ -76,11 +49,11 @@ export function MyBooksGrid({ view, searchQuery, filter }: MyBooksGridProps) {
           break
         case "recent":
           filteredBooks.sort((a, b) => 
-            new Date(b.addedAt).getTime() - new Date(a.addedAt).getTime()
+            new Date(b.addedAt || '').getTime() - new Date(a.addedAt || '').getTime()
           )
           break
         case "in-progress":
-          filteredBooks = filteredBooks.filter(book => book.progress > 0 && book.progress < 100)
+          filteredBooks = filteredBooks.filter(book => book.progress && book.progress > 0 && book.progress < 100)
           break
       }
     }
@@ -169,21 +142,19 @@ export function MyBooksGrid({ view, searchQuery, filter }: MyBooksGridProps) {
                       </DropdownMenu>
                     </div>
                   </div>
-                  <div className="mt-2 flex items-center gap-4 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-1">
-                      <Headphones className="h-4 w-4" />
-                      <span>{book.duration}</span>
-                    </div>
-                    {book.progress > 0 && (
-                      <div className="flex items-center gap-1">
-                        <Clock className="h-4 w-4" />
-                        <span>{book.progress}% complete</span>
-                      </div>
+
+                  {/* Audio duration indicator */}
+                  <div className="flex items-center mt-1 text-xs text-muted-foreground">
+                    <Headphones className="h-3 w-3 mr-1" />
+                    <span>{book.duration}</span>
+                    {(book.progress ?? 0) > 0 && (
+                      <>
+                        <span className="mx-2">•</span>
+                        <Clock className="h-3 w-3 mr-1" />
+                        <span>{book.progress ?? 0}% complete</span>
+                      </>
                     )}
                   </div>
-                  {book.progress > 0 && (
-                    <Progress value={book.progress} className="mt-2" />
-                  )}
                 </div>
               </div>
             </Card>
@@ -226,9 +197,9 @@ export function MyBooksGrid({ view, searchQuery, filter }: MyBooksGridProps) {
                 </div>
 
                 {/* Progress indicator */}
-                {book.progress > 0 && (
+                {(book.progress ?? 0) > 0 && (
                   <div className="absolute bottom-2 left-2 right-2">
-                    <Progress value={book.progress} className="h-1" />
+                    <Progress value={book.progress ?? 0} className="h-1" />
                   </div>
                 )}
 
@@ -263,11 +234,11 @@ export function MyBooksGrid({ view, searchQuery, filter }: MyBooksGridProps) {
                 <div className="flex items-center mt-1 text-xs text-muted-foreground">
                   <Headphones className="h-3 w-3 mr-1" />
                   <span>{book.duration}</span>
-                  {book.progress > 0 && (
+                  {(book.progress ?? 0) > 0 && (
                     <>
                       <span className="mx-2">•</span>
                       <Clock className="h-3 w-3 mr-1" />
-                      <span>{book.progress}% complete</span>
+                      <span>{book.progress ?? 0}% complete</span>
                     </>
                   )}
                 </div>

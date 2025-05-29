@@ -32,11 +32,13 @@ interface VoiceCustomization {
   emotionality: number // 0-100
 }
 
+// Global singleton for sample playback
+let globalSampleAudio: HTMLAudioElement | null = null;
+
 export function NarratorCustomizer({ bookId }: NarratorCustomizerProps) {
   const [voices, setVoices] = useState<Voice[]>(() => getAllVoices())
   const [selectedVoice, setSelectedVoice] = useState<string | null>(null)
   const [playingVoice, setPlayingVoice] = useState<string | null>(null)
-  const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null)
   const [isGenerating, setIsGenerating] = useState(false)
   const [activeTab, setActiveTab] = useState("voice")
   const { toast } = useToast()
@@ -74,7 +76,7 @@ export function NarratorCustomizer({ bookId }: NarratorCustomizerProps) {
   // Initialize audio element
   useEffect(() => {
     const audio = new Audio()
-    setAudioElement(audio)
+    globalSampleAudio = audio
 
     // Set initial voice
     if (voices.length > 0) {
@@ -90,32 +92,33 @@ export function NarratorCustomizer({ bookId }: NarratorCustomizerProps) {
 
   // Handle playing voice sample
   const handlePlaySample = (voiceId: string) => {
-    if (!audioElement) return
+    if (!globalSampleAudio) {
+      globalSampleAudio = new Audio();
+    }
 
     if (playingVoice === voiceId) {
       // Stop playing
-      audioElement.pause()
-      setPlayingVoice(null)
+      globalSampleAudio.pause();
+      globalSampleAudio.currentTime = 0;
+      setPlayingVoice(null);
     } else {
       // Stop any currently playing audio
-      if (playingVoice) {
-        audioElement.pause()
-      }
+      globalSampleAudio.pause();
+      globalSampleAudio.currentTime = 0;
 
       // Get voice sample URL
-      const voice = voices.find((v) => v.id === voiceId)
+      const voice = voices.find((v) => v.id === voiceId);
       if (voice?.sampleUrl) {
-        // Play new sample
-        audioElement.src = voice.sampleUrl
-        audioElement.onended = () => setPlayingVoice(null)
-        audioElement.play().catch((err) => {
-          console.error("Error playing audio:", err)
-          setPlayingVoice(null)
-        })
-        setPlayingVoice(voiceId)
+        globalSampleAudio.src = voice.sampleUrl;
+        globalSampleAudio.onended = () => setPlayingVoice(null);
+        globalSampleAudio.play().catch((err) => {
+          console.error("Error playing audio:", err);
+          setPlayingVoice(null);
+        });
+        setPlayingVoice(voiceId);
       }
     }
-  }
+  };
 
   // Generate a custom voice sample
   const handleGenerateCustomSample = () => {
@@ -129,12 +132,12 @@ export function NarratorCustomizer({ bookId }: NarratorCustomizerProps) {
 
       // Get base voice sample URL
       const voice = voices.find((v) => v.id === selectedVoice)
-      if (voice?.sampleUrl && audioElement) {
+      if (voice?.sampleUrl && globalSampleAudio) {
         // In a real implementation, we would call an API to generate a custom voice sample
         // For now, we'll just play the base voice sample
-        audioElement.src = voice.sampleUrl
-        audioElement.onended = () => setPlayingVoice(null)
-        audioElement.play().catch((err) => {
+        globalSampleAudio.src = voice.sampleUrl
+        globalSampleAudio.onended = () => setPlayingVoice(null)
+        globalSampleAudio.play().catch((err) => {
           console.error("Error playing audio:", err)
         })
         setPlayingVoice(selectedVoice)
@@ -225,11 +228,11 @@ export function NarratorCustomizer({ bookId }: NarratorCustomizerProps) {
     setIsGenerating(true)
     setTimeout(() => {
       setIsGenerating(false)
-      if (selectedVoice && audioElement) {
+      if (selectedVoice && globalSampleAudio) {
         const voice = voices.find((v) => v.id === selectedVoice)
         if (voice?.sampleUrl) {
-          audioElement.src = voice.sampleUrl
-          audioElement.play().catch(console.error)
+          globalSampleAudio.src = voice.sampleUrl
+          globalSampleAudio.play().catch(console.error)
           setPlayingVoice(selectedVoice)
         }
       }

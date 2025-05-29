@@ -54,7 +54,7 @@ export default function MyBooksPage() {
       </div>
 
       <Tabs defaultValue="all" className="space-y-4">
-        <TabsList>
+        <TabsList className="bg-muted/50 rounded-md p-1 mb-2">
           <TabsTrigger value="all">All Books</TabsTrigger>
           <TabsTrigger value="favorites">Favorites</TabsTrigger>
           <TabsTrigger value="recent">Recently Added</TabsTrigger>

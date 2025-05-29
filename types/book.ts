@@ -13,11 +13,15 @@ export interface Book {
   isFavorite?: boolean
   lastRead?: string | null
   addedAt?: string
+  gutenbergId?: number
+  source?: 'gutenberg' | 'archive'
+  lastUpdated?: string
 }
 
 export interface Chapter {
   id: string
   title: string
   duration: string
-  audioUrl: string
+  audioUrl?: string
+  content?: string
 }

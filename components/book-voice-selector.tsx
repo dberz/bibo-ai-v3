@@ -15,6 +15,9 @@ interface BookVoiceSelectorProps {
   bookId: string
 }
 
+// Global singleton for sample playback
+let globalSampleAudio: HTMLAudioElement | null = null;
+
 export function BookVoiceSelector({ bookId }: BookVoiceSelectorProps) {
   const [voices, setVoices] = useState<Voice[]>(() => getAllVoices())
   const [selectedVoice, setSelectedVoice] = useState<string | null>(null)
@@ -22,7 +25,6 @@ export function BookVoiceSelector({ bookId }: BookVoiceSelectorProps) {
   const [playingVoice, setPlayingVoice] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
-  const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null)
 
   const supabase = createClientComponentClient()
   const { toast } = useToast()
@@ -87,48 +89,37 @@ export function BookVoiceSelector({ bookId }: BookVoiceSelectorProps) {
     }
 
     fetchVoicePreferences()
-
-    // Initialize audio element
-    const audio = new Audio()
-    setAudioElement(audio)
-
-    return () => {
-      // Clean up audio element
-      if (audioElement) {
-        audioElement.pause()
-        audioElement.src = ""
-      }
-    }
   }, [supabase, bookId, voices])
 
   // Handle playing voice sample
   const handlePlaySample = (voiceId: string) => {
-    if (!audioElement) return
+    if (!globalSampleAudio) {
+      globalSampleAudio = new Audio();
+    }
 
     if (playingVoice === voiceId) {
       // Stop playing
-      audioElement.pause()
-      setPlayingVoice(null)
+      globalSampleAudio.pause();
+      globalSampleAudio.currentTime = 0;
+      setPlayingVoice(null);
     } else {
       // Stop any currently playing audio
-      if (playingVoice) {
-        audioElement.pause()
-      }
+      globalSampleAudio.pause();
+      globalSampleAudio.currentTime = 0;
 
       // Get voice sample URL
-      const voice = voices.find((v) => v.id === voiceId)
+      const voice = voices.find((v) => v.id === voiceId);
       if (voice?.sampleUrl) {
-        // Play new sample
-        audioElement.src = voice.sampleUrl
-        audioElement.onended = () => setPlayingVoice(null)
-        audioElement.play().catch((err) => {
-          console.error("Error playing audio:", err)
-          setPlayingVoice(null)
-        })
-        setPlayingVoice(voiceId)
+        globalSampleAudio.src = voice.sampleUrl;
+        globalSampleAudio.onended = () => setPlayingVoice(null);
+        globalSampleAudio.play().catch((err) => {
+          console.error("Error playing audio:", err);
+          setPlayingVoice(null);
+        });
+        setPlayingVoice(voiceId);
       }
     }
-  }
+  };
 
   // Save book-specific voice preference
   const handleSave = async () => {

@@ -11,12 +11,14 @@ import { Play, Pause, Check, Volume2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { getVoicePreferences, setDefaultVoice } from "@/lib/voice-storage"
 
+// Global singleton for sample playback
+let globalSampleAudio: HTMLAudioElement | null = null;
+
 export function VoicePreference() {
   const [voices, setVoices] = useState<Voice[]>(() => getAllVoices())
   const { currentVoiceId, setVoice } = usePlayer()
   const [selectedVoice, setSelectedVoice] = useState(currentVoiceId)
   const [playingVoice, setPlayingVoice] = useState<string | null>(null)
-  const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null)
   const { toast } = useToast()
 
   // Load saved preferences on mount
@@ -26,46 +28,35 @@ export function VoicePreference() {
     setVoice(preferences.defaultVoiceId)
   }, [setVoice])
 
-  // Initialize audio element
-  useEffect(() => {
-    const audio = new Audio()
-    setAudioElement(audio)
-
-    return () => {
-      // Clean up audio element
-      audio.pause()
-      audio.src = ""
-    }
-  }, [])
-
   // Handle playing voice sample
   const handlePlaySample = (voiceId: string) => {
-    if (!audioElement) return
+    if (!globalSampleAudio) {
+      globalSampleAudio = new Audio();
+    }
 
     if (playingVoice === voiceId) {
       // Stop playing
-      audioElement.pause()
-      setPlayingVoice(null)
+      globalSampleAudio.pause();
+      globalSampleAudio.currentTime = 0;
+      setPlayingVoice(null);
     } else {
       // Stop any currently playing audio
-      if (playingVoice) {
-        audioElement.pause()
-      }
+      globalSampleAudio.pause();
+      globalSampleAudio.currentTime = 0;
 
       // Get voice sample URL
-      const voice = voices.find((v) => v.id === voiceId)
+      const voice = voices.find((v) => v.id === voiceId);
       if (voice?.sampleUrl) {
-        // Play new sample
-        audioElement.src = voice.sampleUrl
-        audioElement.onended = () => setPlayingVoice(null)
-        audioElement.play().catch((err) => {
-          console.error("Error playing audio:", err)
-          setPlayingVoice(null)
-        })
-        setPlayingVoice(voiceId)
+        globalSampleAudio.src = voice.sampleUrl;
+        globalSampleAudio.onended = () => setPlayingVoice(null);
+        globalSampleAudio.play().catch((err) => {
+          console.error("Error playing audio:", err);
+          setPlayingVoice(null);
+        });
+        setPlayingVoice(voiceId);
       }
     }
-  }
+  };
 
   const handleSave = () => {
     // Save to local storage

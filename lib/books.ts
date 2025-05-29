@@ -1,7 +1,7 @@
 import type { Book } from "@/types/book"
 
 // Mock data for books
-const books: Book[] = [
+export const books: Book[] = [
   // Existing books
   {
     id: "pride-and-prejudice",
@@ -9,7 +9,7 @@ const books: Book[] = [
     author: "Jane Austen",
     description:
       "Pride and Prejudice follows the turbulent relationship between Elizabeth Bennet, the daughter of a country gentleman, and Fitzwilliam Darcy, a rich aristocratic landowner. They must overcome the titular sins of pride and prejudice in order to fall in love and marry.",
-    coverUrl: "/pride-and-prejudice-cover.png",
+    coverUrl: "/book-covers/pride-and-prejudice.png",
     genres: ["Classics", "Romance", "Fiction"],
     duration: "11h",
     pages: 432,
@@ -28,7 +28,7 @@ const books: Book[] = [
     author: "F. Scott Fitzgerald",
     description:
       "Set in the Jazz Age on Long Island, the novel depicts narrator Nick Carraway's interactions with mysterious millionaire Jay Gatsby and Gatsby's obsession to reunite with his former lover, Daisy Buchanan. A tale of wealth, love, and the American Dream.",
-    coverUrl: "/great-gatsby-cover.png",
+    coverUrl: "/book-covers/the-great-gatsby.png",
     genres: ["Classics", "Fiction", "Literary"],
     duration: "5h",
     pages: 180,
@@ -47,7 +47,7 @@ const books: Book[] = [
     author: "Virginia Woolf",
     description:
       "The novel details a day in the life of Clarissa Dalloway, a fictional high-society woman in post-First World War England. It addresses the nature of time in personal experience through multiple interwoven stories, particularly that of Clarissa and Septimus Warren Smith.",
-    coverUrl: "/mrs-dalloway-cover.png",
+    coverUrl: "/book-covers/mrs-dalloway.png",
     genres: ["Classics", "Literary", "Modernist"],
     duration: "6h",
     pages: 216,
@@ -65,7 +65,7 @@ const books: Book[] = [
     author: "Ernest Hemingway",
     description:
       "The novel follows a group of American and British expatriates who travel from Paris to the Festival of San Fermín in Pamplona to watch the running of the bulls and the bullfights. An early modernist novel, it received mixed reviews upon publication but is now recognized as Hemingway's greatest work.",
-    coverUrl: "/sun-also-rises-cover.png",
+    coverUrl: "/book-covers/the-sun-also-rises.png",
     genres: ["Classics", "Fiction", "Modernist"],
     duration: "7h",
     pages: 256,
@@ -79,31 +79,12 @@ const books: Book[] = [
     ],
   },
   {
-    id: "winnie-the-pooh",
-    title: "Winnie-the-Pooh",
-    author: "A. A. Milne",
-    description:
-      "The adventures of Christopher Robin and his friends, in which Pooh Bear uses a balloon to get honey, Piglet meets a Heffalump, Eeyore loses a tail, and more. These tales of adventure in the Hundred Acre Wood have delighted generations of children.",
-    coverUrl: "/winnie-the-pooh-cover.png",
-    genres: ["Children", "Classics", "Fantasy"],
-    duration: "2h 30m",
-    pages: 176,
-    chapters: [
-      { id: "ch-1", title: "In Which We Are Introduced", duration: "15m", audioUrl: "/audio/winnie-the-pooh/ch-1.mp3" },
-      { id: "ch-2", title: "In Which Pooh Goes Visiting", duration: "18m", audioUrl: "/audio/winnie-the-pooh/ch-2.mp3" },
-      { id: "ch-3", title: "In Which Pooh and Piglet Go Hunting", duration: "17m", audioUrl: "/audio/winnie-the-pooh/ch-3.mp3" },
-      { id: "ch-4", title: "In Which Eeyore Loses a Tail", duration: "16m", audioUrl: "/audio/winnie-the-pooh/ch-4.mp3" },
-      { id: "ch-5", title: "In Which Piglet Meets a Heffalump", duration: "19m", audioUrl: "/audio/winnie-the-pooh/ch-5.mp3" },
-      // More chapters would be added here
-    ],
-  },
-  {
     id: "sherlock-holmes",
     title: "Sherlock Holmes Short Stories",
     author: "Arthur Conan Doyle",
     description:
       "A collection of twelve short stories featuring the famous detective Sherlock Holmes and his friend Dr. Watson. These stories showcase Holmes's brilliant deductive reasoning as he solves seemingly impossible mysteries.",
-    coverUrl: "/sherlock-holmes-cover.png",
+    coverUrl: "/book-covers/sherlock-holmes-short-stories.png",
     genres: ["Classics", "Mystery", "Detective"],
     duration: "10h",
     pages: 320,
@@ -122,7 +103,7 @@ const books: Book[] = [
     author: "Mary Shelley",
     description:
       "The story of Victor Frankenstein, a young scientist who creates a sapient creature in an unorthodox scientific experiment. Shelley's novel raises profound questions about the nature of humanity and the responsibilities of creators toward their creations.",
-    coverUrl: "/frankenstein-cover.png",
+    coverUrl: "/book-covers/frankenstein.png",
     genres: ["Classics", "Horror", "Gothic", "Science Fiction"],
     duration: "8h",
     pages: 280,
@@ -141,7 +122,7 @@ const books: Book[] = [
     author: "Bram Stoker",
     description:
       "The novel tells the story of Dracula's attempt to move from Transylvania to England so that he may find new blood and spread the undead curse, and of the battle between Dracula and a small group of people led by Professor Abraham Van Helsing.",
-    coverUrl: "/dracula-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Classics", "Horror", "Gothic"],
     duration: "15h",
     pages: 418,
@@ -160,7 +141,7 @@ const books: Book[] = [
     author: "Frederick Douglass",
     description:
       "Narrative of the Life of Frederick Douglass is an 1845 memoir and treatise on abolition written by famous orator and former slave Frederick Douglass during his time in Lynn, Massachusetts.",
-    coverUrl: "/frederick-douglass-memoir-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Classics", "Biography", "History"],
     duration: "4h",
     pages: 158,
@@ -179,7 +160,7 @@ const books: Book[] = [
     author: "Frances Hodgson Burnett",
     description:
       "The story of Mary Lennox, a sickly and unloved 10-year-old girl who is born in India to wealthy British parents. She is sent to England to live with her uncle after her parents die from cholera. There, she discovers a walled garden which has been kept secret for years.",
-    coverUrl: "/secret-garden-cover.png",
+    coverUrl: "/book-covers/the-secret-garden.png",
     genres: ["Classics", "Children", "Fiction"],
     duration: "8h",
     pages: 288,
@@ -198,7 +179,7 @@ const books: Book[] = [
     author: "H. P. Lovecraft",
     description:
       "The story is presented as a manuscript found among the papers of the late Francis Wayland Thurston, recounting his discovery of notes left by his grand-uncle, a professor at Brown University. The notes reveal the existence of a cult dedicated to the worship of the ancient, cosmic entity Cthulhu.",
-    coverUrl: "/call-of-cthulhu-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Horror", "Cosmic Horror", "Short Story"],
     duration: "2h",
     pages: 64,
@@ -214,7 +195,7 @@ const books: Book[] = [
     author: "Kahlil Gibran",
     description:
       "The book is a collection of 26 poetic essays covering all aspects of human life, including love, marriage, children, giving, eating and drinking, work, joy and sorrow, housing, clothes, buying and selling, crime and punishment, laws, freedom, reason and passion, pain, self-knowledge, teaching, friendship, talking, time, good and evil, prayer, pleasure, beauty, religion, and death.",
-    coverUrl: "/the-prophet-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Poetry", "Philosophy", "Spirituality"],
     duration: "2h",
     pages: 96,
@@ -233,7 +214,7 @@ const books: Book[] = [
     author: "J. M. Barrie",
     description:
       "The magical story of Peter Pan, the boy who never grew up. Peter teaches Wendy, John, and Michael Darling to fly and takes them to the island of Neverland, where they have adventures with mermaids, Indians, and pirates, especially the villainous Captain Hook.",
-    coverUrl: "/peter-pan-cover.png",
+    coverUrl: "/book-covers/peter-pan.png",
     genres: ["Children", "Fantasy", "Adventure"],
     duration: "5h",
     pages: 208,
@@ -252,7 +233,7 @@ const books: Book[] = [
     author: "E. M. Forster",
     description:
       "The story of a young English woman, Lucy Honeychurch, whose trip to Italy with her cousin Charlotte Bartlett leads to an internal struggle between the demands of social convention and the stirrings of her passionate, independent nature, especially after meeting the unconventional George Emerson.",
-    coverUrl: "/room-with-a-view-cover.png",
+    coverUrl: "/book-covers/a-room-with-a-view.png",
     genres: ["Classics", "Romance", "Fiction"],
     duration: "6h",
     pages: 240,
@@ -271,7 +252,7 @@ const books: Book[] = [
     author: "Sun Tzu",
     description:
       "An ancient Chinese military treatise dating from the Late Spring and Autumn Period. The work, which is attributed to the ancient Chinese military strategist Sun Tzu, is composed of 13 chapters. Each one is devoted to an aspect of warfare and how it applies to military strategy and tactics.",
-    coverUrl: "/art-of-war-cover.png",
+    coverUrl: "/book-covers/the-art-or-war.png",
     genres: ["Classics", "Philosophy", "Military"],
     duration: "1h 30m",
     pages: 112,
@@ -288,13 +269,46 @@ const books: Book[] = [
     id: "moby-dick",
     title: "Moby Dick",
     author: "Herman Melville",
-    description: "The story of Captain Ahab's obsessive quest to hunt down the white whale that took his leg. A masterpiece of American literature that explores themes of revenge, obsession, and man's relationship with nature.",
-    coverUrl: "/generated-covers/moby-dick.png",
-    genres: ["Classics", "Adventure", "Literary"],
+    description: "The epic tale of Captain Ahab's obsessive quest to kill the white whale, Moby Dick.",
+    coverUrl: "/book-covers/moby-dick.png",
+    genres: ["Classics", "Adventure", "Sea Story"],
     duration: "24h",
     pages: 635,
     chapters: [
-      { id: "ch-1", title: "Loomings", duration: "45m", audioUrl: "/audio/moby-dick/ch-1.mp3" },
+      {
+        id: "ch-1",
+        title: "Loomings",
+        duration: "--",
+        content: `Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world. It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul; whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet; and especially whenever my hypos get such an upper hand of me, that it requires a strong moral principle to prevent me from deliberately stepping into the street, and methodically knocking people's hats off—then, I account it high time to get to sea as soon as I can. This is my substitute for pistol and ball. With a philosophical flourish Cato throws himself upon his sword; I quietly take to the ship. There is nothing surprising in this. If they but knew it, almost all men in their degree, some time or other, cherish very nearly the same feelings towards the ocean with me.
+
+There now is your insular city of the Manhattoes, belted round by wharves as Indian isles by coral reefs—commerce surrounds it with her surf. Right and left, the streets take you waterward. Its extreme downtown is the battery, where that noble mole is washed by waves, and cooled by breezes, which a few hours previous were out of sight of land. Look at the crowds of water-gazers there.
+
+Circumambulate the city of a dreamy Sabbath afternoon. Go from Corlears Hook to Coenties Slip, and from thence, by Whitehall, northward. What do you see?—Posted like silent sentinels all around the town, stand thousands upon thousands of mortal men fixed in ocean reveries. Some leaning against the spiles; some seated upon the pier-heads; some looking over the bulwarks of ships from China; some high aloft in the rigging, as if striving to get a still better seaward peep. But these are all landsmen; of week days pent up in lath and plaster—tied to counters, nailed to benches, clinched to desks. How then is this? Are the green fields gone? What do they here?
+
+But look! here come more crowds, pacing straight for the water, and seemingly bound for a dive. Strange! Nothing will content them but the extremest limit of the land; loitering under the shady lee of yonder warehouses will not suffice. No. They must get just as nigh the water as they possibly can without falling in. And there they stand—miles of them—leagues. Inlanders all, they come from lanes and alleys, streets and avenues—north, east, south, and west. Yet here they all unite. Tell me, does the magnetic virtue of the needles of the compasses of all those ships attract them thither?
+
+Once more. Say you are in the country; in some high land of lakes. Take almost any path you please, and ten to one it carries you down in a dale, and leaves you there by a pool in the stream. There is magic in it. Let the most absent-minded of men be plunged in his deepest reveries—stand that man on his legs, set his feet a-going, and he will infallibly lead you to water, if water there be in all that region. Should you ever be athirst in the great American desert, try this experiment, if your caravan happen to be supplied with a metaphysical professor. Yes, as every one knows, meditation and water are wedded for ever.
+
+But here is an artist. He desires to paint you the dreamiest, shadiest, quietest, most enchanting bit of romantic landscape in all the valley of the Saco. What is the chief element he employs? There stand his trees, each with a hollow trunk, as if a hermit and a crucifix were within; and here sleeps his meadow, and there sleep his cattle; and up from yonder cottage goes a sleepy smoke. Deep into distant woodlands winds a mazy way, reaching to overlapping spurs of mountains bathed in their hill-side blue. But though the picture lies thus tranced, and though this pine-tree shakes down its sighs like leaves upon this shepherd's head, yet all were vain, unless the shepherd's eye were fixed upon the magic stream before him. Go visit the Prairies in June, when for scores on scores of miles you wade knee-deep among Tiger-lilies—what is the one charm wanting?—Water—there is not a drop of water there! Were Niagara but a cataract of sand, would you travel your thousand miles to see it? Why did the poor poet of Tennessee, upon suddenly receiving two handfuls of silver, deliberate whether to buy him a coat, which he sadly needed, or invest his money in a pedestrian trip to Rockaway Beach? Why is almost every robust healthy boy with a robust healthy soul in him, at some time or other crazy to go to sea? Why upon your first voyage as a passenger, did you yourself feel such a mystical vibration, when first told that you and your ship were now out of sight of land? Why did the old Persians hold the sea holy? Why did the Greeks give it a separate deity, and own brother of Jove? Surely all this is not without meaning. And still deeper the meaning of that story of Narcissus, who because he could not grasp the tormenting, mild image he saw in the fountain, plunged into it and was drowned. But that same image, we ourselves see in all rivers and oceans. It is the image of the ungraspable phantom of life; and this is the key to it all.
+
+Now, when I say that I am in the habit of going to sea whenever I begin to grow hazy about the eyes, and begin to be over conscious of my lungs, I do not mean to have it inferred that I ever go to sea as a passenger. For to go as a passenger you must needs have a purse, and a purse is but a rag unless you have something in it. Besides, passengers get sea-sick—grow quarrelsome—don't sleep of nights—do not enjoy themselves much, as a general thing;—no, I never go as a passenger; nor, though I am something of a salt, do I ever go to sea as a Commodore, or a Captain, or a Cook. I abandon the glory and distinction of such offices to those who like them. For my part, I abominate all honorable respectable toils, trials, and tribulations of every kind whatsoever. It is quite as much as I can do to take care of myself, without taking care of ships, barques, brigs, schooners, and what not. And as for going as cook,—though I confess there is considerable glory in that, a cook being a sort of officer on ship-board—yet, somehow, I never fancied broiling fowls;—though once broiled, judiciously buttered, and judgmatically salted and peppered, there is no one who will speak more respectfully, not to say reverentially, of a broiled fowl than I will. It is out of the idolatrous dotings of the old Egyptians upon broiled ibis and roasted river horse, that you see the mummies of those creatures in their huge bake-houses the pyramids.
+
+No, when I go to sea, I go as a simple sailor, right before the mast, plumb down into the forecastle, aloft there to the royal mast-head. True, they rather order me about some, and make me jump from spar to spar, like a grasshopper in a May meadow. And at first, this sort of thing is unpleasant enough. It touches one's sense of honor, particularly if you come of an old established family in the land, the Van Rensselaers, or Randolphs, or Hardicanutes. And more than all, if just previous to putting your hand into the tar-pot, you have been lording it as a country schoolmaster, making the tallest boys stand in awe of you. The transition is a keen one, I assure you, from a schoolmaster to a sailor, and requires a strong decoction of Seneca and the Stoics to enable you to grin and bear it. But even this wears off in time.
+
+What of it, if some old hunks of a sea-captain orders me to get a broom and sweep down the decks? What does that indignity amount to, weighed, I mean, in the scales of the New Testament? Do you think the archangel Gabriel thinks anything the less of me, because I promptly and respectfully obey that old hunks in that particular instance? Who ain't a slave? Tell me that. Well, then, however the old sea-captains may order me about—however they may thump and punch me about, I have the satisfaction of knowing that it is all right; that everybody else is one way or other served in much the same way—either in a physical or metaphysical point of view, that is; and so the universal thump is passed round, and all hands should rub each other's shoulder-blades, and be content.
+
+Again, I always go to sea as a sailor, because they make a point of paying me for my trouble, whereas they never pay passengers a single penny that I ever heard of. On the contrary, passengers themselves must pay. And there is all the difference in the world between paying and being paid. The act of paying is perhaps the most uncomfortable infliction that the two orchard thieves entailed upon us. But _being paid_,—what will compare with it? The urbane activity with which a man receives money is really marvellous, considering that we so earnestly believe money to be the root of all earthly ills, and that on no account can a monied man enter heaven. Ah! how cheerfully we consign ourselves to perdition!
+
+Finally, I always go to sea as a sailor, because of the wholesome exercise and pure air of the fore-castle deck. For as in this world, head winds are far more prevalent than winds from astern (that is, if you never violate the Pythagorean maxim), so for the most part the Commodore on the quarter-deck gets his atmosphere at second hand from the sailors on the forecastle. He thinks he breathes it first; but not so. In much the same way do the commonalty lead their leaders in many other things, at the same time that the leaders little suspect it. But wherefore it was that after having repeatedly smelt the sea as a merchant sailor, I should now take it into my head to go on a whaling voyage; this the invisible police officer of the Fates, who has the constant surveillance of me, and secretly dogs me, and influences me in some unaccountable way—he can better answer than any one else. And, doubtless, my going on this whaling voyage, formed part of the grand programme of Providence that was drawn up a long time ago. It came in as a sort of brief interlude and solo between more extensive performances. I take it that this part of the bill must have run something like this:
+
+"Grand Contested Election for the Presidency of the United States." "WHALING VOYAGE BY ONE ISHMAEL." "BLOODY BATTLE IN AFFGHANISTAN."
+
+Though I cannot tell why it was exactly that those stage managers, the Fates, put me down for this shabby part of a whaling voyage, when others were set down for magnificent parts in high tragedies, and short and easy parts in genteel comedies, and jolly parts in farces—though I cannot tell why this was exactly; yet, now that I recall all the circumstances, I think I can see a little into the springs and motives which being cunningly presented to me under various disguises, induced me to set about performing the part I did, besides cajoling me into the delusion that it was a choice resulting from my own unbiased freewill and discriminating judgment.
+
+Chief among these motives was the overwhelming idea of the great whale himself. Such a portentous and mysterious monster roused all my curiosity. Then the wild and distant seas where he rolled his island bulk; the undeliverable, nameless perils of the whale; these, with all the attending marvels of a thousand Patagonian sights and sounds, helped to sway me to my wish. With other men, perhaps, such things would not have been inducements; but as for me, I am tormented with an everlasting itch for things remote. I love to sail forbidden seas, and land on barbarous coasts. Not ignoring what is good, I am quick to perceive a horror, and could still be social with it—would they let me—since it is but well to be on friendly terms with all the inmates of the place one lodges in.
+
+By reason of these things, then, the whaling voyage was welcome; the great flood-gates of the wonder-world swung open, and in the wild conceits that swayed me to my purpose, two and two there floated into my inmost soul, endless processions of the whale, and, mid most of them all, one grand hooded phantom, like a snow hill in the air.`
+      },
       { id: "ch-2", title: "The Carpet-Bag", duration: "40m", audioUrl: "/audio/moby-dick/ch-2.mp3" },
       { id: "ch-3", title: "The Spouter-Inn", duration: "42m", audioUrl: "/audio/moby-dick/ch-3.mp3" },
       { id: "ch-4", title: "The Counterpane", duration: "38m", audioUrl: "/audio/moby-dick/ch-4.mp3" },
@@ -307,7 +321,7 @@ const books: Book[] = [
     author: "Mark Twain",
     description:
       "Commonly named among the Great American Novels, the work is among the first in major American literature to be written throughout in vernacular English, characterized by local color regionalism. It is told in the first person by Huckleberry 'Huck' Finn, the narrator of two other Twain novels and a friend of Tom Sawyer.",
-    coverUrl: "/huckleberry-finn-cover.png",
+    coverUrl: "/book-covers/the-adventures-of-huckleberry-finn.png",
     genres: ["Classics", "Adventure", "Satire"],
     duration: "11h 15m",
     pages: 366,
@@ -326,7 +340,7 @@ const books: Book[] = [
     author: "Oscar Wilde",
     description:
       "The novel tells of a young man named Dorian Gray, the subject of a painting by artist Basil Hallward. Basil is impressed by Dorian's beauty and becomes infatuated with him, believing his beauty is responsible for a new mode in his art. Dorian meets Lord Henry Wotton, a friend of Basil's, and becomes enthralled by Lord Henry's world view.",
-    coverUrl: "/dorian-gray-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Classics", "Gothic", "Horror", "Philosophical"],
     duration: "8h 45m",
     pages: 254,
@@ -345,7 +359,7 @@ const books: Book[] = [
     author: "Louisa May Alcott",
     description:
       "The novel follows the lives of the four March sisters—Meg, Jo, Beth, and Amy—and details their passage from childhood to womanhood. It is loosely based on the lives of the author and her three sisters. Scholars classify it as an autobiographical or semi-autobiographical novel.",
-    coverUrl: "/little-women-cover.png",
+    coverUrl: "/book-covers/little-women.png",
     genres: ["Classics", "Fiction", "Coming of Age"],
     duration: "17h 30m",
     pages: 449,
@@ -364,7 +378,7 @@ const books: Book[] = [
     author: "Nathaniel Hawthorne",
     description:
       "Set in Puritan Massachusetts Bay Colony during the years 1642 to 1649, the novel tells the story of Hester Prynne, who conceives a daughter through an affair and then struggles to create a new life of repentance and dignity. Throughout the book, Hawthorne explores themes of legalism, sin, and guilt.",
-    coverUrl: "/scarlet-letter-cover.png",
+    coverUrl: "/book-covers/the-scarlet-letter.png",
     genres: ["Classics", "Historical Fiction", "Romance"],
     duration: "7h 45m",
     pages: 238,
@@ -382,7 +396,7 @@ const books: Book[] = [
     title: "The Odyssey",
     author: "Homer",
     description: "The epic tale of Odysseus's ten-year journey home after the Trojan War. Facing mythical creatures, vengeful gods, and treacherous seas, Odysseus must use his wit and courage to return to his kingdom of Ithaca.",
-    coverUrl: "/odyssey-cover.png",
+    coverUrl: "/book-covers/the-odyssey.png",
     genres: ["Classics", "Epic Poetry", "Greek Literature", "Adventure"],
     duration: "14h 30m",
     pages: 541,
@@ -400,7 +414,7 @@ const books: Book[] = [
     author: "Alexandre Dumas",
     description:
       "The story takes place in France, Italy, and islands in the Mediterranean during the historical events of 1815–1839: the era of the Bourbon Restoration through the reign of Louis-Philippe of France. It begins on the day that Napoleon left his first island of exile, Elba, beginning the Hundred Days period when Napoleon returned to power.",
-    coverUrl: "/monte-cristo-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Classics", "Adventure", "Historical Fiction"],
     duration: "52h 30m",
     pages: 1276,
@@ -419,7 +433,7 @@ const books: Book[] = [
     author: "Leo Tolstoy",
     description:
       "Epic in scale, War and Peace delineates in graphic detail events leading up to Napoleon's invasion of Russia, and the impact of the Napoleonic era on Tsarist society, as seen through the eyes of five Russian aristocratic families.",
-    coverUrl: "/war-and-peace-cover.png",
+    coverUrl: "/book-covers/war-and-peace.png",
     genres: ["Classics", "Historical Fiction", "Literary"],
     duration: "60h 45m",
     pages: 1225,
@@ -438,7 +452,7 @@ const books: Book[] = [
     author: "Rudyard Kipling",
     description:
       "The Jungle Book is a collection of stories by the English author Rudyard Kipling. Most of the characters are animals such as Shere Khan the tiger and Baloo the bear, though a principal character is the boy or 'man-cub' Mowgli, who is raised in the jungle by wolves.",
-    coverUrl: "/jungle-book-cover.png",
+    coverUrl: "/book-covers/the-jungle-book.png",
     genres: ["Classics", "Children", "Adventure"],
     duration: "5h 15m",
     pages: 277,
@@ -456,7 +470,7 @@ const books: Book[] = [
     title: "The Time Machine",
     author: "H.G. Wells",
     description: "A Victorian scientist travels far into the future and encounters strange civilizations.",
-    coverUrl: "/time-machine-cover.png",
+    coverUrl: "/book-covers/the-time-machine.png",
     genres: ["Classics", "Science Fiction", "Adventure"],
     duration: "5h",
     pages: 232,
@@ -475,7 +489,7 @@ const books: Book[] = [
     author: "Oscar Wilde",
     description:
       "The Importance of Being Earnest, A Trivial Comedy for Serious People is a play by Oscar Wilde. First performed on 14 February 1895 at the St James's Theatre in London, it is a farcical comedy in which the protagonists maintain fictitious personae to escape burdensome social obligations.",
-    coverUrl: "/earnest-cover.png",
+    coverUrl: "/book-covers/the-importance-of-being-earnest.png",
     genres: ["Classics", "Comedy", "Play"],
     duration: "2h 15m",
     pages: 76,
@@ -491,7 +505,7 @@ const books: Book[] = [
     author: "Emily Brontë",
     description:
       "Wuthering Heights is Emily Brontë's only novel. It was first published in 1847 under the pseudonym Ellis Bell, and a posthumous second edition was edited by her sister Charlotte. The name of the novel comes from the Yorkshire manor on the moors on which the story centers.",
-    coverUrl: "/wuthering-heights-cover.png",
+    coverUrl: "/book-covers/wuthering-heights.png",
     genres: ["Classics", "Gothic", "Romance"],
     duration: "13h 45m",
     pages: 532,
@@ -510,7 +524,7 @@ const books: Book[] = [
     author: "Charlotte Brontë",
     description:
       "Jane Eyre follows the experiences of its eponymous heroine, including her growth to adulthood and her love for Mr. Rochester, the brooding master of Thornfield Hall. The novel revolutionized prose fiction by being the first to focus on its protagonist's moral and spiritual development through an intimate first-person narrative.",
-    coverUrl: "/jane-eyre-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Classics", "Gothic", "Romance"],
     duration: "18h 30m",
     pages: 532,
@@ -529,7 +543,7 @@ const books: Book[] = [
     author: "Plato",
     description:
       "The Republic is a Socratic dialogue, authored by Plato around 375 BCE, concerning justice, the order and character of the just city-state, and the just man. It is Plato's best-known work, and has proven to be one of the world's most influential works of philosophy and political theory.",
-    coverUrl: "/republic-cover.png",
+    coverUrl: "/book-covers/the-republic.png",
     genres: ["Classics", "Philosophy", "Political"],
     duration: "12h 15m",
     pages: 416,
@@ -547,7 +561,7 @@ const books: Book[] = [
     title: "The Iliad",
     author: "Homer",
     description: "An epic poem set during the Trojan War, focusing on the quarrel between King Agamemnon and the warrior Achilles. The poem explores themes of glory, honor, and the human cost of war.",
-    coverUrl: "/iliad-cover.png",
+    coverUrl: "/book-covers/the-iliad.png",
     genres: ["Classics", "Epic Poetry", "Greek Literature"],
     duration: "16h 45m",
     pages: 683,
@@ -565,7 +579,7 @@ const books: Book[] = [
     author: "Miguel de Cervantes",
     description:
       "The plot revolves around the adventures of a noble from La Mancha named Alonso Quixano, who reads so many chivalric romances that he loses his mind and decides to become a knight-errant to revive chivalry and serve his nation, under the name Don Quixote de la Mancha.",
-    coverUrl: "/don-quixote-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Classics", "Satire", "Adventure"],
     duration: "36h 45m",
     pages: 863,
@@ -584,7 +598,7 @@ const books: Book[] = [
     author: "Dante Alighieri",
     description:
       "The Divine Comedy is an Italian narrative poem by Dante Alighieri, which is widely considered the pre-eminent work in Italian literature and one of the greatest works of world literature. The poem's imaginative vision of the afterlife is representative of the medieval world-view as it had developed in the Western Church.",
-    coverUrl: "/divine-comedy-cover.png",
+    coverUrl: "/book-covers/the-divine-comedy.png",
     genres: ["Classics", "Epic Poetry", "Religious"],
     duration: "12h 30m",
     pages: 432,
@@ -603,7 +617,7 @@ const books: Book[] = [
     author: "Fyodor Dostoevsky",
     description:
       "Crime and Punishment focuses on the mental anguish and moral dilemmas of Rodion Raskolnikov, an impoverished ex-student in Saint Petersburg who formulates a plan to kill an unscrupulous pawnbroker for her money. Before the killing, Raskolnikov believes that with the money he could liberate himself from poverty and go on to perform great deeds.",
-    coverUrl: "/crime-and-punishment-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Classics", "Psychological", "Literary"],
     duration: "20h 15m",
     pages: 671,
@@ -622,7 +636,7 @@ const books: Book[] = [
     author: "Fyodor Dostoevsky",
     description:
       "The Brothers Karamazov is the final novel by the Russian author Fyodor Dostoevsky. Dostoevsky spent nearly two years writing The Brothers Karamazov, which was published as a serial in The Russian Messenger from January 1879 to November 1880.",
-    coverUrl: "/brothers-karamazov-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Classics", "Philosophical", "Literary"],
     duration: "34h 45m",
     pages: 796,
@@ -641,7 +655,7 @@ const books: Book[] = [
     author: "Leo Tolstoy",
     description:
       "Anna Karenina is a novel by the Russian author Leo Tolstoy, first published in book form in 1878. Widely considered to be one of the greatest works of literature ever written, Tolstoy himself called it his first true novel.",
-    coverUrl: "/anna-karenina-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Classics", "Romance", "Literary"],
     duration: "35h 30m",
     pages: 964,
@@ -659,7 +673,7 @@ const books: Book[] = [
     title: "The Call of the Wild",
     author: "Jack London",
     description: "A classic adventure novel about a dog named Buck who is stolen from his home and sold into service as a sled dog in Alaska.",
-    coverUrl: "/call-of-the-wild-cover.png",
+    coverUrl: "/book-covers/the-call-of-the-wild.png",
     genres: ["Adventure", "Classic", "Fiction"],
     duration: "3h 45m",
     pages: 232,
@@ -677,7 +691,7 @@ const books: Book[] = [
     author: "Ernest Hemingway",
     description:
       "The Old Man and the Sea is a novella by the American author Ernest Hemingway. It was first published in 1952 in Esquire magazine and then in book form the same year by Charles Scribner's Sons. It tells the story of an aging Cuban fisherman, Santiago, and his struggle to catch a giant marlin.",
-    coverUrl: "/old-man-and-the-sea-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Classics", "Adventure", "Literary"],
     duration: "3h 45m",
     pages: 128,
@@ -696,7 +710,7 @@ const books: Book[] = [
     author: "Harper Lee",
     description:
       "To Kill a Mockingbird is a novel by the American author Harper Lee. It was published in 1960 and was the author's only published novel until 2015, when Go Set a Watchman was published. The novel is both a young girls' coming-of-age story and a darker drama about the roots and consequences of racism in the Deep South of the United States.",
-    coverUrl: "/to-kill-a-mockingbird-cover.png",
+    coverUrl: "/book-covers/to-kill-a-mockingbird.png",
     genres: ["Classics", "Historical Fiction", "Coming of Age"],
     duration: "10h 30m",
     pages: 366,
@@ -715,7 +729,7 @@ const books: Book[] = [
     author: "Victor Hugo",
     description:
       "Les Misérables is a novel by the French author Victor Hugo, first published in 1862. It is considered one of the greatest novels of the 19th century, and is widely regarded as one of the greatest novels of all time. The novel is set in France in the early 19th century and follows the lives of several characters in the years leading up to the June Rebellion of 1832.",
-    coverUrl: "/les-miserables-cover.png",
+    coverUrl: "/book-covers/les-miserables.png",
     genres: ["Classics", "Historical Fiction", "Social Commentary"],
     duration: "56h 15m",
     pages: 1462,
@@ -733,7 +747,7 @@ const books: Book[] = [
     title: "Meditations",
     author: "Marcus Aurelius",
     description: "A series of personal writings by Marcus Aurelius, Roman Emperor from 161 to 180 AD, recording his private notes to himself and ideas on Stoic philosophy. The work is considered one of the greatest works of philosophy.",
-    coverUrl: "/meditations-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Philosophy", "Classics", "Self-Help", "Stoicism"],
     duration: "6h 15m",
     pages: 256,
@@ -750,7 +764,7 @@ const books: Book[] = [
     title: "The Symposium",
     author: "Plato",
     description: "A philosophical text by Plato, dated c. 385–370 BC. It depicts a friendly contest of extemporaneous speeches given by a group of notable men attending a banquet. The men include the philosopher Socrates, the general and political figure Alcibiades, and the comic playwright Aristophanes.",
-    coverUrl: "/symposium-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Philosophy", "Classics", "Greek Literature", "Dialogue"],
     duration: "4h 45m",
     pages: 131,
@@ -767,7 +781,7 @@ const books: Book[] = [
     title: "Metamorphoses",
     author: "Ovid",
     description: "A narrative poem in fifteen books that describes the creation and history of the world through mythological tales, mostly in the form of stories of transformation. The poem chronicles more than 250 myths from the Greek and Roman traditions.",
-    coverUrl: "/metamorphoses-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Classics", "Poetry", "Mythology", "Roman Literature"],
     duration: "12h 30m",
     pages: 723,
@@ -784,7 +798,7 @@ const books: Book[] = [
     title: "The Aeneid",
     author: "Virgil",
     description: "A Latin epic poem written by Virgil between 29 and 19 BC, that tells the legendary story of Aeneas, a Trojan who fled the fall of Troy and traveled to Italy, where he became the ancestor of the Romans.",
-    coverUrl: "/aeneid-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Classics", "Epic Poetry", "Roman Literature", "Mythology"],
     duration: "11h 45m",
     pages: 442,
@@ -801,7 +815,7 @@ const books: Book[] = [
     title: "The Histories",
     author: "Herodotus",
     description: "Often called 'The Father of History', Herodotus's work is the first major surviving prose work in Western literature. It covers the origins of the Greco-Persian Wars, including the rise of the Persian Empire and the early history of the Greek city-states.",
-    coverUrl: "/histories-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["History", "Classics", "Greek Literature", "Non-Fiction"],
     duration: "24h 15m",
     pages: 716,
@@ -818,7 +832,7 @@ const books: Book[] = [
     title: "History of the Peloponnesian War",
     author: "Thucydides",
     description: "A detailed contemporary account of the Peloponnesian War between Athens and Sparta, written by Thucydides, an Athenian general who served in the war. The work is considered a masterpiece of historical writing.",
-    coverUrl: "/peloponnesian-war-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["History", "Classics", "Greek Literature", "Military History"],
     duration: "28h 30m",
     pages: 648,
@@ -835,7 +849,7 @@ const books: Book[] = [
     title: "Confessions",
     author: "Saint Augustine",
     description: "An autobiographical work by Saint Augustine of Hippo, consisting of 13 books written in Latin between AD 397 and 400. The work outlines Augustine's sinful youth and his conversion to Christianity.",
-    coverUrl: "/confessions-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Religion", "Philosophy", "Autobiography", "Classics"],
     duration: "14h 45m",
     pages: 311,
@@ -852,7 +866,7 @@ const books: Book[] = [
     title: "The City of God",
     author: "Saint Augustine",
     description: "A book of Christian philosophy written in Latin by Augustine of Hippo in the early 5th century AD. The book was written in response to allegations that Christianity brought about the decline of Rome.",
-    coverUrl: "/city-of-god-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Religion", "Philosophy", "Theology", "Classics"],
     duration: "32h 15m",
     pages: 1097,
@@ -869,7 +883,7 @@ const books: Book[] = [
     title: "Alice's Adventures in Wonderland",
     author: "Lewis Carroll",
     description: "A young girl named Alice falls through a rabbit hole into a fantasy world populated by peculiar, anthropomorphic creatures.",
-    coverUrl: "/generated-covers/alice-in-wonderland.png",
+    coverUrl: "/book-covers/alice-in-wonderland.png",
     genres: ["Classics", "Fantasy", "Children's Literature"],
     duration: "3h",
     pages: 201,
@@ -887,7 +901,7 @@ const books: Book[] = [
     title: "Nicomachean Ethics",
     author: "Aristotle",
     description: "Aristotle's examination of the nature of happiness and virtue, and how they relate to each other. The work is considered one of the most important philosophical treatises on ethics.",
-    coverUrl: "/nicomachean-ethics-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Philosophy", "Classics", "Ethics", "Greek Literature"],
     duration: "10h 30m",
     pages: 329,
@@ -904,7 +918,7 @@ const books: Book[] = [
     title: "Poetics",
     author: "Aristotle",
     description: "Aristotle's analysis of dramatic theory and the nature of poetry. The work is considered the first systematic treatise on literary theory and has influenced Western literature for centuries.",
-    coverUrl: "/poetics-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Philosophy", "Classics", "Literary Theory", "Greek Literature"],
     duration: "3h 15m",
     pages: 144,
@@ -921,7 +935,7 @@ const books: Book[] = [
     title: "Encheiridion",
     author: "Epictetus",
     description: "A manual of Stoic ethical advice compiled by Arrian, a 2nd-century disciple of the Greek philosopher Epictetus. The work is a concise guide to living a virtuous life.",
-    coverUrl: "/encheiridion-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Philosophy", "Classics", "Stoicism", "Self-Help"],
     duration: "2h 45m",
     pages: 95,
@@ -938,7 +952,7 @@ const books: Book[] = [
     title: "The Apology of Socrates",
     author: "Plato",
     description: "Plato's account of Socrates's speech at his trial in 399 BC, where he was charged with corrupting the youth and impiety. The work is a powerful defense of philosophy and the examined life.",
-    coverUrl: "/apology-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Philosophy", "Classics", "Greek Literature", "Dialogue"],
     duration: "1h 30m",
     pages: 64,
@@ -953,7 +967,7 @@ const books: Book[] = [
     title: "Crito",
     author: "Plato",
     description: "A dialogue between Socrates and his wealthy friend Crito regarding justice, injustice, and the appropriate response to injustice. The work takes place in Socrates's prison cell, where he awaits execution.",
-    coverUrl: "/crito-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Philosophy", "Classics", "Greek Literature", "Dialogue"],
     duration: "1h 15m",
     pages: 48,
@@ -968,7 +982,7 @@ const books: Book[] = [
     title: "Phaedo",
     author: "Plato",
     description: "One of Plato's best-known dialogues, depicting the death of Socrates and his discussion with his friends about the immortality of the soul. The work is a profound meditation on death and the nature of the soul.",
-    coverUrl: "/phaedo-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Philosophy", "Classics", "Greek Literature", "Dialogue"],
     duration: "3h 45m",
     pages: 156,
@@ -985,7 +999,7 @@ const books: Book[] = [
     title: "Euthyphro",
     author: "Plato",
     description: "A dialogue between Socrates and Euthyphro, a religious expert, discussing the nature of piety. The work is a classic example of Socratic questioning and the search for definitions.",
-    coverUrl: "/euthyphro-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Philosophy", "Classics", "Greek Literature", "Dialogue"],
     duration: "1h 15m",
     pages: 52,
@@ -1000,7 +1014,7 @@ const books: Book[] = [
     title: "Meno",
     author: "Plato",
     description: "A dialogue between Socrates and Meno, a young aristocrat, discussing the nature of virtue and whether it can be taught. The work includes the famous 'Meno's paradox' about the possibility of inquiry.",
-    coverUrl: "/meno-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Philosophy", "Classics", "Greek Literature", "Dialogue"],
     duration: "2h 15m",
     pages: 108,
@@ -1017,7 +1031,7 @@ const books: Book[] = [
     title: "Gorgias",
     author: "Plato",
     description: "A dialogue between Socrates and the sophist Gorgias, discussing the nature of rhetoric and its relationship to justice. The work is a powerful critique of sophistry and a defense of philosophy.",
-    coverUrl: "/gorgias-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Philosophy", "Classics", "Greek Literature", "Dialogue"],
     duration: "4h 30m",
     pages: 216,
@@ -1034,7 +1048,7 @@ const books: Book[] = [
     title: "Protagoras",
     author: "Plato",
     description: "A dialogue between Socrates and the sophist Protagoras, discussing the nature of virtue and whether it can be taught. The work is a classic example of Socratic questioning and the search for definitions.",
-    coverUrl: "/protagoras-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Philosophy", "Classics", "Greek Literature", "Dialogue"],
     duration: "3h 45m",
     pages: 180,
@@ -1052,7 +1066,7 @@ const books: Book[] = [
     title: "The Lives of the Twelve Caesars",
     author: "Suetonius",
     description: "A set of twelve biographies of Julius Caesar and the first 11 emperors of the Roman Empire. The work provides detailed accounts of the public and private lives of these rulers.",
-    coverUrl: "/lives-of-the-caesars-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["History", "Classics", "Biography", "Roman Literature"],
     duration: "15h 30m",
     pages: 416,
@@ -1069,7 +1083,7 @@ const books: Book[] = [
     title: "Parallel Lives",
     author: "Plutarch",
     description: "A series of biographies of famous Greek and Roman men, arranged in pairs to illuminate their common moral virtues or failings. The work is a masterpiece of biographical writing.",
-    coverUrl: "/parallel-lives-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["History", "Classics", "Biography", "Greek Literature"],
     duration: "45h",
     pages: 1152,
@@ -1086,7 +1100,7 @@ const books: Book[] = [
     title: "Natural History",
     author: "Pliny the Elder",
     description: "An encyclopedia of the natural world, covering topics from astronomy to zoology. The work is one of the largest single works to have survived from the Roman Empire.",
-    coverUrl: "/natural-history-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Science", "Classics", "Encyclopedia", "Roman Literature"],
     duration: "60h",
     pages: 1600,
@@ -1103,7 +1117,7 @@ const books: Book[] = [
     title: "The Annals",
     author: "Tacitus",
     description: "A history of the Roman Empire from the reign of Tiberius to that of Nero. The work is considered one of the greatest historical works of antiquity.",
-    coverUrl: "/annals-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["History", "Classics", "Roman Literature", "Political"],
     duration: "20h 45m",
     pages: 512,
@@ -1120,7 +1134,7 @@ const books: Book[] = [
     title: "Germania",
     author: "Tacitus",
     description: "An ethnographic work on the Germanic tribes outside the Roman Empire. The work provides valuable insights into the customs and culture of the ancient Germanic peoples.",
-    coverUrl: "/germania-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["History", "Classics", "Ethnography", "Roman Literature"],
     duration: "2h 15m",
     pages: 96,
@@ -1137,7 +1151,7 @@ const books: Book[] = [
     title: "Agricola",
     author: "Tacitus",
     description: "A biography of Tacitus's father-in-law, Gnaeus Julius Agricola, a Roman general who conquered Britain. The work is both a biography and a history of the Roman conquest of Britain.",
-    coverUrl: "/agricola-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["History", "Classics", "Biography", "Roman Literature"],
     duration: "2h 45m",
     pages: 128,
@@ -1154,7 +1168,7 @@ const books: Book[] = [
     title: "On the Nature of Things",
     author: "Lucretius",
     description: "A philosophical poem that sets forth the physical theory of the Greek philosopher Epicurus. The work is a masterpiece of Latin poetry and a fundamental text of Epicurean philosophy.",
-    coverUrl: "/on-the-nature-of-things-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Philosophy", "Classics", "Poetry", "Roman Literature"],
     duration: "8h 15m",
     pages: 384,
@@ -1171,7 +1185,7 @@ const books: Book[] = [
     title: "On Duties",
     author: "Cicero",
     description: "A treatise on moral philosophy, written as a letter to his son. The work discusses the nature of moral duty and how to live a virtuous life.",
-    coverUrl: "/on-duties-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Philosophy", "Classics", "Ethics", "Roman Literature"],
     duration: "6h 30m",
     pages: 288,
@@ -1186,7 +1200,7 @@ const books: Book[] = [
     title: "On the Orator",
     author: "Cicero",
     description: "A dialogue on the ideal orator and the art of rhetoric. The work is considered one of the most important treatises on rhetoric ever written.",
-    coverUrl: "/on-the-orator-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Philosophy", "Classics", "Rhetoric", "Roman Literature"],
     duration: "12h 45m",
     pages: 576,
@@ -1201,7 +1215,7 @@ const books: Book[] = [
     title: "On the Nature of the Gods",
     author: "Cicero",
     description: "A philosophical dialogue examining the nature of the gods and the existence of divine providence. The work presents the views of different philosophical schools on theology.",
-    coverUrl: "/on-the-nature-of-the-gods-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Philosophy", "Classics", "Theology", "Roman Literature"],
     duration: "8h 15m",
     pages: 384,
@@ -1217,7 +1231,7 @@ const books: Book[] = [
     title: "Theogony",
     author: "Hesiod",
     description: "A poem describing the origins and genealogies of the Greek gods. The work is one of the most important sources for Greek mythology and the earliest known attempt to systematize the Greek pantheon.",
-    coverUrl: "/theogony-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Mythology", "Classics", "Poetry", "Greek Literature"],
     duration: "2h 30m",
     pages: 128,
@@ -1234,7 +1248,7 @@ const books: Book[] = [
     title: "Works and Days",
     author: "Hesiod",
     description: "A didactic poem offering advice on farming and moral living. The work combines practical agricultural advice with moral and religious instruction.",
-    coverUrl: "/works-and-days-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Classics", "Poetry", "Agriculture", "Greek Literature"],
     duration: "2h 15m",
     pages: 96,
@@ -1251,7 +1265,7 @@ const books: Book[] = [
     title: "Homeric Hymns",
     author: "Anonymous",
     description: "A collection of thirty-three anonymous ancient Greek hymns celebrating individual gods. The hymns are called 'Homeric' because they are written in the same style as the Iliad and Odyssey.",
-    coverUrl: "/homeric-hymns-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Mythology", "Classics", "Poetry", "Greek Literature"],
     duration: "3h 45m",
     pages: 192,
@@ -1268,7 +1282,7 @@ const books: Book[] = [
     title: "The Didache",
     author: "Anonymous",
     description: "An early Christian treatise containing instructions for Christian communities. The work is considered one of the earliest Christian documents outside the New Testament.",
-    coverUrl: "/didache-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Religion", "Classics", "Christianity", "Early Christian Literature"],
     duration: "1h 15m",
     pages: 64,
@@ -1285,7 +1299,7 @@ const books: Book[] = [
     title: "The Shepherd of Hermas",
     author: "Hermas",
     description: "An early Christian literary work consisting of visions, mandates, and parables. The work was highly regarded in early Christianity and was considered canonical by some early Church Fathers.",
-    coverUrl: "/shepherd-of-hermas-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Religion", "Classics", "Christianity", "Early Christian Literature"],
     duration: "4h 30m",
     pages: 256,
@@ -1302,7 +1316,7 @@ const books: Book[] = [
     title: "First Epistle of Clement",
     author: "Clement of Rome",
     description: "A letter addressed to the Christian Church in Corinth. The work is one of the earliest Christian documents outside the New Testament and provides insight into early Church organization and practice.",
-    coverUrl: "/first-clement-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Religion", "Classics", "Christianity", "Early Christian Literature"],
     duration: "2h",
     pages: 128,
@@ -1319,7 +1333,7 @@ const books: Book[] = [
     title: "Epistle of Barnabas",
     author: "Barnabas",
     description: "An early Christian epistle containing moral and allegorical interpretations of the Old Testament. The work was highly regarded in early Christianity and was considered canonical by some early Church Fathers.",
-    coverUrl: "/epistle-of-barnabas-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Religion", "Classics", "Christianity", "Early Christian Literature"],
     duration: "2h 15m",
     pages: 96,
@@ -1336,7 +1350,7 @@ const books: Book[] = [
     title: "The Martyrdom of Polycarp",
     author: "Anonymous",
     description: "An early Christian account of the martyrdom of Polycarp, Bishop of Smyrna. The work is one of the earliest accounts of Christian martyrdom and provides insight into early Christian attitudes toward persecution.",
-    coverUrl: "/martyrdom-of-polycarp-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Religion", "Classics", "Christianity", "Early Christian Literature"],
     duration: "1h 30m",
     pages: 64,
@@ -1353,7 +1367,7 @@ const books: Book[] = [
     title: "First Apology of Justin Martyr",
     author: "Justin Martyr",
     description: "An early Christian apologetic work addressed to the Roman Emperor Antoninus Pius. The work defends Christianity against pagan accusations and explains Christian beliefs and practices.",
-    coverUrl: "/apology-of-justin-martyr-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Religion", "Classics", "Christianity", "Early Christian Literature"],
     duration: "3h",
     pages: 160,
@@ -1370,7 +1384,7 @@ const books: Book[] = [
     title: "Dialogue with Trypho",
     author: "Justin Martyr",
     description: "An early Christian apologetic work in the form of a dialogue between Justin and a Jewish man named Trypho. The work discusses the relationship between Christianity and Judaism.",
-    coverUrl: "/dialogue-with-trypho-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Religion", "Classics", "Christianity", "Early Christian Literature"],
     duration: "5h 15m",
     pages: 288,
@@ -1388,7 +1402,7 @@ const books: Book[] = [
     title: "Second Epistle of Clement",
     author: "Clement of Rome",
     description: "An early Christian homily, traditionally attributed to Clement of Rome. The work focuses on moral instruction and the importance of repentance.",
-    coverUrl: "/second-clement-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Religion", "Classics", "Christianity", "Early Christian Literature"],
     duration: "1h 30m",
     pages: 64,
@@ -1405,7 +1419,7 @@ const books: Book[] = [
     title: "Epistle to Diognetus",
     author: "Anonymous",
     description: "An early Christian apologetic work explaining the nature of Christianity to a pagan audience. The work is notable for its elegant style and clear presentation of Christian beliefs.",
-    coverUrl: "/epistle-to-diognetus-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Religion", "Classics", "Christianity", "Early Christian Literature"],
     duration: "1h 15m",
     pages: 48,
@@ -1422,7 +1436,7 @@ const books: Book[] = [
     title: "Fragments of Papias",
     author: "Papias of Hierapolis",
     description: "Surviving fragments of a work by Papias of Hierapolis, an early Christian bishop. The work contains valuable information about the origins of the Gospels and early Christian traditions.",
-    coverUrl: "/fragments-of-papias-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Religion", "Classics", "Christianity", "Early Christian Literature"],
     duration: "45m",
     pages: 32,
@@ -1439,7 +1453,7 @@ const books: Book[] = [
     title: "Apostolic Constitutions",
     author: "Anonymous",
     description: "A collection of early Christian ecclesiastical regulations and liturgical practices. The work provides valuable insight into early Christian worship and church organization.",
-    coverUrl: "/apostolic-constitutions-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Religion", "Classics", "Christianity", "Early Christian Literature"],
     duration: "8h",
     pages: 384,
@@ -1456,7 +1470,7 @@ const books: Book[] = [
     title: "Apostolic Tradition",
     author: "Hippolytus of Rome",
     description: "An early Christian work describing the practices and customs of the Roman Church. The work is particularly valuable for its information about early Christian liturgy and church organization.",
-    coverUrl: "/apostolic-tradition-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Religion", "Classics", "Christianity", "Early Christian Literature"],
     duration: "2h 30m",
     pages: 128,
@@ -1473,7 +1487,7 @@ const books: Book[] = [
     title: "On the Unity of the Church",
     author: "Cyprian of Carthage",
     description: "A treatise on the importance of unity in the Christian Church. The work was written during a period of schism in the Church and emphasizes the necessity of maintaining communion with the bishop.",
-    coverUrl: "/on-the-unity-of-the-church-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Religion", "Classics", "Christianity", "Early Christian Literature"],
     duration: "2h 15m",
     pages: 96,
@@ -1490,7 +1504,7 @@ const books: Book[] = [
     title: "On the Lapsed",
     author: "Cyprian of Carthage",
     description: "A treatise addressing the problem of Christians who had renounced their faith during persecution. The work discusses the proper treatment of those who had lapsed and wished to return to the Church.",
-    coverUrl: "/on-the-lapsed-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Religion", "Classics", "Christianity", "Early Christian Literature"],
     duration: "2h 45m",
     pages: 128,
@@ -1507,7 +1521,7 @@ const books: Book[] = [
     title: "On the Dress of Virgins",
     author: "Cyprian of Carthage",
     description: "A treatise on the proper conduct and appearance of Christian virgins. The work emphasizes the importance of modesty and spiritual purity.",
-    coverUrl: "/on-the-dress-of-virgins-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Religion", "Classics", "Christianity", "Early Christian Literature"],
     duration: "1h 45m",
     pages: 80,
@@ -1524,7 +1538,7 @@ const books: Book[] = [
     title: "On the Good of Patience",
     author: "Cyprian of Carthage",
     description: "A treatise on the virtue of patience and its importance in the Christian life. The work uses examples from Scripture to illustrate the value of patience in various circumstances.",
-    coverUrl: "/on-the-good-of-patience-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Religion", "Classics", "Christianity", "Early Christian Literature"],
     duration: "1h 30m",
     pages: 64,
@@ -1541,7 +1555,7 @@ const books: Book[] = [
     title: "On the Value of Martyrdom",
     author: "Cyprian of Carthage",
     description: "A treatise encouraging Christians to remain faithful during persecution. The work emphasizes the spiritual benefits of martyrdom and the importance of maintaining one's faith under pressure.",
-    coverUrl: "/on-the-value-of-martyrdom-cover.png",
+    coverUrl: "/placeholder.svg",
     genres: ["Religion", "Classics", "Christianity", "Early Christian Literature"],
     duration: "2h",
     pages: 96,
@@ -1584,7 +1598,7 @@ export function getCurrentBook(): Book | null {
     title: "The Call of the Wild",
     author: "Jack London",
     description: "A classic adventure novel about a dog named Buck who is stolen from his home and sold into service as a sled dog in Alaska.",
-    coverUrl: "/call-of-the-wild-cover.png",
+    coverUrl: "/placeholder.svg",
     duration: "3h 45m",
     genres: ["Adventure", "Classic", "Fiction"],
     progress: 0,
@@ -1598,4 +1612,14 @@ export function getCurrentBook(): Book | null {
       { id: "5", title: "Chapter 5", duration: "35m", audioUrl: "/audio/call-of-the-wild/chapter5.mp3" },
     ]
   }
+}
+
+export async function callTTS(text: string, voiceId: string): Promise<string> {
+  const res = await fetch("/api/tts", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text, voiceId }),
+  });
+  const blob = await res.blob();
+  return URL.createObjectURL(blob);
 }

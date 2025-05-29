@@ -1,5 +1,4 @@
 import { BookDetail } from "@/components/book-detail"
-import { PlayButton } from "@/components/play-button"
 import { getBookById } from "@/lib/books"
 import { notFound } from "next/navigation"
 import { ReimageStory } from "@/components/reimage-story"

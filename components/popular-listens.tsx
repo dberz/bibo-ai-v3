@@ -19,8 +19,8 @@ export function PopularListens() {
   const [showRightArrow, setShowRightArrow] = useState(true)
 
   useEffect(() => {
-    // Get a few books to display as popular
-    const books = getAllBooks()
+    // Get a few books to display as popular, but only those with real cover art
+    const books = getAllBooks().filter(book => !book.coverUrl.includes('placeholder.svg'));
     const shuffled = [...books].sort(() => 0.5 - Math.random())
     setPopularBooks(shuffled.slice(0, 6))
   }, [])

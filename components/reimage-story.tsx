@@ -25,6 +25,15 @@ export function ReimageStory({ book }: ReimageStoryProps) {
   const [previewText, setPreviewText] = useState<string | null>(null)
   const { toast } = useToast()
 
+  // Get content from URL if available
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const content = url.searchParams.get('content');
+    if (content) {
+      setPreviewText(decodeURIComponent(content));
+    }
+  }, []);
+
   // Story length settings
   const [lengthFactor, setLengthFactor] = useState(100) // 100% = original length
   const [simplifyLanguage, setSimplifyLanguage] = useState(false)
@@ -105,28 +114,28 @@ export function ReimageStory({ book }: ReimageStoryProps) {
       // Generate different preview text based on the active tab
       switch (activeTab) {
         case "length":
-          if (lengthFactor < 50) {
-            previewContent =
-              "It is a truth universally acknowledged, that a single man with money wants a wife. The Bennets had five daughters. Their mother wanted them married. Bingley, a rich bachelor, moved nearby. Mrs. Bennet was excited. She wanted him to marry one of her girls."
-          } else if (lengthFactor > 150) {
-            previewContent =
-              "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife. However little known the feelings or views of such a man may be on his first entering a neighbourhood, this truth is so well fixed in the minds of the surrounding families, that he is considered the rightful property of some one or other of their daughters. The Bennet family of Longbourn was no exception to this principle. With five unmarried daughters and an estate entailed away from the female line, Mrs. Bennet considered the arrival of Mr. Bingley, a wealthy bachelor of four or five thousand a year, as the most fortuitous circumstance imaginable."
-          } else {
-            previewContent =
-              "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife. The Bennet family, with five unmarried daughters, viewed the arrival of wealthy Mr. Bingley with great excitement, particularly Mrs. Bennet who immediately set her sights on him as a potential husband for one of her girls."
-          }
+          const firstChapter = book.chapters?.[0]
+          const chapterTitle = firstChapter?.title || 'Chapter 1'
+          const chapterText = book.description
+          previewContent = chapterTitle + ': ' + chapterText
           break
 
         case "genre":
           if (selectedGenre === "fantasy") {
-            previewContent =
-              "It is a truth universally acknowledged across the galaxy, that a single humanoid in possession of a good starship, must be in want of a life-partner. The Bennet family unit, residing on the modest agricultural planet of Longbourn-7, had five unmarried female offspring whose genetic compatibility scores were rapidly approaching their expiration dates."
+            const firstChapter = book.chapters?.[0]
+            const chapterTitle = firstChapter?.title || 'Chapter 1'
+            const chapterText = book.description
+            previewContent = chapterTitle + ': ' + chapterText
           } else if (selectedGenre === "mystery") {
-            previewContent =
-              "It was a truth not yet discovered, that a single man in possession of a suspicious fortune, must be hiding deadly secrets. When the enigmatic Mr. Bingley arrived at Netherfield under the cover of night, the five Bennet sisters found themselves drawn into a web of intrigue that would reveal the dark underbelly of polite society."
+            const firstChapter = book.chapters?.[0]
+            const chapterTitle = firstChapter?.title || 'Chapter 1'
+            const chapterText = book.description
+            previewContent = chapterTitle + ': ' + chapterText
           } else if (selectedGenre === "romance") {
-            previewContent =
-              "It is a truth universally acknowledged, that a single man in possession of a good fortune—or in this case, a tech startup valued at several billion—must be in want of a wife. The Bennet family group chat exploded with notifications when news broke that the eligible bachelor Charles Bingley had purchased the luxury estate in their neighborhood and would be attending the charity gala that weekend."
+            const firstChapter = book.chapters?.[0]
+            const chapterTitle = firstChapter?.title || 'Chapter 1'
+            const chapterText = book.description
+            previewContent = chapterTitle + ': ' + chapterText
           } else {
             previewContent = "Select a genre to see a preview of how the story might be transformed."
           }
@@ -134,14 +143,20 @@ export function ReimageStory({ book }: ReimageStoryProps) {
 
         case "time":
           if (timePeriod === "modern") {
-            previewContent =
-              "It is a truth universally acknowledged, that a single man in possession of a good fortune—or in this case, a tech startup valued at several billion—must be in want of a wife. The Bennet family group chat exploded with notifications when news broke that the eligible bachelor Charles Bingley had purchased the luxury estate in their neighborhood and would be attending the charity gala that weekend."
+            const firstChapter = book.chapters?.[0]
+            const chapterTitle = firstChapter?.title || 'Chapter 1'
+            const chapterText = book.description
+            previewContent = chapterTitle + ': ' + chapterText
           } else if (timePeriod === "1980s") {
-            previewContent =
-              "It is a truth universally acknowledged, that a single man in possession of a good fortune—or in this case, a Wall Street portfolio and a sweet Porsche—must be in want of a wife. The Bennet sisters, with their big hair and shoulder pads, couldn't stop talking about the new guy, Bingley, who had just moved into the mansion on the hill and was throwing the most radical housewarming party that weekend."
+            const firstChapter = book.chapters?.[0]
+            const chapterTitle = firstChapter?.title || 'Chapter 1'
+            const chapterText = book.description
+            previewContent = chapterTitle + ': ' + chapterText
           } else if (timePeriod === "farfuture") {
-            previewContent =
-              "It is a truth universally acknowledged across the settled planets, that a single person in possession of a good fortune—measured now in terraforming rights and antimatter reserves—must be in want of a life companion. The Bennet family collective, residing in their modest habitat pod on Earth-that-was, received the neural notification that the eligible Charles Bingley had acquired the orbital estate in their sector."
+            const firstChapter = book.chapters?.[0]
+            const chapterTitle = firstChapter?.title || 'Chapter 1'
+            const chapterText = book.description
+            previewContent = chapterTitle + ': ' + chapterText
           } else {
             previewContent = "Select a time period to see a preview of how the story might be transformed."
           }
@@ -149,14 +164,20 @@ export function ReimageStory({ book }: ReimageStoryProps) {
 
         case "perspective":
           if (perspective === "first" && characterFocus === "Elizabeth Bennet") {
-            previewContent =
-              "I have always found it to be true, though my father jokes about it, that wealthy single men must be looking for wives. When I heard that Netherfield Park had been rented by just such a man—a Mr. Bingley with four or five thousand a year—I could not help but notice how it set my mother's matchmaking schemes into motion. With five daughters and no sons to inherit, her anxiety about our futures is understandable, if exhausting."
+            const firstChapter = book.chapters?.[0]
+            const chapterTitle = firstChapter?.title || 'Chapter 1'
+            const chapterText = book.description
+            previewContent = chapterTitle + ': ' + chapterText
           } else if (perspective === "first" && characterFocus === "Mr. Darcy") {
-            previewContent =
-              "I came to Netherfield at Bingley's insistence, though I had little interest in country society or its amusements. The local families, I was told, were already in a state of excitement over my friend's arrival—particularly those with unmarried daughters. How tedious. I resolved to keep my distance from such obvious matchmaking, especially after glimpsing the local beauties at the assembly. One in particular, with fine eyes but decidedly inferior connections, I deemed merely tolerable, but not handsome enough to tempt me."
+            const firstChapter = book.chapters?.[0]
+            const chapterTitle = firstChapter?.title || 'Chapter 1'
+            const chapterText = book.description
+            previewContent = chapterTitle + ': ' + chapterText
           } else if (perspective === "second") {
-            previewContent =
-              "You know it to be true, that a wealthy bachelor must be seeking a wife. You hear your mother's excited voice from downstairs as she tells your father about the young man who has taken Netherfield Park. As the second eldest of five daughters, you understand what this means—another opportunity, another potential match to secure your family's future. You sigh, closing your book, wondering if this Mr. Bingley will be any different from the other gentlemen your mother has pushed toward you and your sisters."
+            const firstChapter = book.chapters?.[0]
+            const chapterTitle = firstChapter?.title || 'Chapter 1'
+            const chapterText = book.description
+            previewContent = chapterTitle + ': ' + chapterText
           } else {
             previewContent = "Select a perspective and character to see a preview of how the story might be transformed."
           }

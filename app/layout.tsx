@@ -3,14 +3,14 @@ import type { Metadata } from "next"
 import { fontGelica, fontGelicaLight, inter } from "./fonts"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { PlayerProvider } from "@/lib/player/player-context"
+import { PlayerProvider, usePlayer } from "@/lib/player/player-context"
 import { Analytics } from "@/components/analytics"
 import { Suspense } from "react"
 import { GenreProvider } from "@/components/genre-provider"
 import { Toaster } from "@/components/ui/toaster"
 import { HeaderWithAiModal } from "@/components/header-with-ai-modal"
 import { BookAudioVisualizer } from '@/components/book-audio-visualizer'
-import { getCurrentBook } from '@/lib/books'
+import BottomPlayer from '@/components/bottom-player'
 
 export const metadata: Metadata = {
   title: "Bibo - AI-Powered Audiobooks",
@@ -22,13 +22,11 @@ export const metadata: Metadata = {
   }
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const currentBook = await getCurrentBook()
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -44,13 +42,7 @@ export default async function RootLayout({
                 </div>
                 <Analytics />
               </Suspense>
-              {currentBook && (
-                <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-t p-4 z-50">
-                  <div className="container mx-auto max-w-5xl">
-                    <BookAudioVisualizer book={currentBook} compact />
-                  </div>
-                </div>
-              )}
+              <BottomPlayer />
             </PlayerProvider>
           </GenreProvider>
         </ThemeProvider>
