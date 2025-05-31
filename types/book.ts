@@ -5,23 +5,35 @@ export interface Book {
   description: string
   coverUrl: string
   genres: string[]
-  chapters: Chapter[]
+  duration: string
   pages: number
-  // New properties for My Books feature
-  duration?: string
-  progress?: number
-  isFavorite?: boolean
-  lastRead?: string | null
-  addedAt?: string
-  gutenbergId?: number
-  source?: 'gutenberg' | 'archive'
-  lastUpdated?: string
+  category: string
+  listeners: number
+  rating: number
+  reviewCount: number
+  chapters: Chapter[]
+  // Social stats for the feed
+  peopleReading: number
+  comments: number
+  loves: number
+  isCurrentlyReading?: boolean
+  lastActivity?: string
+  // Feed-specific properties
+  postId?: string
+  postType?: string
+  engagement?: {
+    loves: number
+    comments: number
+    peopleReading: number
+    shares: number
+  }
+  algorithmScore?: number
+  tags?: string[]
 }
 
 export interface Chapter {
   id: string
   title: string
   duration: string
-  audioUrl?: string
-  content?: string
+  audioUrl: string
 }

@@ -54,24 +54,19 @@ export function AiFeaturesModal({
     onOpenChange(false)
     // Small delay to ensure smooth transition
     setTimeout(() => {
-      if (bookId) {
-        // If we have a bookId, navigate to that book's page with the specific tab and content
-        const url = new URL(`/book/${bookId}`, window.location.origin);
-        url.hash = `story-transform-${tab}`;
-        if (initialContent) {
-          url.searchParams.set('content', encodeURIComponent(initialContent));
-        }
-        window.location.href = url.toString();
-      } else {
-        // If no bookId, navigate to the featured book
-        window.location.href = `/book/call-of-the-wild#story-transform-${tab}`;
+      // Always navigate to Moby Dick for demo
+      const url = new URL(`/book/moby-dick`, window.location.origin);
+      url.hash = `story-transform-${tab}`;
+      if (initialContent) {
+        url.searchParams.set('content', encodeURIComponent(initialContent));
       }
+      window.location.href = url.toString();
     }, 100)
   }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg rounded-2xl p-8 bg-background shadow-2xl border border-emerald-500/20">
+      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl p-8 bg-background shadow-2xl border border-emerald-500/20">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-2xl font-heading">
             <Sparkles className="h-7 w-7 text-emerald-400" /> Try AI Features
@@ -101,20 +96,18 @@ export function AiFeaturesModal({
         <DialogClose asChild>
           <Button className="mt-6 w-full" variant="secondary">Close</Button>
         </DialogClose>
-        {bookId && (
-          <Button
-            className="mt-2 w-full"
-            variant="default"
-            onClick={() => {
-              onOpenChange(false)
-              setTimeout(() => {
-                window.location.href = `/book/${bookId}#story-transform`
-              }, 100)
-            }}
-          >
-            Try More
-          </Button>
-        )}
+        <Button
+          className="mt-2 w-full"
+          variant="default"
+          onClick={() => {
+            onOpenChange(false)
+            setTimeout(() => {
+              window.location.href = `/book/moby-dick#story-transform`
+            }, 100)
+          }}
+        >
+          Try More
+        </Button>
       </DialogContent>
     </Dialog>
   )

@@ -10,6 +10,7 @@ import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
+import { SocialProof } from "@/components/social-proof"
 
 export function PopularListens() {
   const [popularBooks, setPopularBooks] = useState<Book[]>([])
@@ -77,14 +78,26 @@ export function PopularListens() {
               >
                 <CardContent className="p-0">
                   <div className="relative">
-                    <div className="aspect-[16/9] relative overflow-hidden">
-                      <img
+                    <div className="aspect-[2/3] relative overflow-hidden rounded-lg">
+                      <motion.img
+                        key={book.coverUrl}
                         src={book.coverUrl || "/placeholder.svg"}
                         alt={book.title}
-                        className="object-cover w-full h-full"
+                        className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.6 }}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
+                      {/* FREE/AD-SUPPORTED pill */}
+                      <div className="absolute top-2 left-2">
+                        <span className="bg-emerald-500 text-white text-xs px-2 py-0.5 rounded-full font-medium">
+                          FREE
+                        </span>
+                      </div>
+
+                      {/* Audio indicator */}
                       <div className="absolute top-2 right-2 bg-black/60 p-1 rounded-full">
                         <Headphones className="h-4 w-4 text-emerald-500" />
                       </div>
@@ -105,6 +118,16 @@ export function PopularListens() {
                           <h3 className="font-outfit font-semibold text-lg line-clamp-1 text-white">{book.title}</h3>
                         </Link>
                         <p className="text-sm text-white/80 line-clamp-1 font-nunito">{book.author}</p>
+
+                        {/* Social proof */}
+                        <SocialProof 
+                          listeners={book.listeners}
+                          rating={book.rating}
+                          reviewCount={book.reviewCount}
+                          size="sm"
+                          layout="compact"
+                          className="mt-2 text-white/70"
+                        />
 
                         <div className="flex items-center mt-2 justify-between">
                           <Badge

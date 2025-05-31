@@ -41,7 +41,7 @@ export default function BottomPlayer() {
   if (!currentBook) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-t p-4 z-50">
+    <div className="fixed bottom-20 left-0 right-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-t p-4 z-50">
       <div className="container mx-auto max-w-5xl">
         {adPlaying && (
           <div className="flex items-center justify-center gap-2 mb-2 animate-fade-in">

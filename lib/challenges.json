@@ -1,0 +1,176 @@
+{
+  "challenges": [
+    {
+      "id": "greek-classics-challenge",
+      "title": "Olympian Odyssey",
+      "description": "Scale the heights of Mount Olympus with the greatest works of ancient Greece. From Homer's epics to Plato's philosophy, become a true scholar of the classical world.",
+      "category": "Classics",
+      "requirements": {
+        "booksToRead": 5,
+        "categories": ["classics", "philosophy"],
+        "authors": ["Homer", "Plato", "Aristotle", "Sophocles", "Euripides"]
+      },
+      "rewards": {
+        "points": 500,
+        "badge": "🏛️",
+        "title": "Philosopher King"
+      },
+      "difficulty": "hard",
+      "expiresAt": "2024-12-31T23:59:59Z"
+    },
+    {
+      "id": "shakespeare-superfan",
+      "title": "Bard's Best Friend",
+      "description": "To read, or not to read? That is the question. Answer it by devouring the complete works of the greatest playwright in history.",
+      "category": "Literature",
+      "requirements": {
+        "booksToRead": 10,
+        "authors": ["William Shakespeare"]
+      },
+      "rewards": {
+        "points": 750,
+        "badge": "🎭",
+        "title": "Shakespeare Superfan"
+      },
+      "difficulty": "epic",
+      "expiresAt": "2024-12-31T23:59:59Z"
+    },
+    {
+      "id": "victorian-voyage",
+      "title": "Victorian Virtuoso",
+      "description": "Step into the gaslit streets of 19th century England. From Dickens to the Brontës, experience the golden age of the novel.",
+      "category": "Classics",
+      "requirements": {
+        "booksToRead": 6,
+        "categories": ["classics"],
+        "authors": ["Charles Dickens", "Charlotte Brontë", "Emily Brontë", "Jane Austen", "Thomas Hardy"]
+      },
+      "rewards": {
+        "points": 400,
+        "badge": "🕰️",
+        "title": "Victorian Virtuoso"
+      },
+      "difficulty": "medium",
+      "expiresAt": "2024-12-31T23:59:59Z"
+    },
+    {
+      "id": "sci-fi-sage",
+      "title": "Cosmic Connoisseur",
+      "description": "Journey to the stars and beyond with the masters of science fiction. From Wells to Asimov, explore the infinite possibilities of the future.",
+      "category": "Science Fiction",
+      "requirements": {
+        "booksToRead": 8,
+        "categories": ["science fiction"]
+      },
+      "rewards": {
+        "points": 600,
+        "badge": "🚀",
+        "title": "Cosmic Connoisseur"
+      },
+      "difficulty": "medium",
+      "expiresAt": "2024-12-31T23:59:59Z"
+    },
+    {
+      "id": "mystery-master",
+      "title": "Sherlock's Successor",
+      "description": "Elementary, my dear reader! Solve the greatest mysteries in literature and become a detective of the written word.",
+      "category": "Mystery",
+      "requirements": {
+        "booksToRead": 7,
+        "categories": ["mystery", "detective"]
+      },
+      "rewards": {
+        "points": 450,
+        "badge": "🔍",
+        "title": "Mystery Master"
+      },
+      "difficulty": "medium",
+      "expiresAt": "2024-12-31T23:59:59Z"
+    },
+    {
+      "id": "poetry-pioneer",
+      "title": "Verse Voyager",
+      "description": "Let your soul dance with the rhythm of words. From sonnets to free verse, discover the music of language.",
+      "category": "Poetry",
+      "requirements": {
+        "booksToRead": 5,
+        "categories": ["poetry"]
+      },
+      "rewards": {
+        "points": 300,
+        "badge": "📜",
+        "title": "Verse Voyager"
+      },
+      "difficulty": "easy",
+      "expiresAt": "2024-12-31T23:59:59Z"
+    },
+    {
+      "id": "fantasy-fanatic",
+      "title": "Realm Runner",
+      "description": "Escape to worlds of magic and wonder. From Tolkien to modern masters, traverse the realms of fantasy.",
+      "category": "Fantasy",
+      "requirements": {
+        "booksToRead": 6,
+        "categories": ["fantasy"]
+      },
+      "rewards": {
+        "points": 400,
+        "badge": "🐉",
+        "title": "Realm Runner"
+      },
+      "difficulty": "medium",
+      "expiresAt": "2024-12-31T23:59:59Z"
+    },
+    {
+      "id": "speed-reader",
+      "title": "Velocity Virtuoso",
+      "description": "Read 10 books in 30 days and prove that speed and comprehension can coexist in perfect harmony.",
+      "category": "Speed Reading",
+      "requirements": {
+        "booksToRead": 10,
+        "timeLimit": 30
+      },
+      "rewards": {
+        "points": 800,
+        "badge": "⚡",
+        "title": "Velocity Virtuoso"
+      },
+      "difficulty": "hard",
+      "expiresAt": "2024-12-31T23:59:59Z"
+    },
+    {
+      "id": "diverse-reader",
+      "title": "Cultural Compass",
+      "description": "Expand your horizons by reading authors from at least 5 different countries and cultures.",
+      "category": "Diversity",
+      "requirements": {
+        "booksToRead": 8,
+        "categories": ["international", "diverse"]
+      },
+      "rewards": {
+        "points": 600,
+        "badge": "🌍",
+        "title": "Cultural Compass"
+      },
+      "difficulty": "medium",
+      "expiresAt": "2024-12-31T23:59:59Z"
+    },
+    {
+      "id": "streak-superstar",
+      "title": "Daily Devotee",
+      "description": "Read for at least 30 minutes every day for 30 consecutive days. Consistency is the key to literary greatness.",
+      "category": "Consistency",
+      "requirements": {
+        "booksToRead": 1,
+        "timeLimit": 30
+      },
+      "rewards": {
+        "points": 1000,
+        "badge": "🔥",
+        "title": "Daily Devotee"
+      },
+      "difficulty": "hard",
+      "expiresAt": "2024-12-31T23:59:59Z"
+    }
+  ]
+} 

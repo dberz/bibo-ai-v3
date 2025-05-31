@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Progress } from "@/components/ui/progress"
+import { SocialProof } from "@/components/social-proof"
 
 interface MyBooksGridProps {
   view: "grid" | "list"
@@ -117,6 +118,16 @@ export function MyBooksGrid({ view, searchQuery, filter }: MyBooksGridProps) {
                         </h3>
                       </Link>
                       <p className="text-sm text-muted-foreground">{book.author}</p>
+                      
+                      {/* Social proof */}
+                      <SocialProof 
+                        listeners={book.listeners}
+                        rating={book.rating}
+                        reviewCount={book.reviewCount}
+                        size="sm"
+                        layout="compact"
+                        className="mt-1"
+                      />
                     </div>
                     <div className="flex items-center gap-2">
                       <Button
@@ -179,17 +190,24 @@ export function MyBooksGrid({ view, searchQuery, filter }: MyBooksGridProps) {
             onMouseLeave={() => setHoveredBook(null)}
           >
             <Link href={`/book/${book.id}`} className="block">
-              <div className="aspect-[2/3] relative overflow-hidden">
+              <div className="aspect-[2/3] relative overflow-hidden p-1 sm:p-1.5">
                 <motion.img
                   key={book.coverUrl}
                   src={book.coverUrl || "/placeholder.svg"}
                   alt={book.title}
-                  className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+                  className="object-cover w-full h-full rounded-md transition-transform duration-500 group-hover:scale-110"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.6 }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md"></div>
+
+                {/* FREE/AD-SUPPORTED pill */}
+                <div className="absolute top-2 left-2">
+                  <span className="bg-emerald-500 text-white text-xs px-2 py-0.5 rounded-full font-medium">
+                    FREE
+                  </span>
+                </div>
 
                 {/* Audio indicator */}
                 <div className="absolute top-2 right-2 bg-black/60 p-1 rounded-full">
@@ -203,24 +221,51 @@ export function MyBooksGrid({ view, searchQuery, filter }: MyBooksGridProps) {
                   </div>
                 )}
 
+                {/* Runtime and rating on hover */}
+                {hoveredBook === book.id && (
+                  <div className="absolute bottom-2 left-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="bg-black/80 text-white text-xs px-2 py-1 rounded-md">
+                      <div className="flex items-center justify-between">
+                        <span>{book.duration}</span>
+                        {book.rating && (
+                          <div className="flex items-center gap-1">
+                            <span className="text-yellow-400">★</span>
+                            <span>{book.rating.toFixed(1)}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {hoveredBook === book.id && (
                   <div className="absolute bottom-4 left-0 right-0 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <PlayButton bookId={book.id} />
                   </div>
                 )}
               </div>
-              <CardContent className="p-4">
+              <CardContent className="p-4 flex flex-col">
                 <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0">
+                  <div className="min-w-0 flex-1">
                     <h3 className="font-semibold line-clamp-1 group-hover:text-emerald-500 transition-colors">
                       {book.title}
                     </h3>
                     <p className="text-sm text-muted-foreground line-clamp-1">{book.author}</p>
+                    
+                    {/* Social proof */}
+                    <SocialProof 
+                      listeners={book.listeners}
+                      rating={book.rating}
+                      reviewCount={book.reviewCount}
+                      size="sm"
+                      layout="compact"
+                      className="mt-1 flex-shrink-0"
+                    />
                   </div>
                   <Button
                     variant="ghost"
                     size="icon"
-                    className={`h-8 w-8 ${book.isFavorite ? "text-red-500" : ""}`}
+                    className={`h-8 w-8 flex-shrink-0 ${book.isFavorite ? "text-red-500" : ""}`}
                     onClick={(e) => {
                       e.preventDefault()
                       handleFavorite(book.id)
@@ -231,7 +276,7 @@ export function MyBooksGrid({ view, searchQuery, filter }: MyBooksGridProps) {
                 </div>
 
                 {/* Audio duration indicator */}
-                <div className="flex items-center mt-1 text-xs text-muted-foreground">
+                <div className="flex items-center mt-1 text-xs text-muted-foreground flex-shrink-0">
                   <Headphones className="h-3 w-3 mr-1" />
                   <span>{book.duration}</span>
                   {(book.progress ?? 0) > 0 && (

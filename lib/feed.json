@@ -1,0 +1,401 @@
+{
+  "posts": [
+    {
+      "id": "post-1",
+      "bookId": "moby-dick",
+      "type": "featured",
+      "timestamp": "2024-01-15T10:30:00Z",
+      "engagement": {
+        "loves": 1892,
+        "comments": 156,
+        "peopleReading": 478,
+        "shares": 92
+      },
+      "algorithmScore": 0.99,
+      "tags": ["trending", "classics", "adventure"]
+    },
+    {
+      "id": "post-2",
+      "bookId": "pride-and-prejudice",
+      "type": "featured",
+      "timestamp": "2024-01-15T10:30:00Z",
+      "engagement": {
+        "loves": 1247,
+        "comments": 89,
+        "peopleReading": 342,
+        "shares": 23
+      },
+      "algorithmScore": 0.95,
+      "tags": ["trending", "classics", "romance"]
+    },
+    {
+      "id": "post-3",
+      "bookId": "the-great-gatsby",
+      "type": "popular",
+      "timestamp": "2024-01-15T09:15:00Z",
+      "engagement": {
+        "loves": 892,
+        "comments": 67,
+        "peopleReading": 289,
+        "shares": 18
+      },
+      "algorithmScore": 0.87,
+      "tags": ["classics", "literary"]
+    },
+    {
+      "id": "post-4",
+      "bookId": "frankenstein",
+      "type": "trending",
+      "timestamp": "2024-01-15T08:45:00Z",
+      "engagement": {
+        "loves": 1567,
+        "comments": 134,
+        "peopleReading": 456,
+        "shares": 45
+      },
+      "algorithmScore": 0.92,
+      "tags": ["trending", "sci-fi", "gothic"]
+    },
+    {
+      "id": "post-5",
+      "bookId": "dracula",
+      "type": "viral",
+      "timestamp": "2024-01-15T06:20:00Z",
+      "engagement": {
+        "loves": 2103,
+        "comments": 187,
+        "peopleReading": 623,
+        "shares": 89
+      },
+      "algorithmScore": 0.98,
+      "tags": ["viral", "horror", "gothic"]
+    },
+    {
+      "id": "post-6",
+      "bookId": "the-secret-garden",
+      "type": "new",
+      "timestamp": "2024-01-15T05:10:00Z",
+      "engagement": {
+        "loves": 445,
+        "comments": 31,
+        "peopleReading": 156,
+        "shares": 8
+      },
+      "algorithmScore": 0.72,
+      "tags": ["new", "children", "classics"]
+    },
+    {
+      "id": "post-7",
+      "bookId": "peter-pan",
+      "type": "featured",
+      "timestamp": "2024-01-15T04:30:00Z",
+      "engagement": {
+        "loves": 987,
+        "comments": 76,
+        "peopleReading": 234,
+        "shares": 34
+      },
+      "algorithmScore": 0.85,
+      "tags": ["fantasy", "children", "classics"]
+    },
+    {
+      "id": "post-8",
+      "bookId": "alice-in-wonderland",
+      "type": "popular",
+      "timestamp": "2024-01-15T03:45:00Z",
+      "engagement": {
+        "loves": 678,
+        "comments": 43,
+        "peopleReading": 167,
+        "shares": 15
+      },
+      "algorithmScore": 0.81,
+      "tags": ["fantasy", "children", "classics"]
+    },
+    {
+      "id": "post-9",
+      "bookId": "stand-on-zanzibar",
+      "type": "trending",
+      "timestamp": "2024-01-15T02:30:00Z",
+      "engagement": {
+        "loves": 1234,
+        "comments": 98,
+        "peopleReading": 345,
+        "shares": 67
+      },
+      "algorithmScore": 0.89,
+      "tags": ["sci-fi", "dystopian", "modern"]
+    },
+    {
+      "id": "post-10",
+      "bookId": "dhalgren",
+      "type": "viral",
+      "timestamp": "2024-01-15T01:20:00Z",
+      "engagement": {
+        "loves": 1892,
+        "comments": 156,
+        "peopleReading": 478,
+        "shares": 92
+      },
+      "algorithmScore": 0.94,
+      "tags": ["experimental", "sci-fi", "literary"]
+    },
+    {
+      "id": "post-11",
+      "bookId": "a-walk-in-the-woods",
+      "type": "featured",
+      "timestamp": "2024-01-15T00:15:00Z",
+      "engagement": {
+        "loves": 756,
+        "comments": 45,
+        "peopleReading": 189,
+        "shares": 23
+      },
+      "algorithmScore": 0.76,
+      "tags": ["non-fiction", "adventure", "nature"]
+    },
+    {
+      "id": "post-12",
+      "bookId": "morning-glory",
+      "type": "recommended",
+      "timestamp": "2024-01-14T23:00:00Z",
+      "engagement": {
+        "loves": 432,
+        "comments": 28,
+        "peopleReading": 134,
+        "shares": 12
+      },
+      "algorithmScore": 0.68,
+      "tags": ["romance", "contemporary"]
+    },
+    {
+      "id": "post-13",
+      "bookId": "the-last-policeman",
+      "type": "new",
+      "timestamp": "2024-01-14T21:45:00Z",
+      "engagement": {
+        "loves": 567,
+        "comments": 39,
+        "peopleReading": 178,
+        "shares": 19
+      },
+      "algorithmScore": 0.73,
+      "tags": ["mystery", "dystopian", "contemporary"]
+    },
+    {
+      "id": "post-14",
+      "bookId": "bag-of-bones",
+      "type": "popular",
+      "timestamp": "2024-01-14T20:30:00Z",
+      "engagement": {
+        "loves": 892,
+        "comments": 67,
+        "peopleReading": 245,
+        "shares": 34
+      },
+      "algorithmScore": 0.82,
+      "tags": ["horror", "supernatural", "thriller"]
+    },
+    {
+      "id": "post-15",
+      "bookId": "the-sparrow",
+      "type": "trending",
+      "timestamp": "2024-01-14T19:15:00Z",
+      "engagement": {
+        "loves": 1456,
+        "comments": 123,
+        "peopleReading": 389,
+        "shares": 78
+      },
+      "algorithmScore": 0.91,
+      "tags": ["sci-fi", "religious", "philosophical"]
+    },
+    {
+      "id": "post-16",
+      "bookId": "the-right-stuff",
+      "type": "featured",
+      "timestamp": "2024-01-14T18:00:00Z",
+      "engagement": {
+        "loves": 678,
+        "comments": 52,
+        "peopleReading": 201,
+        "shares": 29
+      },
+      "algorithmScore": 0.79,
+      "tags": ["non-fiction", "history", "space"]
+    },
+    {
+      "id": "post-17",
+      "bookId": "bet-me",
+      "type": "recommended",
+      "timestamp": "2024-01-14T16:45:00Z",
+      "engagement": {
+        "loves": 543,
+        "comments": 41,
+        "peopleReading": 167,
+        "shares": 18
+      },
+      "algorithmScore": 0.71,
+      "tags": ["romance", "contemporary", "humor"]
+    },
+    {
+      "id": "post-18",
+      "bookId": "the-brethren",
+      "type": "popular",
+      "timestamp": "2024-01-14T15:30:00Z",
+      "engagement": {
+        "loves": 789,
+        "comments": 58,
+        "peopleReading": 223,
+        "shares": 31
+      },
+      "algorithmScore": 0.84,
+      "tags": ["legal", "thriller", "contemporary"]
+    },
+    {
+      "id": "post-19",
+      "bookId": "to-kill-a-mockingbird",
+      "type": "featured",
+      "timestamp": "2024-01-14T14:15:00Z",
+      "engagement": {
+        "loves": 1678,
+        "comments": 145,
+        "peopleReading": 456,
+        "shares": 67
+      },
+      "algorithmScore": 0.93,
+      "tags": ["classics", "social-issues", "literary"]
+    },
+    {
+      "id": "post-20",
+      "bookId": "jane-eyre",
+      "type": "trending",
+      "timestamp": "2024-01-14T13:00:00Z",
+      "engagement": {
+        "loves": 1234,
+        "comments": 98,
+        "peopleReading": 345,
+        "shares": 45
+      },
+      "algorithmScore": 0.88,
+      "tags": ["classics", "romance", "gothic"]
+    },
+    {
+      "id": "post-21",
+      "bookId": "wuthering-heights",
+      "type": "viral",
+      "timestamp": "2024-01-14T11:45:00Z",
+      "engagement": {
+        "loves": 1456,
+        "comments": 123,
+        "peopleReading": 389,
+        "shares": 78
+      },
+      "algorithmScore": 0.91,
+      "tags": ["classics", "romance", "gothic"]
+    },
+    {
+      "id": "post-22",
+      "bookId": "crime-and-punishment",
+      "type": "featured",
+      "timestamp": "2024-01-14T10:30:00Z",
+      "engagement": {
+        "loves": 987,
+        "comments": 76,
+        "peopleReading": 234,
+        "shares": 34
+      },
+      "algorithmScore": 0.85,
+      "tags": ["classics", "psychological", "literary"]
+    },
+    {
+      "id": "post-23",
+      "bookId": "anna-karenina",
+      "type": "popular",
+      "timestamp": "2024-01-14T09:15:00Z",
+      "engagement": {
+        "loves": 678,
+        "comments": 43,
+        "peopleReading": 167,
+        "shares": 15
+      },
+      "algorithmScore": 0.81,
+      "tags": ["classics", "romance", "literary"]
+    },
+    {
+      "id": "post-24",
+      "bookId": "the-time-machine",
+      "type": "trending",
+      "timestamp": "2024-01-14T08:00:00Z",
+      "engagement": {
+        "loves": 1234,
+        "comments": 98,
+        "peopleReading": 345,
+        "shares": 67
+      },
+      "algorithmScore": 0.89,
+      "tags": ["sci-fi", "classics", "adventure"]
+    },
+    {
+      "id": "post-25",
+      "bookId": "don-quixote",
+      "type": "featured",
+      "timestamp": "2024-01-14T06:45:00Z",
+      "engagement": {
+        "loves": 756,
+        "comments": 45,
+        "peopleReading": 189,
+        "shares": 23
+      },
+      "algorithmScore": 0.76,
+      "tags": ["classics", "adventure", "humor"]
+    },
+    {
+      "id": "post-26",
+      "bookId": "the-divine-comedy",
+      "type": "recommended",
+      "timestamp": "2024-01-14T05:30:00Z",
+      "engagement": {
+        "loves": 432,
+        "comments": 28,
+        "peopleReading": 134,
+        "shares": 12
+      },
+      "algorithmScore": 0.68,
+      "tags": ["classics", "poetry", "religious"]
+    },
+    {
+      "id": "post-27",
+      "bookId": "call-of-the-wild",
+      "type": "new",
+      "timestamp": "2024-01-14T04:15:00Z",
+      "engagement": {
+        "loves": 567,
+        "comments": 39,
+        "peopleReading": 178,
+        "shares": 19
+      },
+      "algorithmScore": 0.73,
+      "tags": ["adventure", "classics", "nature"]
+    },
+    {
+      "id": "post-28",
+      "bookId": "a-room-with-a-view",
+      "type": "popular",
+      "timestamp": "2024-01-14T03:00:00Z",
+      "engagement": {
+        "loves": 892,
+        "comments": 67,
+        "peopleReading": 245,
+        "shares": 34
+      },
+      "algorithmScore": 0.82,
+      "tags": ["classics", "romance", "literary"]
+    }
+  ],
+  "metadata": {
+    "lastUpdated": "2024-01-15T10:30:00Z",
+    "totalPosts": 28,
+    "version": "1.0"
+  }
+} 

@@ -25,6 +25,8 @@ import {
   Lightbulb,
   Glasses,
   Landmark,
+  Crown,
+  Clock,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { getAllBooks } from "@/lib/books"
@@ -32,6 +34,8 @@ import { getAllBooks } from "@/lib/books"
 // Define genre icons and colors
 const genreConfig = {
   All: { icon: BookOpen, color: "bg-gradient-to-br from-emerald-500 to-teal-600" },
+  "Public Domain": { icon: Crown, color: "bg-gradient-to-br from-amber-500 to-orange-600" },
+  "Back Catalog": { icon: Clock, color: "bg-gradient-to-br from-purple-500 to-violet-600" },
   Classics: { icon: BookMarked, color: "bg-gradient-to-br from-amber-500 to-orange-600" },
   Fiction: { icon: BookText, color: "bg-gradient-to-br from-blue-500 to-indigo-600" },
   Mystery: { icon: Compass, color: "bg-gradient-to-br from-purple-500 to-violet-600" },
@@ -85,13 +89,19 @@ export function GenreChannels() {
 
   // Sort genres alphabetically, keeping "All" at the beginning
   const sortedGenres = allGenres.slice(1).sort()
-  const genres = ["All", ...sortedGenres]
+  
+  // Add category toggles as first-class chips
+  const genres = ["All", "Public Domain", "Back Catalog", ...sortedGenres]
 
-  // Get book counts for each genre
+  // Get book counts for each genre/category
   const genreCounts = genres.reduce(
     (counts, genre) => {
       if (genre === "All") {
         counts[genre] = books.length
+      } else if (genre === "Public Domain") {
+        counts[genre] = books.filter((book) => book.category === "classics").length
+      } else if (genre === "Back Catalog") {
+        counts[genre] = books.filter((book) => book.category === "modern classics").length
       } else {
         counts[genre] = books.filter((book) => book.genres.includes(genre)).length
       }
@@ -100,9 +110,13 @@ export function GenreChannels() {
     {} as Record<string, number>,
   )
 
-  // Filter out genres with less than 2 books (except 'All')
+  // Filter out genres with less than 2 books (except 'All' and category toggles)
   const filteredGenres = genres.filter(
-    (genre) => genre === "All" || genreCounts[genre] >= 2
+    (genre) => 
+      genre === "All" || 
+      genre === "Public Domain" || 
+      genre === "Back Catalog" ||
+      genreCounts[genre] >= 2
   )
 
   const handleScroll = () => {

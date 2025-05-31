@@ -8,9 +8,10 @@ import { Analytics } from "@/components/analytics"
 import { Suspense } from "react"
 import { GenreProvider } from "@/components/genre-provider"
 import { Toaster } from "@/components/ui/toaster"
-import { HeaderWithAiModal } from "@/components/header-with-ai-modal"
+import { Header } from "@/components/header"
 import { BookAudioVisualizer } from '@/components/book-audio-visualizer'
 import BottomPlayer from '@/components/bottom-player'
+import { FloatingAiButton } from '@/components/floating-ai-button'
 import { Inter } from 'next/font/google'
 
 const inter = Inter({ 
@@ -40,7 +41,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <GenreProvider>
             <PlayerProvider>
-              <HeaderWithAiModal />
+              <FloatingAiButton />
               <Suspense fallback={<div>Loading...</div>}>
                 <div className="flex min-h-screen flex-col">
                   <div className="flex-1">{children}</div>

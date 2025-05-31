@@ -37,6 +37,7 @@ export interface PlayerContextType {
   currentAdIndex: number;
   hasUserInteracted: boolean;
   setCurrentBook: (book: Book | null) => void;
+  setCurrentBookAndPlay: (book: Book | null) => void;
   play: () => void;
   pause: () => void;
   togglePlayback: () => void;
@@ -221,20 +222,20 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     if (!audioRef.current) return;
     hasUserInteractedRef.current = true;
     if (state.currentBook) {
-      if (!state.adPlaying && !adPlayed) {
+      if (!adPlayed) {
         playAd();
       } else {
         playBook();
       }
     }
-  }, [state.currentBook, state.adPlaying, adPlayed, playAd, playBook]);
+  }, [state.currentBook, adPlayed, playAd, playBook]);
 
   // Pause button handler
   const pause = useCallback(() => {
     if (!audioRef.current) return;
     
     audioRef.current.pause();
-    setState(prev => ({ ...prev, isPlaying: false, adPlaying: false }));
+    setState(prev => ({ ...prev, isPlaying: false }));
   }, []);
 
   const togglePlayback = useCallback(() => {
@@ -326,10 +327,28 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     setAdPlayed(false); // Reset ad played state when changing books
   }, []);
 
+  // Set current book and start playback
+  const setCurrentBookAndPlay = useCallback((book: Book | null) => {
+    if (!book) return;
+    
+    hasUserInteractedRef.current = true;
+    setCurrentBook(book);
+    
+    // Start playback immediately with the book
+    if (!adPlayed) {
+      // Play ad first
+      playAd();
+    } else {
+      // Play book content directly
+      playBook();
+    }
+  }, [setCurrentBook, adPlayed, playAd, playBook]);
+
   // Create the context value object
   const value: PlayerContextType = {
     ...state,
     setCurrentBook,
+    setCurrentBookAndPlay,
     play,
     pause,
     togglePlayback,

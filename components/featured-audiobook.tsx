@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
-import { Play, Pause, Volume2 } from "lucide-react"
+import { Play, Pause, Volume2, Wand2, Mic, Sparkles } from "lucide-react"
 import { usePlayer } from "@/lib/player/player-context"
 import { getAllBooks } from "@/lib/books"
 import type { Book } from "@/types/book"
@@ -15,6 +15,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { BookAudioVisualizer } from "@/components/book-audio-visualizer"
 import { AiFeaturesModal } from "@/components/ui/ai-features-modal"
 import { useRouter } from "next/navigation"
+import { SocialProof } from "@/components/social-proof"
 
 export function FeaturedAudiobook() {
   const [featuredBook, setFeaturedBook] = useState<Book | null>(null)
@@ -90,6 +91,17 @@ export function FeaturedAudiobook() {
           />
           <div className="text-lg font-bold text-center leading-tight">{featuredBook.title}</div>
           <div className="text-sm text-muted-foreground text-center mb-1">{featuredBook.author}</div>
+          
+          {/* Social proof */}
+          <SocialProof 
+            listeners={featuredBook.listeners}
+            rating={featuredBook.rating}
+            reviewCount={featuredBook.reviewCount}
+            size="md"
+            layout="compact"
+            className="mb-2"
+          />
+          
           <div className="flex flex-wrap gap-1 justify-center mb-2">
             {featuredBook.genres.slice(0, 3).map((genre) => (
               <span key={genre} className="bg-emerald-500/10 text-emerald-500 text-xs px-2 py-0.5 rounded-full font-medium">

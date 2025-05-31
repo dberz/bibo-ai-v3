@@ -6,19 +6,20 @@ import { Clock, BookOpen, Play, Pause } from "lucide-react"
 import type { Book } from "@/types/book"
 import Image from "next/image"
 import { usePlayer } from "@/lib/player/player-context"
+import { SocialProof } from "@/components/social-proof"
+import { BookSocialGamification } from "@/components/book-social-gamification"
 
 interface BookDetailProps {
   book: Book
 }
 
 export function BookDetail({ book }: BookDetailProps) {
-  const { setCurrentBook, togglePlayback, currentBook, isPlaying } = usePlayer()
+  const { setCurrentBookAndPlay, currentBook, isPlaying } = usePlayer()
   const isCurrent = currentBook?.id === book.id
 
   const handlePlay = () => {
-    setCurrentBook(book)
     if (!isPlaying || !isCurrent) {
-      togglePlayback()
+      setCurrentBookAndPlay(book)
     }
   }
 
@@ -43,6 +44,16 @@ export function BookDetail({ book }: BookDetailProps) {
           <div>
             <h1 className="text-4xl font-bold mb-2">{book.title}</h1>
             <p className="text-xl text-muted-foreground">{book.author}</p>
+            
+            {/* Social proof */}
+            <SocialProof 
+              listeners={book.listeners}
+              rating={book.rating}
+              reviewCount={book.reviewCount}
+              size="lg"
+              layout="horizontal"
+              className="mt-3"
+            />
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -88,6 +99,11 @@ export function BookDetail({ book }: BookDetailProps) {
             </Button>
           </div>
         </div>
+      </div>
+
+      {/* Social and Gamification Section */}
+      <div className="mt-12">
+        <BookSocialGamification book={book} />
       </div>
     </div>
   )
