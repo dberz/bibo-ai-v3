@@ -12,8 +12,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/hooks/use-toast"
-import { Wand2, Clock, BookText, Globe, Users, Sparkles, RefreshCw, Save } from "lucide-react"
+import { Wand2, Clock, BookText, Globe, Users, Sparkles, RefreshCw, Save, Play, Pause, Volume2, User, Mic } from "lucide-react"
 import type { Book } from "@/types/book"
+import { usePlayer } from "@/lib/player/player-context"
+import { AUDIO_VERSIONS, AudioVersionId } from "@/lib/player/player-context"
+import { getAllVoices } from "@/lib/voices"
+import { setBookVoice } from "@/lib/voice-storage"
 
 interface ReimageStoryProps {
   book: Book
@@ -24,6 +28,15 @@ export function ReimageStory({ book }: ReimageStoryProps) {
   const [isGenerating, setIsGenerating] = useState(false)
   const [previewText, setPreviewText] = useState<string | null>(null)
   const { toast } = useToast()
+  const { 
+    currentVersion, 
+    setVersion, 
+    isPlaying, 
+    togglePlayback,
+    currentBook,
+    setCurrentBook,
+    adPlaying
+  } = usePlayer()
 
   // Get content from URL if available
   useEffect(() => {
@@ -231,77 +244,69 @@ export function ReimageStory({ book }: ReimageStoryProps) {
     return () => window.removeEventListener('hashchange', handleHashChange)
   }, [])
 
+  const versions = [
+    {
+      id: 'SHORTENED' as AudioVersionId,
+      title: "Dramatically Shortened Story Version",
+      description: "Experience the essence of the story in a concise format",
+      icon: <Play className="h-4 w-4" />
+    },
+    {
+      id: 'SCIFI' as AudioVersionId,
+      title: "Sci-Fi Genre Reimagination",
+      description: "Journey through space and time with this futuristic retelling",
+      icon: <Play className="h-4 w-4" />
+    },
+    {
+      id: 'SPANISH' as AudioVersionId,
+      title: "Spanish Literary Translation",
+      description: "Immerse yourself in the Spanish language version",
+      icon: <Play className="h-4 w-4" />
+    },
+    {
+      id: 'YA' as AudioVersionId,
+      title: "Modern YA Adventure Rewrite",
+      description: "A contemporary take for young adult readers",
+      icon: <Play className="h-4 w-4" />
+    }
+  ]
+
+  const handleVersionSelect = (versionId: AudioVersionId) => {
+    // Always pause and reset audio before starting a new version
+    if (typeof window !== 'undefined') {
+      const audio = document.querySelector('audio');
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+    }
+    // Set the new version and book first
+    setVersion(versionId);
+    setCurrentBook(book);
+    // Use setTimeout to ensure state updates have completed
+    setTimeout(() => {
+      togglePlayback();
+    }, 0);
+  };
+
+  // Narrator customization state
+  const [voices] = useState(() => getAllVoices());
+  const [selectedVoice, setSelectedVoice] = useState<string | null>(voices[0]?.id || null);
+  const [playingVoice, setPlayingVoice] = useState<string | null>(null);
+  const [isGeneratingVoice, setIsGeneratingVoice] = useState(false);
+  const [voiceCustomization, setVoiceCustomization] = useState({
+    age: "middle-aged",
+    style: "formal",
+    gender: "neutral",
+    accent: "neutral",
+    pace: 50,
+    pitch: 50,
+    clarity: 70,
+    emotionality: 50,
+  });
+
   return (
     <div className="space-y-6">
-      {/* Quick Transformation Options */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <Button
-          variant="outline"
-          className="h-auto py-6 flex flex-col items-center justify-center gap-2 border-emerald-500/30 hover:bg-emerald-500/10 hover:border-emerald-500"
-          onClick={() => {
-            setActiveTab("length")
-            setLengthFactor(30)
-            handleGeneratePreview()
-          }}
-        >
-          <div className="bg-emerald-500/20 p-2 rounded-full">
-            <Clock className="h-5 w-5 text-emerald-500" />
-          </div>
-          <span className="font-medium">Short Version</span>
-          <span className="text-xs text-muted-foreground">30% of original length</span>
-        </Button>
-
-        <Button
-          variant="outline"
-          className="h-auto py-6 flex flex-col items-center justify-center gap-2 border-emerald-500/30 hover:bg-emerald-500/10 hover:border-emerald-500"
-          onClick={() => {
-            setActiveTab("genre")
-            setSelectedGenre("fantasy")
-            setGenreIntensity(80)
-            handleGeneratePreview()
-          }}
-        >
-          <div className="bg-emerald-500/20 p-2 rounded-full">
-            <BookText className="h-5 w-5 text-emerald-500" />
-          </div>
-          <span className="font-medium">Fantasy Version</span>
-          <span className="text-xs text-muted-foreground">Same story, magical setting</span>
-        </Button>
-
-        <Button
-          variant="outline"
-          className="h-auto py-6 flex flex-col items-center justify-center gap-2 border-emerald-500/30 hover:bg-emerald-500/10 hover:border-emerald-500"
-          onClick={() => {
-            setActiveTab("time")
-            setTimePeriod("modern")
-            handleGeneratePreview()
-          }}
-        >
-          <div className="bg-emerald-500/20 p-2 rounded-full">
-            <Globe className="h-5 w-5 text-emerald-500" />
-          </div>
-          <span className="font-medium">Modern Setting</span>
-          <span className="text-xs text-muted-foreground">Set in present day</span>
-        </Button>
-
-        <Button
-          variant="outline"
-          className="h-auto py-6 flex flex-col items-center justify-center gap-2 border-emerald-500/30 hover:bg-emerald-500/10 hover:border-emerald-500"
-          onClick={() => {
-            setActiveTab("perspective")
-            setPerspective("first")
-            setCharacterFocus(getBookCharacters()[0])
-            handleGeneratePreview()
-          }}
-        >
-          <div className="bg-emerald-500/20 p-2 rounded-full">
-            <Users className="h-5 w-5 text-emerald-500" />
-          </div>
-          <span className="font-medium">Main Character POV</span>
-          <span className="text-xs text-muted-foreground">First-person perspective</span>
-        </Button>
-      </div>
-
       <Card className="border-emerald-500/20 shadow-lg overflow-hidden">
         <CardHeader className="bg-gradient-to-r from-emerald-500/10 to-transparent">
           <div className="flex items-center">
@@ -315,51 +320,193 @@ export function ReimageStory({ book }: ReimageStoryProps) {
 
         <CardContent className="pt-6">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid grid-cols-5 mb-6 scroll-mt-24 sticky top-16 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-10 py-2">
-              <TabsTrigger 
-                value="length" 
-                id="story-transform-length" 
-                className="flex items-center data-[state=active]:bg-emerald-500/20 data-[state=active]:text-emerald-500 data-[state=active]:border-emerald-500/50 data-[state=active]:shadow-sm transition-all duration-200"
+            <TabsList className="flex flex-row gap-2 mb-6 scroll-mt-24 sticky top-16 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-10 py-2 overflow-x-auto whitespace-nowrap scrollbar-hide border-b border-emerald-900 h-14">
+              <TabsTrigger
+                key="narrator"
+                value="narrator"
+                id="story-transform-narrator"
+                className="flex flex-col items-center justify-center min-w-[90px] h-12 px-3 py-1 text-emerald-100 border-b-2 border-transparent data-[state=active]:border-emerald-400 data-[state=active]:text-emerald-400 bg-transparent data-[state=active]:bg-transparent transition-all duration-200 overflow-hidden"
+                title="Narrator"
+              >
+                <Mic className="h-4 w-4 mr-2" />
+                <span className="text-xs mt-1 whitespace-normal break-words w-full text-center">Narrator</span>
+              </TabsTrigger>
+              <TabsTrigger
+                key="length"
+                value="length"
+                id="story-transform-length"
+                className="flex flex-col items-center justify-center min-w-[90px] h-12 px-3 py-1 text-emerald-100 border-b-2 border-transparent data-[state=active]:border-emerald-400 data-[state=active]:text-emerald-400 bg-transparent data-[state=active]:bg-transparent transition-all duration-200 overflow-hidden"
+                title="Length"
               >
                 <Clock className="h-4 w-4 mr-2" />
-                <span className="hidden sm:inline">Length</span>
+                <span className="text-xs mt-1 whitespace-normal break-words w-full text-center">Length</span>
               </TabsTrigger>
-              <TabsTrigger 
-                value="genre" 
-                id="story-transform-genre" 
-                className="flex items-center data-[state=active]:bg-emerald-500/20 data-[state=active]:text-emerald-500 data-[state=active]:border-emerald-500/50 data-[state=active]:shadow-sm transition-all duration-200"
+              <TabsTrigger
+                key="genre"
+                value="genre"
+                id="story-transform-genre"
+                className="flex flex-col items-center justify-center min-w-[90px] h-12 px-3 py-1 text-emerald-100 border-b-2 border-transparent data-[state=active]:border-emerald-400 data-[state=active]:text-emerald-400 bg-transparent data-[state=active]:bg-transparent transition-all duration-200 overflow-hidden"
+                title="Genre"
               >
                 <BookText className="h-4 w-4 mr-2" />
-                <span className="hidden sm:inline">Genre</span>
+                <span className="text-xs mt-1 whitespace-normal break-words w-full text-center">Genre</span>
               </TabsTrigger>
-              <TabsTrigger 
-                value="time" 
-                id="story-transform-time" 
-                className="flex items-center data-[state=active]:bg-emerald-500/20 data-[state=active]:text-emerald-500 data-[state=active]:border-emerald-500/50 data-[state=active]:shadow-sm transition-all duration-200"
+              <TabsTrigger
+                key="time"
+                value="time"
+                id="story-transform-time"
+                className="flex flex-col items-center justify-center min-w-[90px] h-12 px-3 py-1 text-emerald-100 border-b-2 border-transparent data-[state=active]:border-emerald-400 data-[state=active]:text-emerald-400 bg-transparent data-[state=active]:bg-transparent transition-all duration-200 overflow-hidden"
+                title="Time Period"
               >
                 <Globe className="h-4 w-4 mr-2" />
-                <span className="hidden sm:inline">Time Period</span>
+                <span className="text-xs mt-1 whitespace-normal break-words w-full text-center">Time Period</span>
               </TabsTrigger>
-              <TabsTrigger 
-                value="perspective" 
-                id="story-transform-perspective" 
-                className="flex items-center data-[state=active]:bg-emerald-500/20 data-[state=active]:text-emerald-500 data-[state=active]:border-emerald-500/50 data-[state=active]:shadow-sm transition-all duration-200"
+              <TabsTrigger
+                key="perspective"
+                value="perspective"
+                id="story-transform-perspective"
+                className="flex flex-col items-center justify-center min-w-[90px] h-12 px-3 py-1 text-emerald-100 border-b-2 border-transparent data-[state=active]:border-emerald-400 data-[state=active]:text-emerald-400 bg-transparent data-[state=active]:bg-transparent transition-all duration-200 overflow-hidden"
+                title="Perspective"
               >
                 <Users className="h-4 w-4 mr-2" />
-                <span className="hidden sm:inline">Perspective</span>
+                <span className="text-xs mt-1 whitespace-normal break-words w-full text-center">Perspective</span>
               </TabsTrigger>
-              <TabsTrigger 
-                value="custom" 
-                id="story-transform-custom" 
-                className="flex items-center data-[state=active]:bg-emerald-500/20 data-[state=active]:text-emerald-500 data-[state=active]:border-emerald-500/50 data-[state=active]:shadow-sm transition-all duration-200"
+              <TabsTrigger
+                key="custom"
+                value="custom"
+                id="story-transform-custom"
+                className="flex flex-col items-center justify-center min-w-[90px] h-12 px-3 py-1 text-emerald-100 border-b-2 border-transparent data-[state=active]:border-emerald-400 data-[state=active]:text-emerald-400 bg-transparent data-[state=active]:bg-transparent transition-all duration-200 overflow-hidden"
+                title="Custom"
               >
                 <Sparkles className="h-4 w-4 mr-2" />
-                <span className="hidden sm:inline">Custom</span>
+                <span className="text-xs mt-1 whitespace-normal break-words w-full text-center">Custom</span>
               </TabsTrigger>
             </TabsList>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-6">
+                <TabsContent value="narrator" className="space-y-6 mt-0">
+                  <div>
+                    <h3 className="text-lg font-medium mb-4">Customize Your Narrator</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Base Voice</label>
+                        <Select value={selectedVoice || ''} onValueChange={setSelectedVoice}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a voice" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {voices.map(voice => (
+                              <SelectItem key={voice.id} value={voice.id}>{voice.name} – {voice.description}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="mt-2"
+                          onClick={() => {
+                            if (!selectedVoice) return;
+                            const voice = voices.find(v => v.id === selectedVoice);
+                            if (voice?.sampleUrl) {
+                              const audio = new Audio(voice.sampleUrl);
+                              setPlayingVoice(selectedVoice);
+                              audio.onended = () => setPlayingVoice(null);
+                              audio.play().catch(() => setPlayingVoice(null));
+                            }
+                          }}
+                        >
+                          {playingVoice === selectedVoice ? <><Pause className="h-4 w-4 mr-1" />Stop</> : <><Play className="h-4 w-4 mr-1" />Play Sample</>}
+                        </Button>
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium">Voice Age</label>
+                        <Select value={voiceCustomization.age} onValueChange={v => setVoiceCustomization(vc => ({ ...vc, age: v }))}>
+                          <SelectTrigger><SelectValue placeholder="Select age" /></SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="young">Young</SelectItem>
+                            <SelectItem value="middle-aged">Middle-aged</SelectItem>
+                            <SelectItem value="elderly">Elderly</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <label className="text-sm font-medium mt-2">Voice Gender</label>
+                        <Select value={voiceCustomization.gender} onValueChange={v => setVoiceCustomization(vc => ({ ...vc, gender: v }))}>
+                          <SelectTrigger><SelectValue placeholder="Select gender" /></SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="male">Male</SelectItem>
+                            <SelectItem value="female">Female</SelectItem>
+                            <SelectItem value="neutral">Gender Neutral</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <label className="text-sm font-medium mt-2">Narration Style</label>
+                        <Select value={voiceCustomization.style} onValueChange={v => setVoiceCustomization(vc => ({ ...vc, style: v }))}>
+                          <SelectTrigger><SelectValue placeholder="Select style" /></SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="formal">Formal</SelectItem>
+                            <SelectItem value="casual">Casual</SelectItem>
+                            <SelectItem value="dramatic">Dramatic</SelectItem>
+                            <SelectItem value="soothing">Soothing</SelectItem>
+                            <SelectItem value="energetic">Energetic</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <label className="text-sm font-medium mt-2">Accent</label>
+                        <Select value={voiceCustomization.accent} onValueChange={v => setVoiceCustomization(vc => ({ ...vc, accent: v }))}>
+                          <SelectTrigger><SelectValue placeholder="Select accent" /></SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="neutral">Neutral</SelectItem>
+                            <SelectItem value="british">British</SelectItem>
+                            <SelectItem value="american">American</SelectItem>
+                            <SelectItem value="australian">Australian</SelectItem>
+                            <SelectItem value="irish">Irish</SelectItem>
+                            <SelectItem value="scottish">Scottish</SelectItem>
+                            <SelectItem value="french">French</SelectItem>
+                            <SelectItem value="german">German</SelectItem>
+                            <SelectItem value="spanish">Spanish</SelectItem>
+                            <SelectItem value="italian">Italian</SelectItem>
+                            <SelectItem value="russian">Russian</SelectItem>
+                            <SelectItem value="japanese">Japanese</SelectItem>
+                            <SelectItem value="indian">Indian</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                      <div>
+                        <label className="text-sm font-medium">Speaking Pace</label>
+                        <input type="range" min="10" max="100" step="5" value={voiceCustomization.pace} onChange={e => setVoiceCustomization(v => ({ ...v, pace: Number(e.target.value) }))} className="w-full" />
+                        <div className="flex justify-between text-xs"><span>Slower</span><span>Faster</span></div>
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium">Pitch</label>
+                        <input type="range" min="10" max="100" step="5" value={voiceCustomization.pitch} onChange={e => setVoiceCustomization(v => ({ ...v, pitch: Number(e.target.value) }))} className="w-full" />
+                        <div className="flex justify-between text-xs"><span>Lower</span><span>Higher</span></div>
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium">Clarity</label>
+                        <input type="range" min="10" max="100" step="5" value={voiceCustomization.clarity} onChange={e => setVoiceCustomization(v => ({ ...v, clarity: Number(e.target.value) }))} className="w-full" />
+                        <div className="flex justify-between text-xs"><span>Natural</span><span>Crisp</span></div>
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium">Emotionality</label>
+                        <input type="range" min="10" max="100" step="5" value={voiceCustomization.emotionality} onChange={e => setVoiceCustomization(v => ({ ...v, emotionality: Number(e.target.value) }))} className="w-full" />
+                        <div className="flex justify-between text-xs"><span>Neutral</span><span>Expressive</span></div>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 pt-4">
+                      <Button
+                        onClick={() => {
+                          if (!selectedVoice) return;
+                          setBookVoice(book.id, selectedVoice);
+                        }}
+                        className="bg-emerald-500 hover:bg-emerald-600"
+                      >
+                        <Save className="mr-2 h-4 w-4" />
+                        Save Narrator
+                      </Button>
+                    </div>
+                  </div>
+                </TabsContent>
+
                 <TabsContent value="length" className="space-y-6 mt-0">
                   <div className="space-y-4">
                     <div>

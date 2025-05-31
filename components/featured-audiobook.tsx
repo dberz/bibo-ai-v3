@@ -86,7 +86,7 @@ export function FeaturedAudiobook() {
           <img
             src={featuredBook.coverUrl || "/placeholder.svg"}
             alt={featuredBook.title}
-            className="w-40 h-60 object-cover rounded-lg shadow-lg mb-4"
+            className="w-60 h-90 object-cover rounded-lg shadow-lg mb-6"
           />
           <div className="text-lg font-bold text-center leading-tight">{featuredBook.title}</div>
           <div className="text-sm text-muted-foreground text-center mb-1">{featuredBook.author}</div>
@@ -131,9 +131,7 @@ export function FeaturedAudiobook() {
             type="button"
             className="inline-flex items-center gap-1 bg-emerald-100/60 text-emerald-700 text-xs px-3 py-1 rounded-full font-semibold hover:bg-emerald-200 transition"
             onClick={() => {
-              setAiModalOpen(true);
-              // Navigate to the book page with AI features open
-              router.push(`/book/${featuredBook.id}?ai=true`);
+              router.push(`/book/${featuredBook.id}#story-transform`);
             }}
           >
             <span className="mr-1">✨</span> Try AI Features

@@ -1,84 +1,280 @@
 "use client"
 
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react"
+import { createContext, useContext, useState, useCallback, type ReactNode, useRef, useEffect } from "react"
 import type { Book } from "@/types/book"
 import { getVoicePreferences } from "@/lib/voice-storage"
 
-interface PlayerState {
-  currentBook: Book | null
-  isPlaying: boolean
-  currentTime: number
-  duration: number
-  currentVoiceId: string
-  currentRewriteId: string
-  volume: number
+export type AudioVersionId = 'CLASSIC' | 'SHORTENED' | 'SCIFI' | 'SPANISH' | 'YA';
+
+export interface PlayerState {
+  currentBook: Book | null;
+  isPlaying: boolean;
+  currentTime: number;
+  duration: number;
+  currentVoiceId: string;
+  currentRewriteId: string | null;
+  volume: number;
+  isLoading: boolean;
+  adPlaying: boolean;
+  adBanner: string | null;
+  adCta: string | null;
+  currentVersion: AudioVersionId;
 }
 
-interface PlayerContextType extends PlayerState {
-  setCurrentBook: (book: Book | null) => void
-  play: () => void
-  pause: () => void
-  togglePlayback: () => void
-  seekTo: (time: number) => void
-  skipForward: (seconds: number) => void
-  skipBackward: (seconds: number) => void
-  setVoice: (voiceId: string) => void
-  setRewrite: (rewriteId: string) => void
-  setVolume: (volume: number) => void
-  startPlayback: (bookId: string) => void
+export interface PlayerContextType {
+  currentBook: Book | null;
+  isPlaying: boolean;
+  currentTime: number;
+  duration: number;
+  currentVoiceId: string;
+  currentRewriteId: string | null;
+  volume: number;
+  isLoading: boolean;
+  adPlaying: boolean;
+  adBanner: string | null;
+  adCta: string | null;
+  currentVersion: AudioVersionId;
+  currentAdIndex: number;
+  hasUserInteracted: boolean;
+  setCurrentBook: (book: Book | null) => void;
+  play: () => void;
+  pause: () => void;
+  togglePlayback: () => void;
+  seekTo: (time: number) => void;
+  skipForward: (seconds: number) => void;
+  skipBackward: (seconds: number) => void;
+  setVoice: (voiceId: string) => void;
+  setRewrite: (rewriteId: string) => void;
+  setVolume: (volume: number) => void;
+  startPlayback: (bookId: string) => void;
+  setVersion: (versionId: AudioVersionId) => void;
+  playbackMode: PlaybackMode;
 }
 
 // Create the context with a default undefined value
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined)
 
+// Define the available audio versions with direct paths to local files
+export const AUDIO_VERSIONS = {
+  CLASSIC: {
+    id: 'classic',
+    title: 'Classic Deep Baritone',
+    file: '/book-audio/Moby Dick - Classic Deep-Baritone - onyx_tts-1-hd_1x_2025-05-30T18_37_50-135Z.mp3'
+  },
+  SHORTENED: {
+    id: 'shortened',
+    title: 'Dramatically Shortened Story Version',
+    file: '/book-audio/Moby Dick - Dramatically Shortened Story Version - fable_tts-1-hd_1x_2025-05-30T18_41_09-676Z.mp3'
+  },
+  YA: {
+    id: 'ya',
+    title: 'Modern YA Adventure Rewrite',
+    file: '/book-audio/Moby Dick - Modern YA Adventure - fable_tts-1-hd_1x_2025-05-30T18_35_54-666Z.mp3'
+  },
+  SCIFI: {
+    id: 'scifi',
+    title: 'Sci-Fi Genre Reimagination',
+    file: '/book-audio/Moby Dick - Sci-Fi Genre Reimagination - echo_tts-1-hd_1x_2025-05-30T18_38_42-749Z.mp3'
+  },
+  SPANISH: {
+    id: 'spanish',
+    title: 'Spanish Literary Translation',
+    file: '/book-audio/Moby Dick - Spanish Literary Translation - shimmer_gpt-4o-mini-tts_1x_2025-05-30T18_33_39-939Z.mp3'
+  }
+} as const;
+
+// Define available ads with direct paths to local files
+const ADS = [
+  '/ads/apple ad 1 - sage_tts-1-hd_1x_2025-05-30T19_28_41-743Z.mp3',
+  '/ads/apple ad 2 - sage_tts-1-hd_1x_2025-05-30T19_29_57-658Z.mp3'
+];
+
+let currentAdIndex = 0; // Start with apple ad 1
+
+export type PlaybackMode = 'ad' | 'book' | null;
+
 // Provider component
 export function PlayerProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<PlayerState>(() => {
-    const preferences = typeof window !== "undefined" ? getVoicePreferences() : { defaultVoiceId: "emily-bright" }
-    return {
-      currentBook: null,
-      isPlaying: false,
-      currentTime: 0,
-      duration: 240,
-      currentVoiceId: preferences.defaultVoiceId,
-      currentRewriteId: "original",
-      volume: 1,
+  const [state, setState] = useState<PlayerState>({
+    currentBook: null,
+    isPlaying: false,
+    currentTime: 0,
+    duration: 0,
+    currentVoiceId: 'default',
+    currentRewriteId: null,
+    volume: 1,
+    isLoading: false,
+    adPlaying: false,
+    adBanner: null,
+    adCta: null,
+    currentVersion: 'CLASSIC'
+  });
+  const [playbackMode, setPlaybackMode] = useState<PlaybackMode>(null);
+  const [adIndex, setAdIndex] = useState(0);
+  const [adPlayed, setAdPlayed] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const hasUserInteractedRef = useRef(false);
+  const [isAudioReady, setIsAudioReady] = useState(false);
+
+  // Initialize audio element with proper settings
+  useEffect(() => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio();
+      audioRef.current.preload = 'metadata';
+      audioRef.current.autoplay = false;
     }
-  })
+    const audio = audioRef.current;
 
-  const setCurrentBook = useCallback((book: Book | null) => {
-    setState((prev) => ({ ...prev, currentBook: book, isPlaying: false, currentTime: 0 }))
-  }, [])
+    const handleCanPlay = () => {
+      setIsAudioReady(true);
+    };
 
+    const handleTimeUpdate = () => {
+      setState(prev => ({ ...prev, currentTime: audio.currentTime }));
+    };
+
+    const handleLoadedMetadata = () => {
+      setState(prev => ({ ...prev, duration: audio.duration }));
+    };
+
+    const handleEnded = () => {
+      if (playbackMode === 'ad') {
+        setAdPlayed(true);
+        setPlaybackMode('book');
+        setState(prev => ({ ...prev, adPlaying: false }));
+        // Alternate ad index for next time
+        setAdIndex((prev) => (prev + 1) % ADS.length);
+        // Only start book playback if user has interacted
+        if (hasUserInteractedRef.current && state.currentBook) {
+          playBook();
+        }
+      } else {
+        setState(prev => ({ ...prev, isPlaying: false }));
+      }
+    };
+
+    const handleError = (error: Event) => {
+      console.error('Audio playback error:', error);
+      setState(prev => ({ ...prev, isPlaying: false, adPlaying: false }));
+      setPlaybackMode(null);
+    };
+
+    audio.addEventListener('canplay', handleCanPlay);
+    audio.addEventListener('timeupdate', handleTimeUpdate);
+    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('error', handleError);
+
+    return () => {
+      audio.removeEventListener('canplay', handleCanPlay);
+      audio.removeEventListener('timeupdate', handleTimeUpdate);
+      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('error', handleError);
+    };
+  }, [playbackMode, state.currentBook]);
+
+  // Play ad audio
+  const playAd = useCallback(() => {
+    if (!audioRef.current || !hasUserInteractedRef.current || adPlayed) return;
+    
+    setPlaybackMode('ad');
+    setState(prev => ({ ...prev, adPlaying: true, isPlaying: true }));
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+    audioRef.current.src = ADS[adIndex];
+    audioRef.current.load();
+    
+    const playPromise = audioRef.current.play();
+    if (playPromise !== undefined) {
+      playPromise.catch((err) => {
+        console.error('Error playing ad:', err);
+        setState(prev => ({ ...prev, adPlaying: false, isPlaying: false }));
+        setPlaybackMode(null);
+      });
+    }
+  }, [adIndex, adPlayed]);
+
+  // Play book audio
+  const playBook = useCallback(() => {
+    if (!audioRef.current || !state.currentBook || !hasUserInteractedRef.current) return;
+    
+    setPlaybackMode('book');
+    setState(prev => ({ ...prev, adPlaying: false, isPlaying: true }));
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+    audioRef.current.src = AUDIO_VERSIONS[state.currentVersion].file;
+    audioRef.current.load();
+    
+    const playPromise = audioRef.current.play();
+    if (playPromise !== undefined) {
+      playPromise.catch((err) => {
+        console.error('Error playing book audio:', err);
+        setState(prev => ({ ...prev, isPlaying: false }));
+        setPlaybackMode(null);
+      });
+    }
+  }, [state.currentBook, state.currentVersion]);
+
+  // Play button handler
   const play = useCallback(() => {
-    setState((prev) => ({ ...prev, isPlaying: true }))
-  }, [])
+    if (!audioRef.current) return;
+    hasUserInteractedRef.current = true;
+    if (state.currentBook) {
+      if (!state.adPlaying && !adPlayed) {
+        playAd();
+      } else {
+        playBook();
+      }
+    }
+  }, [state.currentBook, state.adPlaying, adPlayed, playAd, playBook]);
 
+  // Pause button handler
   const pause = useCallback(() => {
-    setState((prev) => ({ ...prev, isPlaying: false }))
-  }, [])
+    if (!audioRef.current) return;
+    
+    audioRef.current.pause();
+    setState(prev => ({ ...prev, isPlaying: false, adPlaying: false }));
+  }, []);
 
   const togglePlayback = useCallback(() => {
-    setState((prev) => ({ ...prev, isPlaying: !prev.isPlaying }))
-  }, [])
+    if (!hasUserInteractedRef.current) {
+      hasUserInteractedRef.current = true;
+    }
+    
+    if (state.isPlaying) {
+      pause();
+    } else {
+      play();
+    }
+  }, [state.isPlaying, play, pause]);
 
   const seekTo = useCallback((time: number) => {
-    setState((prev) => ({ ...prev, currentTime: time }))
-  }, [])
+    if (audioRef.current && playbackMode === 'book') {
+      audioRef.current.currentTime = time;
+      setState(prev => ({ ...prev, currentTime: time }));
+    }
+  }, [playbackMode]);
 
   const skipForward = useCallback((seconds: number) => {
     setState((prev) => ({
       ...prev,
       currentTime: Math.min(prev.currentTime + seconds, prev.duration),
     }))
-  }, [])
+    if (audioRef.current && playbackMode === 'book') {
+      audioRef.current.currentTime = Math.min(audioRef.current.currentTime + seconds, audioRef.current.duration);
+    }
+  }, [playbackMode]);
 
   const skipBackward = useCallback((seconds: number) => {
     setState((prev) => ({
       ...prev,
       currentTime: Math.max(prev.currentTime - seconds, 0),
     }))
-  }, [])
+    if (audioRef.current && playbackMode === 'book') {
+      audioRef.current.currentTime = Math.max(audioRef.current.currentTime - seconds, 0);
+    }
+  }, [playbackMode]);
 
   const setVoice = useCallback((voiceId: string) => {
     setState((prev) => ({ ...prev, currentVoiceId: voiceId }))
@@ -108,6 +304,28 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     })
   }, [])
 
+  // Set version (does not auto-play)
+  const setVersion = useCallback((versionId: AudioVersionId) => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    setState(prev => ({ ...prev, currentVersion: versionId, isPlaying: false, adPlaying: false }));
+    setPlaybackMode(null);
+    setAdPlayed(false); // Reset ad played state when changing versions
+  }, []);
+
+  // Set current book (does not auto-play)
+  const setCurrentBook = useCallback((book: Book | null) => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    setState(prev => ({ ...prev, currentBook: book, isPlaying: false, adPlaying: false }));
+    setPlaybackMode(null);
+    setAdPlayed(false); // Reset ad played state when changing books
+  }, []);
+
   // Create the context value object
   const value: PlayerContextType = {
     ...state,
@@ -122,9 +340,19 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     setRewrite,
     setVolume,
     startPlayback,
+    setVersion,
+    playbackMode,
+    adPlaying: state.adPlaying,
+    currentAdIndex: adIndex,
+    hasUserInteracted: hasUserInteractedRef.current
   }
 
-  return <PlayerContext.Provider value={value}>{children}</PlayerContext.Provider>
+  return (
+    <PlayerContext.Provider value={value}>
+      {children}
+      <audio ref={audioRef} className="hidden" />
+    </PlayerContext.Provider>
+  );
 }
 
 // Hook to use the player context

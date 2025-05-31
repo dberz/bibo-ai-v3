@@ -1,14 +1,14 @@
 import type { Config } from "tailwindcss"
 
-const config: Config = {
+const config = {
   darkMode: ["class"],
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/**/*.{js,ts,jsx,tsx,mdx}",
-    "*.{js,ts,jsx,tsx,mdx}",
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
   ],
+  prefix: "",
   theme: {
     container: {
       center: true,
@@ -19,9 +19,10 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-inter)"],
-        heading: ["var(--font-gelica)"],
-        'heading-light': ["var(--font-gelica-light)"],
+        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        outfit: ['var(--font-outfit)', 'var(--font-inter)', 'system-ui', 'sans-serif'],
+        gelica: ['var(--font-gelica)', 'var(--font-inter)', 'system-ui', 'sans-serif'],
+        'gelica-light': ['var(--font-gelica-light)', 'var(--font-inter)', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -156,6 +157,6 @@ const config: Config = {
     require("@tailwindcss/typography"),
     require("@tailwindcss/forms"),
   ],
-}
+} satisfies Config
 
 export default config

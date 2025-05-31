@@ -35,6 +35,19 @@ interface VoiceCustomization {
 // Global singleton for sample playback
 let globalSampleAudio: HTMLAudioElement | null = null;
 
+const LANGUAGES = [
+  { id: 'en', name: 'English', flag: '🇺🇸' },
+  { id: 'es', name: 'Spanish', flag: '🇪🇸' },
+  { id: 'zh', name: 'Mandarin', flag: '🇨🇳' },
+  { id: 'fr', name: 'French', flag: '🇫🇷' },
+  { id: 'de', name: 'German', flag: '🇩🇪' },
+  { id: 'it', name: 'Italian', flag: '🇮🇹' },
+  { id: 'ja', name: 'Japanese', flag: '🇯🇵' },
+  { id: 'ko', name: 'Korean', flag: '🇰🇷' },
+  { id: 'pt', name: 'Portuguese', flag: '🇵🇹' },
+  { id: 'ru', name: 'Russian', flag: '🇷🇺' }
+] as const;
+
 export function NarratorCustomizer({ bookId }: NarratorCustomizerProps) {
   const [voices, setVoices] = useState<Voice[]>(() => getAllVoices())
   const [selectedVoice, setSelectedVoice] = useState<string | null>(null)
@@ -43,6 +56,7 @@ export function NarratorCustomizer({ bookId }: NarratorCustomizerProps) {
   const [activeTab, setActiveTab] = useState("voice")
   const { toast } = useToast()
   const { setVoice } = usePlayer()
+  const [selectedLanguage, setSelectedLanguage] = useState<string>('en')
 
   // Voice customization state
   const [customization, setCustomization] = useState<VoiceCustomization>({
@@ -244,7 +258,7 @@ export function NarratorCustomizer({ bookId }: NarratorCustomizerProps) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Quick Voice Presets */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         {voicePresets.map((preset) => (
@@ -565,6 +579,31 @@ export function NarratorCustomizer({ bookId }: NarratorCustomizerProps) {
           </Badge>
         </CardFooter>
       </Card>
+
+      {/* Advanced Story Transformation */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold">Advanced Story Transformation</h3>
+        
+        {/* Language Selection */}
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Language</label>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+            {LANGUAGES.map((lang) => (
+              <Button
+                key={lang.id}
+                variant={selectedLanguage === lang.id ? "default" : "outline"}
+                className="w-full justify-start gap-2"
+                onClick={() => setSelectedLanguage(lang.id)}
+              >
+                <span className="text-lg">{lang.flag}</span>
+                <span>{lang.name}</span>
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        {/* ... rest of the advanced options ... */}
+      </div>
     </div>
   )
 }
