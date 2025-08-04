@@ -171,11 +171,11 @@ export function useAudioPlayer({ bookId, voiceId, rewriteId }: UseAudioPlayerPro
 
   // Ad callbacks
   const onAdStart = () => {
-    console.log("Ad started")
+          // Ad started
   }
 
   const onAdEnd = () => {
-    console.log("Ad ended")
+          // Ad ended
   }
 
   return {

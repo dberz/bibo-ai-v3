@@ -11,8 +11,10 @@ import { Button } from "@/components/ui/button"
 import { BottomNavigation } from "@/components/bottom-navigation"
 import { ConsistentHeader } from "@/components/consistent-header"
 import Link from "next/link"
+import { useBottomPadding } from "@/hooks/use-mobile"
 
 export default function BrowsePage() {
+  const bottomPadding = useBottomPadding()
   const [books, setBooks] = useState<Book[]>([])
   const [filteredBooks, setFilteredBooks] = useState<Book[]>([])
   const [searchQuery, setSearchQuery] = useState("")
@@ -95,7 +97,7 @@ export default function BrowsePage() {
       <ConsistentHeader />
 
       {/* Search and Filters */}
-      <div className="max-w-4xl mx-auto px-4 py-6">
+      <div className={`max-w-4xl mx-auto px-4 ${bottomPadding}`}>
         <div className="space-y-4">
           {/* Search Bar */}
           <div className="relative">
@@ -126,7 +128,7 @@ export default function BrowsePage() {
       </div>
 
       {/* Content */}
-      <div className="max-w-4xl mx-auto px-4 pb-20">
+      <div className={`max-w-4xl mx-auto px-4 ${bottomPadding}`}>
         {searchQuery || selectedGenre !== "all" ? (
           // Search Results
           <div className="space-y-6">

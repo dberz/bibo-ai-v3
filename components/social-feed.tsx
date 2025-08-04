@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { useState, useEffect, useCallback, useMemo } from "react"
 import { getPersonalizedFeed, hasMorePosts } from "@/lib/feed-service"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { usePlayer } from "@/lib/player/player-context"
 
 interface SocialFeedProps {
@@ -202,6 +203,7 @@ export function SocialFeed({ initialBooks = [] }: SocialFeedProps) {
   const [hasMore, setHasMore] = useState(true)
   const [isInitialLoad, setIsInitialLoad] = useState(true)
   const { setCurrentBookAndPlay, currentBook, isPlaying } = usePlayer()
+  const router = useRouter()
 
   // Memoize comments to avoid regenerating on every render
   const bookComments = useMemo(() => {
@@ -212,7 +214,7 @@ export function SocialFeed({ initialBooks = [] }: SocialFeedProps) {
     return comments
   }, [books])
 
-  // Load initial books if none provided - reduced to 3 for faster initial load
+  // Load initial books if none provided - start with Moby Dick and ensure no duplicates
   useEffect(() => {
     if (initialBooks.length === 0 && isInitialLoad) {
       setIsInitialLoad(false)
@@ -229,7 +231,14 @@ export function SocialFeed({ initialBooks = [] }: SocialFeedProps) {
       await new Promise(resolve => setTimeout(resolve, 200))
       
       const newBooks = getPersonalizedFeed(page, limit)
-      setBooks(prev => [...prev, ...newBooks])
+      
+      // Deduplicate books based on book ID
+      setBooks(prev => {
+        const existingIds = new Set(prev.map(book => book.id))
+        const uniqueNewBooks = newBooks.filter(book => !existingIds.has(book.id))
+        return [...prev, ...uniqueNewBooks]
+      })
+      
       setPage(prev => prev + 1)
       setHasMore(hasMorePosts(page, limit))
     } catch (error) {
@@ -269,8 +278,11 @@ export function SocialFeed({ initialBooks = [] }: SocialFeedProps) {
   }
 
   const handlePlayBook = (book: Book) => {
-    console.log('Playing book:', book.title);
     setCurrentBookAndPlay(book);
+  };
+
+  const handleBookClick = (book: Book) => {
+    router.push(`/book/${book.id}`);
   };
 
   return (
@@ -360,9 +372,9 @@ export function SocialFeed({ initialBooks = [] }: SocialFeedProps) {
               </div>
 
               {/* Book Info */}
-              <div className="space-y-2">
+              <div className="space-y-2 cursor-pointer" onClick={() => handleBookClick(book)}>
                 <div className="flex items-center space-x-2">
-                  <h3 className="font-semibold text-lg">{book.title}</h3>
+                  <h3 className="font-semibold text-lg hover:text-emerald-400 transition-colors">{book.title}</h3>
                   <Badge variant="secondary" className="text-xs">
                     {book.duration}
                   </Badge>

@@ -9,13 +9,114 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Heart, MessageCircle, Users, Trophy, Target, Award, Star, BookOpen, Clock } from "lucide-react"
 import type { Book } from "@/types/book"
 
+interface Comment {
+  id: string
+  user: {
+    name: string
+    avatar: string
+  }
+  text: string
+  timestamp: string
+}
+
 interface BookSocialGamificationProps {
   book: Book
 }
 
+const generateCommentsForBook = (bookTitle: string): Comment[] => {
+  const commentTemplates = {
+    "Moby Dick": [
+      {
+        id: "1",
+        user: { name: "Captain Ahab", avatar: "/placeholder.svg" },
+        text: "Call me obsessed! This book completely changed how I see the ocean. The audiobook narration is absolutely mesmerizing.",
+        timestamp: "1h ago"
+      },
+      {
+        id: "2", 
+        user: { name: "Ishmael", avatar: "/placeholder.svg" },
+        text: "Just finished Chapter 1 and I'm already hooked. The opening line is pure poetry!",
+        timestamp: "3h ago"
+      }
+    ],
+    "Pride and Prejudice": [
+      {
+        id: "1",
+        user: { name: "Elizabeth Bennet", avatar: "/placeholder.svg" },
+        text: "Mr. Darcy's character development is absolutely brilliant! This audiobook brings the Regency era to life.",
+        timestamp: "2h ago"
+      },
+      {
+        id: "2", 
+        user: { name: "Jane Austen Fan", avatar: "/placeholder.svg" },
+        text: "Perfect for my morning walks. The narrator's British accent is so authentic!",
+        timestamp: "5h ago"
+      }
+    ],
+    "The Great Gatsby": [
+      {
+        id: "1",
+        user: { name: "Jay Gatsby", avatar: "/placeholder.svg" },
+        text: "The green light at the end of the dock... this book captures the American Dream perfectly.",
+        timestamp: "1h ago"
+      },
+      {
+        id: "2", 
+        user: { name: "Daisy Buchanan", avatar: "/placeholder.svg" },
+        text: "Fitzgerald's prose is like jazz music - so smooth and rhythmic. Love this audiobook!",
+        timestamp: "4h ago"
+      }
+    ],
+    "Frankenstein": [
+      {
+        id: "1",
+        user: { name: "Victor Frankenstein", avatar: "/placeholder.svg" },
+        text: "The monster's story is heartbreaking. This audiobook really brings out the gothic atmosphere.",
+        timestamp: "2h ago"
+      },
+      {
+        id: "2", 
+        user: { name: "Gothic Reader", avatar: "/placeholder.svg" },
+        text: "Perfect for stormy nights! The narrator's voice is so atmospheric.",
+        timestamp: "6h ago"
+      }
+    ],
+    "Dracula": [
+      {
+        id: "1",
+        user: { name: "Count Dracula", avatar: "/placeholder.svg" },
+        text: "I never drink... audiobooks. But this one is absolutely blood-curdling!",
+        timestamp: "1h ago"
+      },
+      {
+        id: "2", 
+        user: { name: "Van Helsing", avatar: "/placeholder.svg" },
+        text: "The epistolary format works brilliantly in audio. Each character's voice is distinct!",
+        timestamp: "3h ago"
+      }
+    ]
+  };
+  
+  return commentTemplates[bookTitle as keyof typeof commentTemplates] || [
+    {
+      id: "1",
+      user: { name: "Book Lover", avatar: "/placeholder.svg" },
+      text: "This audiobook is absolutely captivating! The narrator brings the story to life perfectly.",
+      timestamp: "2h ago"
+    },
+    {
+      id: "2",
+      user: { name: "Audiobook Fan", avatar: "/placeholder.svg" },
+      text: "Perfect for my daily commute. I can't wait to finish it!",
+      timestamp: "4h ago"
+    }
+  ];
+};
+
 export function BookSocialGamification({ book }: BookSocialGamificationProps) {
   const [isLiked, setIsLiked] = useState(false)
   const [showComments, setShowComments] = useState(false)
+  const comments = generateCommentsForBook(book.title)
 
   // Mock gamification data
   const userProgress = {
@@ -110,36 +211,34 @@ export function BookSocialGamification({ book }: BookSocialGamificationProps) {
         </CardContent>
       </Card>
 
-      {/* Reading Challenges */}
+      {/* Related Reading Challenges */}
       <Card className="border-yellow-500/20">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Target className="h-5 w-5 text-yellow-500" />
-            <span>Reading Challenges</span>
+            <span>Related Reading Challenges</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            {bookChallenges.map((challenge) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {bookChallenges.slice(0, 3).map((challenge) => (
               <div
                 key={challenge.id}
-                className="flex items-center space-x-3 p-3 rounded-lg border border-gray-700 bg-gray-800/30"
+                className="p-3 rounded-lg border border-gray-700 bg-gray-800/30"
               >
-                <div className="text-2xl">{challenge.icon}</div>
-                <div className="flex-1">
-                  <div className="font-medium text-sm">{challenge.title}</div>
-                  <div className="text-xs text-gray-400">{challenge.description}</div>
-                  <div className="mt-2">
-                    <div className="flex justify-between text-xs text-gray-400 mb-1">
-                      <span>Progress</span>
-                      <span>{challenge.progress}/{challenge.total}</span>
-                    </div>
-                    <Progress 
-                      value={(challenge.progress / challenge.total) * 100} 
-                      className="h-1.5"
-                    />
-                  </div>
+                <div className="flex items-center space-x-2 mb-2">
+                  <div className="text-lg">{challenge.icon}</div>
+                  <div className="text-sm font-medium">{challenge.title}</div>
                 </div>
+                <div className="text-xs text-gray-400 mb-2">{challenge.description}</div>
+                <div className="flex justify-between text-xs text-gray-400 mb-1">
+                  <span>Progress</span>
+                  <span>{challenge.progress}/{challenge.total}</span>
+                </div>
+                <Progress 
+                  value={(challenge.progress / challenge.total) * 100} 
+                  className="h-1"
+                />
               </div>
             ))}
           </div>
@@ -218,46 +317,33 @@ export function BookSocialGamification({ book }: BookSocialGamificationProps) {
         </CardContent>
       </Card>
 
-      {/* Recent Comments */}
+      {/* Community Comments */}
       {showComments && (
         <Card className="border-gray-700">
           <CardHeader>
-            <CardTitle className="text-lg">Recent Comments</CardTitle>
+            <CardTitle className="text-lg">Community Comments</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex space-x-3">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="/placeholder-user.jpg" />
-                <AvatarFallback>JD</AvatarFallback>
-              </Avatar>
-              <div className="flex-1">
-                <div className="flex items-center space-x-2">
-                  <span className="font-medium text-sm">Jane Doe</span>
-                  <Badge variant="outline" className="text-xs">Reader</Badge>
+            {comments.map((comment) => (
+              <div key={comment.id} className="flex space-x-3">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={comment.user.avatar} />
+                  <AvatarFallback className="text-xs">
+                    {comment.user.name.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex-1">
+                  <div className="flex items-center space-x-2">
+                    <span className="font-medium text-sm">{comment.user.name}</span>
+                    <Badge variant="outline" className="text-xs">Reader</Badge>
+                  </div>
+                  <p className="text-sm text-gray-300 mt-1">
+                    {comment.text}
+                  </p>
+                  <div className="text-xs text-gray-500 mt-2">{comment.timestamp}</div>
                 </div>
-                <p className="text-sm text-gray-300 mt-1">
-                  The narrator's voice is absolutely perfect for this classic. I'm loving every minute!
-                </p>
-                <div className="text-xs text-gray-500 mt-2">2 hours ago</div>
               </div>
-            </div>
-            
-            <div className="flex space-x-3">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="/placeholder-user.jpg" />
-                <AvatarFallback>JS</AvatarFallback>
-              </Avatar>
-              <div className="flex-1">
-                <div className="flex items-center space-x-2">
-                  <span className="font-medium text-sm">John Smith</span>
-                  <Badge variant="outline" className="text-xs">BookTok</Badge>
-                </div>
-                <p className="text-sm text-gray-300 mt-1">
-                  This is my third time listening to this audiobook. It gets better every time!
-                </p>
-                <div className="text-xs text-gray-500 mt-2">5 hours ago</div>
-              </div>
-            </div>
+            ))}
           </CardContent>
         </Card>
       )}

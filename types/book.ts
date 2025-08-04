@@ -29,6 +29,13 @@ export interface Book {
   }
   algorithmScore?: number
   tags?: string[]
+  // User-specific properties
+  isFavorite?: boolean
+  progress?: number
+  addedAt?: string
+  // Audio-specific properties
+  segments?: string[]
+  gutenbergId?: number
 }
 
 export interface Chapter {
@@ -36,4 +43,5 @@ export interface Chapter {
   title: string
   duration: string
   audioUrl: string
+  content?: string
 }

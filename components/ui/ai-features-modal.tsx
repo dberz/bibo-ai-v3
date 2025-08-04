@@ -54,8 +54,9 @@ export function AiFeaturesModal({
     onOpenChange(false)
     // Small delay to ensure smooth transition
     setTimeout(() => {
-      // Always navigate to Moby Dick for demo
-      const url = new URL(`/book/moby-dick`, window.location.origin);
+      // Navigate to the specific book if provided, otherwise default to Moby Dick
+      const targetBookId = bookId || "moby-dick"
+      const url = new URL(`/book/${targetBookId}`, window.location.origin);
       url.hash = `story-transform-${tab}`;
       if (initialContent) {
         url.searchParams.set('content', encodeURIComponent(initialContent));
@@ -102,7 +103,8 @@ export function AiFeaturesModal({
           onClick={() => {
             onOpenChange(false)
             setTimeout(() => {
-              window.location.href = `/book/moby-dick#story-transform`
+              const targetBookId = bookId || "moby-dick"
+              window.location.href = `/book/${targetBookId}#story-transform`
             }, 100)
           }}
         >

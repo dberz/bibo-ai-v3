@@ -631,7 +631,12 @@ export function getAllBooks(): Book[] {
 }
 
 export function getBookById(id: string): Book | undefined {
-  return books.find(book => book.id === id);
+  try {
+    return books.find(book => book.id === id);
+  } catch (error) {
+    console.error(`Error finding book with id ${id}:`, error);
+    return undefined;
+  }
 }
 
 export function getSocialFeedBooks(): Book[] {

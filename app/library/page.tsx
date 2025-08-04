@@ -10,6 +10,7 @@ import { BottomNavigation } from "@/components/bottom-navigation"
 import { ConsistentHeader } from "@/components/consistent-header"
 import Link from "next/link"
 import { usePlayer } from "@/lib/player/player-context"
+import { useBottomPadding } from "@/hooks/use-mobile"
 
 // Mock library data
 const mockLibraryBooks = [
@@ -148,6 +149,7 @@ const mockLibraryBooks = [
 export default function LibraryPage() {
   const [activeTab, setActiveTab] = useState<"reading" | "completed" | "wishlist">("reading")
   const { setCurrentBookAndPlay, currentBook, isPlaying } = usePlayer()
+  const bottomPadding = useBottomPadding()
 
   const currentlyReading = mockLibraryBooks.filter(book => book.isCurrentlyReading)
   const completed = mockLibraryBooks.filter(book => book.progress === 100)
@@ -225,7 +227,7 @@ export default function LibraryPage() {
       </div>
 
       {/* Books List */}
-      <div className="max-w-md mx-auto px-4 py-6 pb-20">
+      <div className={`max-w-md mx-auto px-4 py-6 ${bottomPadding}`}>
         <div className="space-y-4">
           {getCurrentBooks().map((book) => (
             <Card key={book.id} className="overflow-hidden">

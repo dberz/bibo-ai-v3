@@ -57,8 +57,8 @@ export const getFeedPosts = (page: number = 1, limit: number = 6): (Book & {
   }).filter(Boolean) as any // Remove null entries
   
   // Remove duplicates based on book ID
-  return mergedPosts.filter((post, index, self) => 
-    index === self.findIndex(p => p.id === post.id)
+  return mergedPosts.filter((post: any, index: number, self: any[]) => 
+    index === self.findIndex((p: any) => p.id === post.id)
   )
 }
 

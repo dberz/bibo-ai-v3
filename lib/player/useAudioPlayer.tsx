@@ -134,20 +134,20 @@ export function useAudioPlayer(): AudioPlayerHook {
       // Get an ad relevant to the current book and user
       const ad = await getAd(
         state.currentBook.id,
-        state.currentSegmentIndex,
+        String(state.currentSegmentIndex),
         "user-123", // TODO: Replace with actual user ID
       )
 
       // Set ad banner and CTA
       setState((prev) => ({
         ...prev,
-        adBanner: ad.img,
+        adBanner: ad.img || ad.imageUrl,
         adCta: ad.cta,
         isLoading: false,
       }))
 
       // Play ad audio
-      audioRef.current.src = ad.audio
+      audioRef.current.src = ad.audio || ad.audioUrl
       audioRef.current.play()
 
       // Track ad impression
@@ -171,7 +171,7 @@ export function useAudioPlayer(): AudioPlayerHook {
         setState((prev) => ({ ...prev, isLoading: true, currentSegmentIndex: segmentIndex }))
 
         // Get the text for this segment (potentially with rewrite)
-        const segmentText = state.currentBook.segments[segmentIndex]
+        const segmentText = state.currentBook.segments?.[segmentIndex] || ''
 
         // Get TTS audio URL for this segment
         const audioUrl = await callTTS(segmentText, state.currentVoiceId)
@@ -252,7 +252,7 @@ export function useAudioPlayer(): AudioPlayerHook {
     if (!state.currentBook) return
 
     const nextIndex = state.currentSegmentIndex + 1
-    if (nextIndex < state.currentBook.segments.length) {
+    if (nextIndex < (state.currentBook.segments?.length || 0)) {
       playSegment(nextIndex)
     } else {
       // End of book

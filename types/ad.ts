@@ -5,4 +5,6 @@ export interface Ad {
   imageUrl: string
   audioUrl: string
   cta: string
+  img?: string
+  audio?: string
 }

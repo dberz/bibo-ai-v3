@@ -13,26 +13,28 @@ export async function POST(request: Request) {
   try {
     const { text, voiceId } = await request.json();
     
-    // Check if we have a cached version
+    // Check if we have a cached version (only in local development)
     const cacheKey = getCacheKey(text, voiceId);
     const cachePath = path.join(process.cwd(), 'public', 'tts', cacheKey);
     
     try {
       // Try to read from cache first
       await fs.access(cachePath);
-      console.log('[TTS] Using cached audio file:', cacheKey);
       return NextResponse.json({ url: `/tts/${cacheKey}` });
     } catch (err) {
       // No cached version, generate new audio
-      console.log('[TTS] Generating new audio for:', cacheKey);
     }
 
-    // Ensure tts directory exists
+    // Ensure tts directory exists (only in local development)
     const ttsDir = path.join(process.cwd(), 'public', 'tts');
     try {
       await fs.access(ttsDir);
     } catch {
-      await fs.mkdir(ttsDir, { recursive: true });
+      try {
+        await fs.mkdir(ttsDir, { recursive: true });
+      } catch (mkdirError) {
+        // Directory creation failed, continue without caching
+      }
     }
 
     // Call OpenAI TTS API
@@ -57,14 +59,17 @@ export async function POST(request: Request) {
     // Get the audio data
     const audioData = await response.arrayBuffer();
     
-    // Save to cache
-    await fs.writeFile(cachePath, new Uint8Array(audioData));
-    console.log('[TTS] Saved audio to cache:', cacheKey);
-
-    // Return the public URL
-    return NextResponse.json({ url: `/tts/${cacheKey}` });
+    // Try to save to cache, fallback to data URL if it fails
+    try {
+      await fs.writeFile(cachePath, new Uint8Array(audioData));
+      return NextResponse.json({ url: `/tts/${cacheKey}` });
+    } catch (fsError) {
+      // If file system operations fail (e.g., on Vercel), return a data URL
+      const base64Audio = Buffer.from(audioData).toString('base64');
+      const dataUrl = `data:audio/mp3;base64,${base64Audio}`;
+      return NextResponse.json({ url: dataUrl });
+    }
   } catch (error) {
-    console.error('TTS Error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Failed to generate speech' },
       { status: 500 }

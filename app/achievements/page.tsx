@@ -11,6 +11,7 @@ import { Trophy, Target, Award, TrendingUp, Clock, BookOpen, Flame, Star } from 
 import { ChallengeCard } from "@/components/challenge-card"
 import { BottomNavigation } from "@/components/bottom-navigation"
 import { ConsistentHeader } from "@/components/consistent-header"
+import { useBottomPadding } from "@/hooks/use-mobile"
 
 export default function AchievementsPage() {
   const [activeTab, setActiveTab] = useState<"stats" | "challenges" | "achievements">("stats")
@@ -19,6 +20,8 @@ export default function AchievementsPage() {
   const activeChallenges = getActiveChallenges()
   const completedChallenges = getCompletedChallenges()
   const achievements = getUserAchievements()
+
+  const bottomPadding = useBottomPadding()
 
            return (
            <div className="min-h-screen bg-gray-900">
@@ -56,7 +59,7 @@ export default function AchievementsPage() {
       </div>
 
       {/* Content */}
-      <div className="max-w-4xl mx-auto px-4 py-8 pb-20">
+      <div className={`max-w-4xl mx-auto px-4 py-8 ${bottomPadding}`}>
         {activeTab === "stats" && (
           <div className="space-y-6">
             {/* Level Progress */}

@@ -51,9 +51,13 @@ export function setDefaultVoice(voiceId: string): void {
 }
 
 export function setBookVoice(bookId: string, voiceId: string): void {
-  const preferences = getVoicePreferences()
-  preferences.bookVoicePreferences[bookId] = voiceId
-  saveVoicePreferences(preferences)
+  try {
+    const preferences = getVoicePreferences()
+    preferences.bookVoicePreferences[bookId] = voiceId
+    saveVoicePreferences(preferences)
+  } catch (error) {
+    console.error("Error setting book voice:", error)
+  }
 }
 
 export function getBookVoice(bookId: string): string {

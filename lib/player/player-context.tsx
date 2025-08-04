@@ -50,6 +50,7 @@ export interface PlayerContextType {
   startPlayback: (bookId: string) => void;
   setVersion: (versionId: AudioVersionId) => void;
   playbackMode: PlaybackMode;
+  closePlayer: () => void;
 }
 
 // Create the context with a default undefined value
@@ -344,6 +345,23 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     }
   }, [setCurrentBook, adPlayed, playAd, playBook]);
 
+  // Close player and reset state
+  const closePlayer = useCallback(() => {
+    if (audioRef.current) {
+      audioRef.current.pause()
+    }
+    setState(prev => ({
+      ...prev,
+      currentBook: null,
+      isPlaying: false,
+      adPlaying: false,
+      currentTime: 0,
+      duration: 0
+    }))
+    setPlaybackMode(null)
+    setAdPlayed(false)
+  }, [])
+
   // Create the context value object
   const value: PlayerContextType = {
     ...state,
@@ -360,6 +378,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     setVolume,
     startPlayback,
     setVersion,
+    closePlayer,
     playbackMode,
     adPlaying: state.adPlaying,
     currentAdIndex: adIndex,

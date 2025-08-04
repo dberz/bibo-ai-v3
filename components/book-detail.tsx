@@ -8,6 +8,8 @@ import Image from "next/image"
 import { usePlayer } from "@/lib/player/player-context"
 import { SocialProof } from "@/components/social-proof"
 import { BookSocialGamification } from "@/components/book-social-gamification"
+import { AiExperiencesSimplified } from "@/components/ai-experiences-simplified"
+import { ErrorBoundary } from "@/components/error-boundary"
 
 interface BookDetailProps {
   book: Book
@@ -101,9 +103,18 @@ export function BookDetail({ book }: BookDetailProps) {
         </div>
       </div>
 
+      {/* AI Experiences Section */}
+      <div className="mt-12">
+        <ErrorBoundary>
+          <AiExperiencesSimplified book={book} />
+        </ErrorBoundary>
+      </div>
+
       {/* Social and Gamification Section */}
       <div className="mt-12">
-        <BookSocialGamification book={book} />
+        <ErrorBoundary>
+          <BookSocialGamification book={book} />
+        </ErrorBoundary>
       </div>
     </div>
   )
