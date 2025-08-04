@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { Button } from "@/components/ui/button"
-import { BookOpen, Clock, Play, Plus, Eye, Bookmark } from "lucide-react"
+import { BookOpen, Clock, Play, Plus, Eye, Bookmark, Heart } from "lucide-react"
 import { BottomNavigation } from "@/components/bottom-navigation"
 import { ConsistentHeader } from "@/components/consistent-header"
 import Link from "next/link"
@@ -156,9 +156,9 @@ export default function LibraryPage() {
   const wishlist = mockLibraryBooks.filter(book => book.progress === 0 && !book.isCurrentlyReading)
 
   const tabs = [
-    { id: "reading", label: "Currently Reading", count: currentlyReading.length },
-    { id: "completed", label: "Completed", count: completed.length },
-    { id: "wishlist", label: "Wishlist", count: wishlist.length }
+    { id: "reading", label: "Currently Reading", count: currentlyReading.length, icon: BookOpen },
+    { id: "completed", label: "Completed", count: completed.length, icon: Clock },
+    { id: "wishlist", label: "Wishlist", count: wishlist.length, icon: Heart }
   ]
 
   const getCurrentBooks = () => {
@@ -205,26 +205,52 @@ export default function LibraryPage() {
       {/* Tabs */}
       <div className="bg-gray-900 border-b border-gray-700">
         <div className="max-w-md mx-auto px-4">
-          <div className="flex space-x-6">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center space-x-2 py-4 px-2 border-b-2 transition-colors ${
-                  activeTab === tab.id
-                    ? "border-emerald-400 text-emerald-400"
-                    : "border-transparent text-gray-400 hover:text-gray-200"
-                }`}
-              >
-                <span className="font-medium">{tab.label}</span>
-                <Badge variant="secondary" className="text-xs">
-                  {tab.count}
-                </Badge>
-              </button>
-            ))}
+          <div className="flex justify-between">
+            {tabs.map((tab) => {
+              const Icon = tab.icon
+              const isActive = activeTab === tab.id
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id as any)}
+                  className={`flex flex-col items-center justify-center py-3 px-4 min-h-[60px] w-full transition-all duration-200 relative ${
+                    isActive
+                      ? "text-emerald-400"
+                      : "text-gray-400 hover:text-gray-200 active:text-gray-300"
+                  }`}
+                >
+                  {/* Active indicator */}
+                  {isActive && (
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-12 h-0.5 bg-emerald-400 rounded-full" />
+                  )}
+                  
+                  {/* Icon and Label */}
+                  <div className="flex flex-col items-center space-y-1">
+                    <Icon className={`h-5 w-5 ${isActive ? 'text-emerald-400' : 'text-gray-400'}`} />
+                    <span className="text-xs font-medium leading-tight text-center">
+                      {tab.label}
+                    </span>
+                  </div>
+                  
+                  {/* Count Badge */}
+                  <Badge 
+                    variant="secondary" 
+                    className={`absolute -top-1 -right-1 h-5 w-5 p-0 text-xs flex items-center justify-center ${
+                      isActive 
+                        ? 'bg-emerald-900 text-emerald-200 border-emerald-700' 
+                        : 'bg-gray-800 text-gray-300 border-gray-600'
+                    }`}
+                  >
+                    {tab.count}
+                  </Badge>
+                </button>
+              )
+            })}
           </div>
         </div>
       </div>
+
+
 
       {/* Books List */}
       <div className={`max-w-md mx-auto px-4 py-6 ${bottomPadding}`}>

@@ -31,31 +31,31 @@ const generateFeedUser = (index: number) => {
   const userTypes = [
     // Mix for top positions - ensure diversity in first 3
     { name: "BookishEmma", type: "Influencer", avatar: "/placeholder-user.jpg", badge: "BookTok" },
-    { name: "Margaret Atwood", type: "Author", avatar: "/placeholder-user.jpg", badge: "Author" },
-    { name: "Penguin Classics", type: "Publisher", avatar: "/placeholder-user.jpg", badge: "Publisher" },
+    { name: "Margaret Atwood", type: "Author", avatar: "/authors/margaret-atwood.jpg", badge: "Author" },
+    { name: "Penguin Classics", type: "Publisher", avatar: "/publishers/penguin-classics.svg", badge: "Publisher" },
     
     // Additional diverse users
-    { name: "Neil Gaiman", type: "Author", avatar: "/placeholder-user.jpg", badge: "Author" },
+    { name: "Neil Gaiman", type: "Author", avatar: "/authors/neil-gaiman.jpg", badge: "Author" },
     { name: "LiteraryLiam", type: "Influencer", avatar: "/placeholder-user.jpg", badge: "BookTok" },
-    { name: "Random House", type: "Publisher", avatar: "/placeholder-user.jpg", badge: "Publisher" },
-    { name: "Roxane Gay", type: "Author", avatar: "/placeholder-user.jpg", badge: "Author" },
+    { name: "Random House", type: "Publisher", avatar: "/publishers/random-house.svg", badge: "Publisher" },
+    { name: "Roxane Gay", type: "Author", avatar: "/authors/roxane-gay.jpg", badge: "Author" },
     { name: "ReadingRaven", type: "Influencer", avatar: "/placeholder-user.jpg", badge: "BookTok" },
-    { name: "HarperCollins", type: "Publisher", avatar: "/placeholder-user.jpg", badge: "Publisher" },
+    { name: "HarperCollins", type: "Publisher", avatar: "/publishers/harpercollins.svg", badge: "Publisher" },
     
     // Book Clubs
-    { name: "Classic Book Club", type: "Book Club", avatar: "/placeholder-user.jpg", badge: "Book Club" },
-    { name: "Sci-Fi Readers", type: "Book Club", avatar: "/placeholder-user.jpg", badge: "Book Club" },
-    { name: "Poetry Society", type: "Book Club", avatar: "/placeholder-user.jpg", badge: "Book Club" },
+    { name: "Classic Book Club", type: "Book Club", avatar: "/clubs/classic-book-club.svg", badge: "Book Club" },
+    { name: "Sci-Fi Readers", type: "Book Club", avatar: "/clubs/sci-fi-readers.svg", badge: "Book Club" },
+    { name: "Poetry Society", type: "Book Club", avatar: "/clubs/poetry-society.svg", badge: "Book Club" },
     
     // Literary Critics
-    { name: "Dr. Sarah Chen", type: "Critic", avatar: "/placeholder-user.jpg", badge: "Critic" },
-    { name: "Prof. Marcus Johnson", type: "Critic", avatar: "/placeholder-user.jpg", badge: "Critic" },
-    { name: "Literary Review", type: "Critic", avatar: "/placeholder-user.jpg", badge: "Critic" },
+    { name: "Dr. Sarah Chen", type: "Critic", avatar: "/critics/dr-sarah-chen.jpg", badge: "Critic" },
+    { name: "Prof. Marcus Johnson", type: "Critic", avatar: "/critics/prof-marcus-johnson.jpg", badge: "Critic" },
+    { name: "Literary Review", type: "Critic", avatar: "/critics/literary-review.svg", badge: "Critic" },
     
     // Regular Readers
     { name: "Book Lover", type: "Reader", avatar: "/placeholder-user.jpg", badge: null },
     { name: "Audiobook Fan", type: "Reader", avatar: "/placeholder-user.jpg", badge: null },
-    { name: "Classic Collector", type: "Reader", avatar: "/placeholder-user.jpg", badge: null }
+    { name: "Classic Collector", type: "Reader", avatar: "/placeholder-user.jpg", badge: null },
   ];
   
   return userTypes[index % userTypes.length];
@@ -297,7 +297,14 @@ export function SocialFeed({ initialBooks = [] }: SocialFeedProps) {
             <div className="p-4 border-b border-gray-700">
               <div className="flex items-center space-x-3">
                 <Avatar className="h-10 w-10">
-                  <AvatarImage src="/placeholder-user.jpg" alt="User" />
+                  <AvatarImage 
+                    src={generateFeedUser(index).avatar} 
+                    alt={generateFeedUser(index).name}
+                    onError={(e) => {
+                      // Fallback to placeholder if image fails to load
+                      e.currentTarget.src = "/placeholder-user.jpg"
+                    }}
+                  />
                   <AvatarFallback>{generateFeedUser(index).name.charAt(0)}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
@@ -397,7 +404,13 @@ export function SocialFeed({ initialBooks = [] }: SocialFeedProps) {
                 {comments.map((comment) => (
                   <div key={comment.id} className="flex space-x-2">
                     <Avatar className="h-6 w-6">
-                      <AvatarImage src="/placeholder.svg" />
+                      <AvatarImage 
+                        src={comment.user.avatar} 
+                        onError={(e) => {
+                          // Fallback to placeholder if image fails to load
+                          e.currentTarget.src = "/placeholder-user.jpg"
+                        }}
+                      />
                       <AvatarFallback className="text-xs">
                         {comment.user.name.charAt(0)}
                       </AvatarFallback>

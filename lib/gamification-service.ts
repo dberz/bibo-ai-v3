@@ -1,6 +1,6 @@
 import { Challenge, Achievement, UserStats } from "@/types/gamification";
 
-// Mock user stats
+// Enhanced user stats with more detailed metrics
 export function getUserStats(): UserStats {
   return {
     level: 7,
@@ -9,48 +9,88 @@ export function getUserStats(): UserStats {
     totalMinutesListened: 480,
     currentStreak: 5,
     readingProgress: 75,
-    pointsToNextLevel: 250
+    pointsToNextLevel: 250,
+    // New enhanced stats
+    wordsConsumed: 125000,
+    genresExplored: 8,
+    longestStreak: 12,
+    averageDailyListening: 32,
+    thisWeekMinutes: 224,
+    thisMonthMinutes: 960,
+    favoriteGenre: "Classics",
+    totalChallengesCompleted: 15,
+    achievementsUnlocked: 8
   };
 }
 
-// Mock active challenges
+// Enhanced active challenges with dynamic streaks and quests
 export function getActiveChallenges(): Challenge[] {
   return [
     {
-      id: "daily-1",
-      title: "Daily Reading",
-      description: "Listen to 30 minutes of audiobooks today",
+      id: "daily-streak-1",
+      title: "Daily Listening Streak",
+      description: "Listen to 15 minutes of audiobooks today",
       type: "daily",
-      target: 30,
-      current: 15,
+      target: 15,
+      current: 8,
       reward: 50,
       expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
       isCompleted: false,
-      icon: "📚"
+      icon: "🔥",
+      streak: 5,
+      isStreak: true
     },
     {
-      id: "weekly-1",
-      title: "Classic Explorer",
-      description: "Complete 3 classic novels this week",
-      type: "weekly",
+      id: "weekly-classics",
+      title: "Classics Connoisseur",
+      description: "Finish 3 classic novels this month",
+      type: "monthly",
       target: 3,
       current: 1,
+      reward: 300,
+      expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+      isCompleted: false,
+      icon: "🏛️",
+      category: "classics"
+    },
+    {
+      id: "weekly-genre",
+      title: "Genre Explorer",
+      description: "Listen to books from 5 different genres",
+      type: "weekly",
+      target: 5,
+      current: 3,
       reward: 200,
       expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
       isCompleted: false,
-      icon: "🏛️"
+      icon: "🗺️",
+      category: "exploration"
     },
     {
-      id: "monthly-1",
-      title: "Streak Master",
-      description: "Maintain a 7-day reading streak",
+      id: "monthly-hours",
+      title: "Dedicated Listener",
+      description: "Listen to 20 hours this month",
       type: "monthly",
-      target: 7,
-      current: 5,
+      target: 1200, // minutes
+      current: 960,
       reward: 500,
       expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
       isCompleted: false,
-      icon: "🔥"
+      icon: "⏰",
+      category: "time"
+    },
+    {
+      id: "weekly-streak",
+      title: "Week Warrior",
+      description: "Maintain a 7-day reading streak",
+      type: "weekly",
+      target: 7,
+      current: 5,
+      reward: 400,
+      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+      isCompleted: false,
+      icon: "⚡",
+      isStreak: true
     }
   ];
 }

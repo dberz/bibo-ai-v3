@@ -9,6 +9,10 @@ export interface Challenge {
   expiresAt?: string;
   isCompleted: boolean;
   icon: string;
+  // New fields for enhanced challenges
+  streak?: number;
+  isStreak?: boolean;
+  category?: string;
 }
 
 export interface Achievement {
@@ -28,4 +32,14 @@ export interface UserStats {
   currentStreak: number;
   readingProgress: number;
   pointsToNextLevel: number;
+  // Enhanced stats for personal dashboard
+  wordsConsumed: number;
+  genresExplored: number;
+  longestStreak: number;
+  averageDailyListening: number;
+  thisWeekMinutes: number;
+  thisMonthMinutes: number;
+  favoriteGenre: string;
+  totalChallengesCompleted: number;
+  achievementsUnlocked: number;
 } 
