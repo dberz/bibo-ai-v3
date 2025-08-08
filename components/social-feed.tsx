@@ -11,6 +11,8 @@ import { getPersonalizedFeed, hasMorePosts } from "@/lib/feed-service"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { usePlayer } from "@/lib/player/player-context"
+import { VideoPost } from "@/components/video-post"
+import { VideoPost as VideoPostType } from "@/lib/video-posts"
 
 interface SocialFeedProps {
   initialBooks?: Book[]
@@ -30,16 +32,16 @@ interface Comment {
 const generateFeedUser = (index: number) => {
   const userTypes = [
     // Mix for top positions - ensure diversity in first 3
-    { name: "BookishEmma", type: "Influencer", avatar: "/placeholder-user.jpg", badge: "BookTok" },
+    { name: "BookishEmma", type: "Influencer", avatar: "/users/bookish-emma.svg", badge: "BookTok" },
     { name: "Margaret Atwood", type: "Author", avatar: "/authors/margaret-atwood.jpg", badge: "Author" },
     { name: "Penguin Classics", type: "Publisher", avatar: "/publishers/penguin-classics.svg", badge: "Publisher" },
     
     // Additional diverse users
     { name: "Neil Gaiman", type: "Author", avatar: "/authors/neil-gaiman.jpg", badge: "Author" },
-    { name: "LiteraryLiam", type: "Influencer", avatar: "/placeholder-user.jpg", badge: "BookTok" },
+    { name: "LiteraryLiam", type: "Influencer", avatar: "/users/literary-liam.svg", badge: "BookTok" },
     { name: "Random House", type: "Publisher", avatar: "/publishers/random-house.svg", badge: "Publisher" },
     { name: "Roxane Gay", type: "Author", avatar: "/authors/roxane-gay.jpg", badge: "Author" },
-    { name: "ReadingRaven", type: "Influencer", avatar: "/placeholder-user.jpg", badge: "BookTok" },
+    { name: "ReadingRaven", type: "Influencer", avatar: "/users/reading-raven.svg", badge: "BookTok" },
     { name: "HarperCollins", type: "Publisher", avatar: "/publishers/harpercollins.svg", badge: "Publisher" },
     
     // Book Clubs
@@ -53,41 +55,57 @@ const generateFeedUser = (index: number) => {
     { name: "Literary Review", type: "Critic", avatar: "/critics/literary-review.svg", badge: "Critic" },
     
     // Regular Readers
-    { name: "Book Lover", type: "Reader", avatar: "/placeholder-user.jpg", badge: null },
-    { name: "Audiobook Fan", type: "Reader", avatar: "/placeholder-user.jpg", badge: null },
-    { name: "Classic Collector", type: "Reader", avatar: "/placeholder-user.jpg", badge: null },
+    { name: "Alex Chen", type: "Reader", avatar: "/users/alex-chen.svg", badge: null },
+    { name: "Sarah Williams", type: "Reader", avatar: "/users/sarah-williams.svg", badge: null },
+    { name: "Michael Rodriguez", type: "Reader", avatar: "/users/michael-rodriguez.svg", badge: null },
   ];
   
   return userTypes[index % userTypes.length];
 };
 
-// Generate different comments based on book title
+// Generate realistic comments from real Bibo users
 const generateCommentsForBook = (bookTitle: string): Comment[] => {
-  const commentTemplates = {
+  const realUsers = [
+    { name: "Alex Chen", avatar: "/users/alex-chen.svg", type: "Reader" },
+    { name: "Sarah Williams", avatar: "/users/sarah-williams.svg", type: "Reader" },
+    { name: "Michael Rodriguez", avatar: "/users/michael-rodriguez.svg", type: "Reader" },
+    { name: "Emma Thompson", avatar: "/users/emma-thompson.svg", type: "Reader" },
+    { name: "David Kim", avatar: "/users/david-kim.svg", type: "Reader" },
+    { name: "Lisa Patel", avatar: "/users/lisa-patel.svg", type: "Reader" },
+    { name: "James Wilson", avatar: "/users/james-wilson.svg", type: "Reader" },
+    { name: "Maria Garcia", avatar: "/users/maria-garcia.svg", type: "Reader" },
+    { name: "BookishEmma", avatar: "/users/bookish-emma.svg", type: "Influencer" },
+    { name: "LiteraryLiam", avatar: "/users/literary-liam.svg", type: "Influencer" },
+    { name: "ReadingRaven", avatar: "/users/reading-raven.svg", type: "Influencer" },
+    { name: "Dr. Sarah Chen", avatar: "/critics/dr-sarah-chen.jpg", type: "Critic" },
+    { name: "Prof. Marcus Johnson", avatar: "/critics/prof-marcus-johnson.jpg", type: "Critic" },
+  ];
+
+  const commentTemplates: Record<string, Comment[]> = {
     "Moby Dick": [
       {
         id: "1",
-        user: { name: "Captain Ahab", avatar: "/placeholder.svg" },
-        text: "Call me obsessed! This book completely changed how I see the ocean. The audiobook narration is absolutely mesmerizing.",
+        user: realUsers[0],
+        text: "Just finished Chapter 1 and I'm completely hooked! The opening line is pure poetry. The audiobook narration is absolutely mesmerizing.",
         timestamp: "1h ago"
       },
       {
         id: "2", 
-        user: { name: "Ishmael", avatar: "/placeholder.svg" },
-        text: "Just finished Chapter 1 and I'm already hooked. The opening line is pure poetry!",
+        user: realUsers[1],
+        text: "This book completely changed how I see the ocean. The descriptions are so vivid, I can almost feel the salt spray!",
         timestamp: "3h ago"
       }
     ],
     "Pride and Prejudice": [
       {
         id: "1",
-        user: { name: "Elizabeth Bennet", avatar: "/placeholder.svg" },
+        user: realUsers[2],
         text: "Mr. Darcy's character development is absolutely brilliant! This audiobook brings the Regency era to life.",
         timestamp: "2h ago"
       },
       {
         id: "2", 
-        user: { name: "Jane Austen Fan", avatar: "/placeholder.svg" },
+        user: realUsers[3],
         text: "Perfect for my morning walks. The narrator's British accent is so authentic!",
         timestamp: "5h ago"
       }
@@ -95,13 +113,13 @@ const generateCommentsForBook = (bookTitle: string): Comment[] => {
     "The Great Gatsby": [
       {
         id: "1",
-        user: { name: "Jay Gatsby", avatar: "/placeholder.svg" },
+        user: realUsers[4],
         text: "The green light at the end of the dock... this book captures the American Dream perfectly.",
         timestamp: "1h ago"
       },
       {
         id: "2", 
-        user: { name: "Daisy Buchanan", avatar: "/placeholder.svg" },
+        user: realUsers[5],
         text: "Fitzgerald's prose is like jazz music - so smooth and rhythmic. Love this audiobook!",
         timestamp: "4h ago"
       }
@@ -109,13 +127,13 @@ const generateCommentsForBook = (bookTitle: string): Comment[] => {
     "Frankenstein": [
       {
         id: "1",
-        user: { name: "Victor Frankenstein", avatar: "/placeholder.svg" },
+        user: realUsers[6],
         text: "The monster's story is heartbreaking. This audiobook really brings out the gothic atmosphere.",
         timestamp: "2h ago"
       },
       {
         id: "2", 
-        user: { name: "Gothic Reader", avatar: "/placeholder.svg" },
+        user: realUsers[7],
         text: "Perfect for stormy nights! The narrator's voice is so atmospheric.",
         timestamp: "6h ago"
       }
@@ -123,27 +141,27 @@ const generateCommentsForBook = (bookTitle: string): Comment[] => {
     "Dracula": [
       {
         id: "1",
-        user: { name: "Count Dracula", avatar: "/placeholder.svg" },
-        text: "I never drink... audiobooks. But this one is absolutely blood-curdling!",
+        user: realUsers[8],
+        text: "This audiobook is absolutely blood-curdling! The epistolary format works brilliantly in audio.",
         timestamp: "1h ago"
       },
       {
         id: "2", 
-        user: { name: "Van Helsing", avatar: "/placeholder.svg" },
-        text: "The epistolary format works brilliantly in audio. Each character's voice is distinct!",
+        user: realUsers[9],
+        text: "Each character's voice is so distinct! The narrator really brings the story to life.",
         timestamp: "3h ago"
       }
     ],
     "The Secret Garden": [
       {
         id: "1",
-        user: { name: "Mary Lennox", avatar: "/placeholder.svg" },
+        user: realUsers[10],
         text: "The garden descriptions are so vivid! This audiobook is like a breath of fresh air.",
         timestamp: "2h ago"
       },
       {
         id: "2", 
-        user: { name: "Nature Lover", avatar: "/placeholder.svg" },
+        user: realUsers[11],
         text: "Perfect for children and adults alike. The narrator captures the magic perfectly.",
         timestamp: "4h ago"
       }
@@ -151,13 +169,13 @@ const generateCommentsForBook = (bookTitle: string): Comment[] => {
     "Peter Pan": [
       {
         id: "1",
-        user: { name: "Peter Pan", avatar: "/placeholder.svg" },
+        user: realUsers[12],
         text: "Second star to the right and straight on till morning! This audiobook makes me believe in magic.",
         timestamp: "1h ago"
       },
       {
         id: "2", 
-        user: { name: "Wendy Darling", avatar: "/placeholder.svg" },
+        user: realUsers[0],
         text: "The narrator's voice for Tinker Bell is absolutely perfect!",
         timestamp: "3h ago"
       }
@@ -165,35 +183,34 @@ const generateCommentsForBook = (bookTitle: string): Comment[] => {
     "The Adventures of Tom Sawyer": [
       {
         id: "1",
-        user: { name: "Tom Sawyer", avatar: "/placeholder.svg" },
+        user: realUsers[1],
         text: "Whitewashing the fence never sounded so fun! Mark Twain's humor shines in this audiobook.",
         timestamp: "2h ago"
       },
       {
         id: "2", 
-        user: { name: "Huck Finn", avatar: "/placeholder.svg" },
+        user: realUsers[2],
         text: "The Mississippi River comes alive in this narration. Pure American classic!",
         timestamp: "5h ago"
       }
     ]
-  }
-
-  // Return specific comments for the book, or default comments if not found
-  return commentTemplates[bookTitle as keyof typeof commentTemplates] || [
+  };
+  
+  return commentTemplates[bookTitle] || [
     {
       id: "1",
-      user: { name: "Book Lover", avatar: "/placeholder.svg" },
-      text: "This book is absolutely amazing! The audiobook narration brings the story to life.",
+      user: realUsers[Math.floor(Math.random() * realUsers.length)],
+      text: "This audiobook is absolutely fantastic! The narration brings the story to life.",
       timestamp: "2h ago"
     },
     {
-      id: "2", 
-      user: { name: "Audiobook Fan", avatar: "/placeholder.svg" },
-      text: "Perfect for my daily commute. The narrator's voice is so engaging!",
+      id: "2",
+      user: realUsers[Math.floor(Math.random() * realUsers.length)],
+      text: "Perfect for my daily commute. The story is so engaging!",
       timestamp: "4h ago"
     }
-  ]
-}
+  ];
+};
 
 export function SocialFeed({ initialBooks = [] }: SocialFeedProps) {
   const [books, setBooks] = useState<Book[]>(initialBooks)
@@ -291,6 +308,24 @@ export function SocialFeed({ initialBooks = [] }: SocialFeedProps) {
         const comments = bookComments[book.id] || []
         const isLiked = likedBooks.has(book.id)
         
+        // Check if this is a video post
+        if (book.isVideoPost && book.videoPost) {
+          return (
+            <VideoPost
+              key={`${book.id}-${index}-video`}
+              book={book}
+              videoUrl={book.videoPost.videoUrl}
+              excerpt={book.videoPost.excerpt}
+              index={index}
+              generateFeedUser={generateFeedUser}
+              onLike={handleLike}
+              onPlayBook={handlePlayBook}
+              onBookClick={handleBookClick}
+              isLiked={isLiked}
+            />
+          )
+        }
+        
         return (
           <Card key={`${book.id}-${index}`} className="overflow-hidden">
             {/* Post Header */}
@@ -339,14 +374,15 @@ export function SocialFeed({ initialBooks = [] }: SocialFeedProps) {
                 className="w-full aspect-[2/3] object-cover"
                 loading="lazy"
               />
-              {/* Play Button Overlay */}
-              <div className="absolute inset-0 flex items-center justify-center">
+              {/* Listen Button Overlay */}
+              <div className="absolute bottom-4 left-4 right-4">
                 <Button
-                  size="lg"
-                  className="rounded-full h-16 w-16 bg-white/90 hover:bg-white text-black transition-all duration-300 hover:scale-110"
-                  onClick={() => handlePlayBook(book)}
+                  size="sm"
+                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white"
+                  onClick={() => handleBookClick(book)}
                 >
-                  <Play className="h-6 w-6 ml-1" />
+                  <Play className="h-3 w-3 mr-2" />
+                  Listen
                 </Button>
               </div>
             </div>
@@ -357,7 +393,7 @@ export function SocialFeed({ initialBooks = [] }: SocialFeedProps) {
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  className={`flex items-center space-x-2 transition-all duration-200 ${
+                  className={`flex items-center space-x-2 transition-all duration-200 px-3 py-2 ${
                     isLiked ? 'text-red-500' : 'text-gray-300'
                   }`}
                   onClick={() => handleLike(book.id)}
@@ -365,15 +401,15 @@ export function SocialFeed({ initialBooks = [] }: SocialFeedProps) {
                   <Heart className={`h-5 w-5 ${isLiked ? 'fill-current' : ''}`} />
                   <span className="text-sm">{isLiked ? book.loves + 1 : book.loves}</span>
                 </Button>
-                <Button variant="ghost" size="sm" className="flex items-center space-x-2 text-gray-300">
+                <Button variant="ghost" size="sm" className="flex items-center space-x-2 text-gray-300 px-3 py-2">
                   <MessageCircle className="h-5 w-5" />
                   <span className="text-sm">{book.comments}</span>
                 </Button>
-                <Button variant="ghost" size="sm" className="flex items-center space-x-2 text-gray-300">
+                <Button variant="ghost" size="sm" className="flex items-center space-x-2 text-gray-300 px-3 py-2">
                   <Users className="h-5 w-5" />
                   <span className="text-sm">{book.peopleReading}</span>
                 </Button>
-                <Button variant="ghost" size="sm" className="flex items-center space-x-2 ml-auto text-gray-300">
+                <Button variant="ghost" size="sm" className="flex items-center space-x-2 ml-auto text-gray-300 px-3 py-2">
                   <Share2 className="h-5 w-5" />
                 </Button>
               </div>
@@ -453,4 +489,4 @@ export function SocialFeed({ initialBooks = [] }: SocialFeedProps) {
       <div id="scroll-sentinel" className="h-4" />
     </div>
   )
-} 
+}

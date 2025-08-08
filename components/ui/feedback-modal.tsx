@@ -11,7 +11,7 @@ interface FeedbackModalProps {
 export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
   const handleOpenForm = () => {
     // Updated feedback form URL for v3
-    window.open('https://docs.google.com/forms/d/15Gfw_GmFk8LNjqVrpQ2MQa4xalc3Qus5hawhLVJbt70/viewform?edit_requested=true&pli=1', '_blank')
+    window.open('https://forms.gle/wujaU6En8edL28pD8', '_blank')
     onOpenChange(false)
   }
 

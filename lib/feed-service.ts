@@ -1,6 +1,7 @@
 import { Book } from "@/types/book"
 import { FeedPost, FeedData } from "@/types/feed"
 import { getAllBooks } from "./books"
+import { VideoPost, getAllVideoPosts } from "./video-posts"
 
 // Load feed data
 const loadFeedData = (): FeedData => {
@@ -62,24 +63,95 @@ export const getFeedPosts = (page: number = 1, limit: number = 6): (Book & {
   )
 }
 
-// Get personalized feed with pagination
+// Get personalized feed with pagination including video posts
 export const getPersonalizedFeed = (page: number = 1, limit: number = 6): (Book & { 
   postId: string
   postType: string
   engagement: any
   algorithmScore: number
   tags: string[]
+  isVideoPost?: boolean
+  videoPost?: VideoPost
 })[] => {
   const posts = getFeedPosts(page, limit)
+  const videoPosts = getAllVideoPosts()
+  const allBooks = getAllBooks()
   
   // Remove duplicates based on book ID
   const uniquePosts = posts.filter((post, index, self) => 
     index === self.findIndex(p => p.id === post.id)
   )
   
-  // For now, just sort by algorithm score
-  // In the future, this would use user preferences, reading history, etc.
-  return uniquePosts.sort((a, b) => b.algorithmScore - a.algorithmScore)
+  // Create a set of book IDs that have videos
+  const booksWithVideos = new Set(videoPosts.map(vp => vp.bookId))
+  
+  // Filter out static posts for books that have videos
+  const filteredPosts = uniquePosts.filter(post => !booksWithVideos.has(post.id))
+  
+  // Start with Moby Dick video post
+  const mixedPosts = []
+  let videoIndex = 0
+  let postIndex = 0
+  
+  // Find Moby Dick video post and add it first
+  const mobyDickVideo = videoPosts.find(vp => vp.bookId === "moby-dick")
+  if (mobyDickVideo) {
+    const mobyDickBook = allBooks.find(b => b.id === "moby-dick")
+    if (mobyDickBook) {
+      mixedPosts.push({
+        ...mobyDickBook,
+        postId: mobyDickVideo.id,
+        postType: 'video',
+        engagement: mobyDickBook.engagement || { loves: mobyDickBook.loves || 0, comments: mobyDickBook.comments || 0, peopleReading: mobyDickBook.peopleReading || 0, shares: 0 },
+        algorithmScore: (mobyDickBook.algorithmScore || 0) + 1.0,
+        tags: [...(mobyDickBook.tags || []), 'video'],
+        isVideoPost: true,
+        videoPost: mobyDickVideo
+      })
+      videoIndex++
+    }
+  }
+  
+  // Then alternate between regular posts and remaining video posts
+  while (postIndex < filteredPosts.length || videoIndex < videoPosts.length) {
+    // Add regular post if available
+    if (postIndex < filteredPosts.length) {
+      mixedPosts.push(filteredPosts[postIndex])
+      postIndex++
+    }
+    
+    // Add video post if available (skip Moby Dick as it's already added)
+    if (videoIndex < videoPosts.length) {
+      const videoPost = videoPosts[videoIndex]
+      const book = allBooks.find(b => b.id === videoPost.bookId)
+      if (book && !mixedPosts.some(p => p.id === book.id)) {
+        mixedPosts.push({
+          ...book,
+          postId: videoPost.id,
+          postType: 'video',
+          engagement: book.engagement || { loves: book.loves || 0, comments: book.comments || 0, peopleReading: book.peopleReading || 0, shares: 0 },
+          algorithmScore: (book.algorithmScore || 0) + 1.0,
+          tags: [...(book.tags || []), 'video'],
+          isVideoPost: true,
+          videoPost: videoPost
+        })
+        videoIndex++
+      } else {
+        videoIndex++
+      }
+    }
+  }
+  
+  // Sort by algorithm score but ensure Moby Dick stays at the top
+  const sortedPosts = mixedPosts.sort((a, b) => {
+    // If one is Moby Dick, prioritize it
+    if (a.id === "moby-dick") return -1
+    if (b.id === "moby-dick") return 1
+    // Otherwise sort by algorithm score
+    return (b.algorithmScore || 0) - (a.algorithmScore || 0)
+  })
+  
+  return sortedPosts
 }
 
 // Check if there are more posts available

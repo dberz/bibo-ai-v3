@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
@@ -11,149 +11,23 @@ import { ConsistentHeader } from "@/components/consistent-header"
 import Link from "next/link"
 import { usePlayer } from "@/lib/player/player-context"
 import { useBottomPadding } from "@/hooks/use-mobile"
-
-// Mock library data
-const mockLibraryBooks = [
-  {
-    id: "moby-dick",
-    title: "Moby Dick",
-    author: "Herman Melville",
-    coverUrl: "/book-covers/moby-dick.png",
-    progress: 45,
-    duration: "24h",
-    lastRead: "2 hours ago",
-    isCurrentlyReading: true
-  },
-  {
-    id: "pride-and-prejudice",
-    title: "Pride and Prejudice",
-    author: "Jane Austen",
-    coverUrl: "/book-covers/pride-and-prejudice.png",
-    progress: 23,
-    duration: "11h",
-    lastRead: "1 day ago",
-    isCurrentlyReading: true
-  },
-  {
-    id: "the-great-gatsby",
-    title: "The Great Gatsby",
-    author: "F. Scott Fitzgerald",
-    coverUrl: "/book-covers/the-great-gatsby.png",
-    progress: 100,
-    duration: "5h",
-    lastRead: "3 days ago",
-    isCurrentlyReading: false
-  },
-  {
-    id: "the-great-gatsby",
-    title: "The Great Gatsby",
-    author: "F. Scott Fitzgerald",
-    coverUrl: "/book-covers/the-great-gatsby.png",
-    progress: 0,
-    duration: "5h",
-    lastRead: "Never read",
-    isCurrentlyReading: false
-  },
-  {
-    id: "frankenstein",
-    title: "Frankenstein",
-    author: "Mary Shelley",
-    coverUrl: "/book-covers/frankenstein.png",
-    progress: 78,
-    duration: "8h",
-    lastRead: "1 week ago",
-    isCurrentlyReading: false
-  },
-  {
-    id: "dracula",
-    title: "Dracula",
-    author: "Bram Stoker",
-    coverUrl: "/book-covers/dracula.png",
-    progress: 100,
-    duration: "10h",
-    lastRead: "1 month ago",
-    isCurrentlyReading: false
-  },
-  {
-    id: "jane-eyre",
-    title: "Jane Eyre",
-    author: "Charlotte Brontë",
-    coverUrl: "/book-covers/jane-eyre.png",
-    progress: 100,
-    duration: "15h",
-    lastRead: "2 weeks ago",
-    isCurrentlyReading: false
-  },
-  {
-    id: "to-kill-a-mockingbird",
-    title: "To Kill a Mockingbird",
-    author: "Harper Lee",
-    coverUrl: "/book-covers/to-kill-a-mockingbird.png",
-    progress: 100,
-    duration: "6h 30m",
-    lastRead: "3 weeks ago",
-    isCurrentlyReading: false
-  },
-  {
-    id: "the-secret-garden",
-    title: "The Secret Garden",
-    author: "Frances Hodgson Burnett",
-    coverUrl: "/book-covers/the-secret-garden.png",
-    progress: 0,
-    duration: "6h",
-    lastRead: "Never read",
-    isCurrentlyReading: false
-  },
-  {
-    id: "peter-pan",
-    title: "Peter Pan",
-    author: "J.M. Barrie",
-    coverUrl: "/book-covers/peter-pan.png",
-    progress: 0,
-    duration: "4h",
-    lastRead: "Never read",
-    isCurrentlyReading: false
-  },
-  {
-    id: "alice-in-wonderland",
-    title: "Alice's Adventures in Wonderland",
-    author: "Lewis Carroll",
-    coverUrl: "/book-covers/alice-in-wonderland.png",
-    progress: 0,
-    duration: "3h",
-    lastRead: "Never read",
-    isCurrentlyReading: false
-  },
-  {
-    id: "crime-and-punishment",
-    title: "Crime and Punishment",
-    author: "Fyodor Dostoevsky",
-    coverUrl: "/book-covers/crime-and-punishment.png",
-    progress: 100,
-    duration: "18h",
-    lastRead: "1 month ago",
-    isCurrentlyReading: false
-  },
-  {
-    id: "anna-karenina",
-    title: "Anna Karenina",
-    author: "Leo Tolstoy",
-    coverUrl: "/book-covers/anna-karenina.png",
-    progress: 100,
-    duration: "20h",
-    lastRead: "2 months ago",
-    isCurrentlyReading: false
-  }
-]
+import { getSavedBooks, type LibraryBook } from "@/lib/library-service"
 
 export default function LibraryPage() {
   const [activeTab, setActiveTab] = useState<"reading" | "completed" | "wishlist">("reading")
+  const [libraryBooks, setLibraryBooks] = useState<LibraryBook[]>([])
   const { setCurrentBookAndPlay, currentBook, isPlaying } = usePlayer()
   const bottomPadding = useBottomPadding()
 
-  const currentlyReading = mockLibraryBooks.filter(book => book.isCurrentlyReading)
-  const completed = mockLibraryBooks.filter(book => book.progress === 100)
-  const wishlist = mockLibraryBooks.filter(book => book.progress === 0 && !book.isCurrentlyReading)
+  // Load saved books on component mount
+  useEffect(() => {
+    const savedBooks = getSavedBooks()
+    setLibraryBooks(savedBooks)
+  }, [])
+
+  const currentlyReading = libraryBooks.filter(book => book.isCurrentlyReading)
+  const completed = libraryBooks.filter(book => (book.progress || 0) === 100)
+  const wishlist = libraryBooks.filter(book => (book.progress || 0) === 0 && !book.isCurrentlyReading)
 
   const tabs = [
     { id: "reading", label: "Currently Reading", count: currentlyReading.length, icon: BookOpen },
@@ -174,25 +48,25 @@ export default function LibraryPage() {
     }
   }
 
-  const handlePlayBook = (book: any) => {
-    // Convert mock book to Book type for player
+  const handlePlayBook = (book: LibraryBook) => {
+    // Convert library book to Book type for player
     const bookForPlayer = {
       id: book.id,
       title: book.title,
       author: book.author,
       coverUrl: book.coverUrl,
       duration: book.duration,
-      genres: [],
-      description: "",
-      pages: 0,
-      category: "",
-      listeners: 0,
-      rating: 0,
-      reviewCount: 0,
-      peopleReading: 0,
-      comments: 0,
-      loves: 0,
-      chapters: []
+      genres: book.genres || [],
+      description: book.description || "",
+      pages: book.pages || 0,
+      category: book.category || "",
+      listeners: book.listeners || 0,
+      rating: book.rating || 0,
+      reviewCount: book.reviewCount || 0,
+      peopleReading: book.peopleReading || 0,
+      comments: book.comments || 0,
+      loves: book.loves || 0,
+      chapters: book.chapters || []
     }
     setCurrentBookAndPlay(bookForPlayer)
   }
@@ -213,10 +87,10 @@ export default function LibraryPage() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`flex flex-col items-center justify-center py-3 px-4 min-h-[60px] w-full transition-all duration-200 relative ${
+                  className={`flex flex-col items-center justify-center py-4 px-3 min-h-[70px] w-full transition-all duration-200 relative rounded-lg ${
                     isActive
-                      ? "text-emerald-400"
-                      : "text-gray-400 hover:text-gray-200 active:text-gray-300"
+                      ? "text-emerald-400 bg-emerald-400/10"
+                      : "text-gray-400 hover:text-gray-200 hover:bg-gray-800/50 active:text-gray-300"
                   }`}
                 >
                   {/* Active indicator */}
@@ -231,18 +105,6 @@ export default function LibraryPage() {
                       {tab.label}
                     </span>
                   </div>
-                  
-                  {/* Count Badge */}
-                  <Badge 
-                    variant="secondary" 
-                    className={`absolute -top-1 -right-1 h-5 w-5 p-0 text-xs flex items-center justify-center ${
-                      isActive 
-                        ? 'bg-emerald-900 text-emerald-200 border-emerald-700' 
-                        : 'bg-gray-800 text-gray-300 border-gray-600'
-                    }`}
-                  >
-                    {tab.count}
-                  </Badge>
                 </button>
               )
             })}
@@ -274,34 +136,34 @@ export default function LibraryPage() {
                     <p className="text-xs text-muted-foreground mb-2">by {book.author}</p>
                     
                     {/* Progress */}
-                    {book.progress > 0 && book.progress < 100 && (
+                    {(book.progress || 0) > 0 && (book.progress || 0) < 100 && (
                       <div className="space-y-1 mb-3">
                         <div className="flex justify-between text-xs text-muted-foreground">
-                          <span>{book.progress}% complete</span>
+                          <span>{book.progress || 0}% complete</span>
                           <span>{book.duration}</span>
                         </div>
-                        <Progress value={book.progress} className="h-1" />
+                        <Progress value={book.progress || 0} className="h-1" />
                       </div>
                     )}
 
                     {/* Status */}
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
-                                                       {book.isCurrentlyReading && (
-                                 <Badge className="bg-emerald-900 text-emerald-200 text-xs">
-                                   Currently Reading
-                                 </Badge>
-                               )}
-                               {book.progress === 100 && (
-                                 <Badge className="bg-blue-900 text-blue-200 text-xs">
-                                   Completed
-                                 </Badge>
-                               )}
-                               {book.progress === 0 && !book.isCurrentlyReading && (
-                                 <Badge variant="outline" className="text-xs border-gray-600 text-gray-300">
-                                   Not Started
-                                 </Badge>
-                               )}
+                        {book.isCurrentlyReading && (
+                          <Badge className="bg-emerald-900 text-emerald-200 text-xs">
+                            Currently Reading
+                          </Badge>
+                        )}
+                        {(book.progress || 0) === 100 && (
+                          <Badge className="bg-blue-900 text-blue-200 text-xs">
+                            Completed
+                          </Badge>
+                        )}
+                        {(book.progress || 0) === 0 && !book.isCurrentlyReading && (
+                          <Badge variant="outline" className="text-xs border-gray-600 text-gray-300">
+                            Not Started
+                          </Badge>
+                        )}
                       </div>
                       
                       <div className="flex space-x-1">

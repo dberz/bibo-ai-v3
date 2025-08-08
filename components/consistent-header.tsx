@@ -14,10 +14,10 @@ export function ConsistentHeader() {
   return (
     <>
       <header className="bg-gray-900 border-b border-gray-700 shadow-sm">
-        <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           {/* Bibo Logo */}
           <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <img src="/bibo-logo.svg" alt="Bibo" className="h-8 w-8" />
+            <img src="/bibo-logo-header.svg" alt="Bibo" className="h-8 w-8" />
             <div className="flex flex-col">
               <span className="font-gelica text-xl font-bold text-white">Bibo</span>
               <span className="font-gelica-light text-xs text-gray-400">audiobooks</span>
@@ -25,12 +25,12 @@ export function ConsistentHeader() {
           </Link>
 
           {/* Right side - Feedback and User */}
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-3">
             {/* Feedback Button */}
             <Button 
               variant="ghost" 
               size="sm" 
-              className="flex items-center space-x-1"
+              className="flex items-center space-x-1 px-3 py-2"
               onClick={() => setFeedbackModalOpen(true)}
             >
               <MessageSquare className="h-4 w-4" />
@@ -40,8 +40,8 @@ export function ConsistentHeader() {
             {/* User Avatar Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                  <Avatar className="h-8 w-8">
+                <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
+                  <Avatar className="h-10 w-10">
                     <AvatarImage src="/placeholder-user.jpg" alt="User" />
                     <AvatarFallback>U</AvatarFallback>
                   </Avatar>

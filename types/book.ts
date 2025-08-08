@@ -36,6 +36,18 @@ export interface Book {
   // Audio-specific properties
   segments?: string[]
   gutenbergId?: number
+  // Video post properties
+  isVideoPost?: boolean
+  videoPost?: {
+    id: string
+    bookId: string
+    videoUrl: string
+    excerpt: string
+    excerptSource: string
+    style: string
+    duration: string
+    thumbnail?: string
+  }
 }
 
 export interface Chapter {

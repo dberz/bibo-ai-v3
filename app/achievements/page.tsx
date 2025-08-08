@@ -65,10 +65,10 @@ export default function AchievementsPage() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`flex flex-col items-center justify-center py-3 px-4 min-h-[60px] w-full transition-all duration-200 relative ${
+                  className={`flex flex-col items-center justify-center py-4 px-3 min-h-[70px] w-full transition-all duration-200 relative rounded-lg ${
                     isActive
-                      ? "text-emerald-400"
-                      : "text-gray-400 hover:text-gray-200 active:text-gray-300"
+                      ? "text-emerald-400 bg-emerald-400/10"
+                      : "text-gray-400 hover:text-gray-200 hover:bg-gray-800/50 active:text-gray-300"
                   }`}
                 >
                   {/* Active indicator */}

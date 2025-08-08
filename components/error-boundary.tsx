@@ -20,6 +20,8 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   static getDerivedStateFromError(error: Error): State {
+    // Log the error for debugging
+    console.error("Error caught by boundary:", error)
     return { hasError: true, error }
   }
 
@@ -41,9 +43,15 @@ export class ErrorBoundary extends Component<Props, State> {
             <p className="text-gray-400 mb-6">
               We encountered an unexpected error. Please try refreshing the page.
             </p>
+            {this.state.error && (
+              <details className="text-left mb-4 p-3 bg-gray-700 rounded text-xs text-gray-300">
+                <summary className="cursor-pointer">Error Details</summary>
+                <pre className="mt-2 whitespace-pre-wrap">{this.state.error.message}</pre>
+              </details>
+            )}
             <Button
               onClick={() => {
-                this.setState({ hasError: false })
+                this.setState({ hasError: false, error: undefined })
                 window.location.reload()
               }}
               className="bg-emerald-500 hover:bg-emerald-600"

@@ -146,9 +146,12 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         setState(prev => ({ ...prev, adPlaying: false }));
         // Alternate ad index for next time
         setAdIndex((prev) => (prev + 1) % ADS.length);
-        // Only start book playback if user has interacted
+        // Only start book playback if user has interacted and we have a valid book
         if (hasUserInteractedRef.current && state.currentBook) {
-          playBook();
+          // Add a small delay to ensure state updates are processed
+          setTimeout(() => {
+            playBook();
+          }, 100);
         }
       } else {
         setState(prev => ({ ...prev, isPlaying: false }));
@@ -201,11 +204,25 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const playBook = useCallback(() => {
     if (!audioRef.current || !state.currentBook || !hasUserInteractedRef.current) return;
     
+    // Validate currentVersion exists in AUDIO_VERSIONS
+    const audioVersion = AUDIO_VERSIONS[state.currentVersion];
+    if (!audioVersion || !audioVersion.file) {
+      console.error('Invalid audio version:', state.currentVersion);
+      // Fallback to CLASSIC version
+      const fallbackVersion = AUDIO_VERSIONS.CLASSIC;
+      if (!fallbackVersion || !fallbackVersion.file) {
+        console.error('No valid audio version found');
+        return;
+      }
+      audioRef.current.src = fallbackVersion.file;
+    } else {
+      audioRef.current.src = audioVersion.file;
+    }
+    
     setPlaybackMode('book');
     setState(prev => ({ ...prev, adPlaying: false, isPlaying: true }));
     audioRef.current.pause();
     audioRef.current.currentTime = 0;
-    audioRef.current.src = AUDIO_VERSIONS[state.currentVersion].file;
     audioRef.current.load();
     
     const playPromise = audioRef.current.play();
@@ -308,6 +325,12 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   // Set version (does not auto-play)
   const setVersion = useCallback((versionId: AudioVersionId) => {
+    // Validate that the version exists in AUDIO_VERSIONS
+    if (!AUDIO_VERSIONS[versionId]) {
+      console.error('Invalid audio version:', versionId);
+      return;
+    }
+    
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;

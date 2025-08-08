@@ -1187,5 +1187,48 @@
         "duration": "46m"
       }
     ]
+  },
+  {
+    "id": "beowulf",
+    "title": "Beowulf",
+    "author": "Anonymous",
+    "description": "An epic Old English poem that tells the story of the hero Beowulf, who comes to the aid of King Hrothgar of the Danes by defeating the monster Grendel and his mother. Later in life, Beowulf becomes king and faces his final battle against a dragon. One of the most important works of Anglo-Saxon literature.",
+    "coverUrl": "/book-covers/beowulf.png",
+    "genres": [
+      "Classics",
+      "Epic Poetry",
+      "Medieval",
+      "Adventure"
+    ],
+    "duration": "3h 30m",
+    "pages": 213,
+    "category": "classics",
+    "chapters": [
+      {
+        "id": "ch-1",
+        "title": "The Coming of Beowulf",
+        "duration": "45m"
+      },
+      {
+        "id": "ch-2",
+        "title": "The Battle with Grendel",
+        "duration": "42m"
+      },
+      {
+        "id": "ch-3",
+        "title": "The Battle with Grendel's Mother",
+        "duration": "48m"
+      },
+      {
+        "id": "ch-4",
+        "title": "The Return Home",
+        "duration": "44m"
+      },
+      {
+        "id": "ch-5",
+        "title": "The Battle with the Dragon",
+        "duration": "51m"
+      }
+    ]
   }
 ]
